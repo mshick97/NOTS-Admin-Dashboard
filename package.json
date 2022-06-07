@@ -1,0 +1,51 @@
+{
+  "name": "solo-project",
+  "version": "1.0.0",
+  "description": "\"An admin's GUI for NOTS, designed for tracking orders and visualizing the customer data base.\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test",
+    "start": "cross-env node server/server.js",
+    "build": "cross-env webpack",
+    "dev": "webpack serve --open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mshick97/NOTS-Admin-Dashboard.git"
+  },
+  "keywords": [
+    "e-commerce",
+    "dasboard",
+    "administrative panel"
+  ],
+  "author": "Maxwell X Shick",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/mshick97/NOTS-Admin-Dashboard/issues"
+  },
+  "homepage": "https://github.com/mshick97/NOTS-Admin-Dashboard#readme",
+  "devDependencies": {
+    "@babel/core": "^7.18.2",
+    "@babel/preset-env": "^7.18.2",
+    "@babel/preset-react": "^7.17.12",
+    "babel-loader": "^8.2.5",
+    "cross-env": "^7.0.3",
+    "css-loader": "^6.7.1",
+    "html-webpack-plugin": "^5.5.0",
+    "sass-loader": "^13.0.0",
+    "style-loader": "^3.3.1",
+    "webpack-cli": "^4.9.2",
+    "webpack-config": "^7.5.0",
+    "webpack-dev-server": "^4.9.2"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "express": "^4.18.1",
+    "mongoose": "^6.3.5",
+    "nodemon": "^2.0.16",
+    "pg": "^8.7.3",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "webpack": "^5.73.0"
+  }
+}
