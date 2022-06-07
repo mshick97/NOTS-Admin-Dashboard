@@ -1,4 +1,4 @@
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+// <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 const placeOrderBtn = document.querySelector('#placeOrderBtn');
 placeOrderBtn.addEventListener("click", orderPlaced);
@@ -14,9 +14,8 @@ function orderPlaced(event) {
   const zip = document.querySelector('#zip').value;
 
   axios.post({
-    method: 'post',
     url: 'http://localhost:3000/purchase',
-    body: {
+    data: {
       email: email,
       fullName, fullName,
       street1, street1,
@@ -30,3 +29,8 @@ function orderPlaced(event) {
   })
 }
 // </script>
+
+// Script used for testing response from localhost
+await axios.get('http://localhost:3000/test').then(res => {
+  console.log(res);
+});
