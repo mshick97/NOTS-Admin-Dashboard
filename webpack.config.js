@@ -22,6 +22,13 @@ module.exports = {
         }
       },
       {
+        test: /\.(jpg|png|svg)$/,
+        loader: 'url-loader',
+        options: {
+          limit: 25000,
+        },
+      },
+      {
         test: /.(css|scss)$/,
         /* /\.s[ac]ss$/i */
         exclude: /(node_modules)/,

@@ -20,13 +20,34 @@ app.use(cors());
 const webflowRouter = require(path.join(__dirname, './routes/webflowRoutes'));
 const clientRouter = require(path.join(__dirname, './routes/clientRoutes'));
 
+app.get('./client/styles/styles.css', (req, res) => {
+  return res.status(200).sendFile(path.join(__dirname, '/client/styles/styles.css'));
+})
+
 // The primary POST request coming in from a customer purchase
 app.use('/purchase', webflowRouter, (req, res) => {
   return res.status(200).json(res.locals.newUser || res.locals.foundUser); // sending back the new or existing users info for fun
 });
 
-app.use('/customers', clientRouter, (req, res) => {
-  return res.status(200).json()
+app.use('/client', clientRouter, (req, res) => {
+  // Redirect to admin portal if the login is valid
+  if (res.locals.isAdmin === true) {
+    return res.status(200).json(true);
+  }
+
+  // Prompt to try again if the login is invalid
+  if (res.locals.isAdmin === false) {
+    return res.status(200).json(false); // sending false to the "validLogin variable on the client side"
+  }
+
+  if (res.locals.customers) {
+    return res.status(200).json(res.locals.customers);
+  }
+});
+
+// Redirect endpoint for successful login attempt, could possible achieve it in React
+app.get('/admin-portal', (req, res) => {
+  return res.status(200)
 })
 
 // Catch all for invalid endpoint requests

@@ -1,0 +1,146 @@
+body {
+  background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url("https://pbs.twimg.com/media/ER0AQagU8AAUjHM.jpg:large") no-repeat center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+}
+
+#loginContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20vh;
+}
+
+#loginForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #fefefe;
+  padding: 20px;
+  border-radius: 20px;
+  opacity: 90%;
+}
+
+#crestLogo {
+  height: 80px;
+}
+
+#loginHeading {
+  padding-top: 0px;
+  margin-top: 13px;
+  height: 3px;
+}
+
+#subheadingContainer {
+  width: 200px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#loginSubheading {
+  color: rgb(116, 116, 116);
+  height: 45px;
+}
+
+#loginButton {
+  margin-top: 8px;
+  background-color: #ad2525;
+}
+
+#root {}
+
+#app {}
+
+#navContainer {
+  background: white;
+  margin: 0;
+  padding: 11px 35px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#notsLogo {
+  width: 80px;
+}
+
+#dashboardContainer {
+  margin-top: 30px;
+}
+
+#groupedButtonsContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+}
+
+#groupedButtonsBackgound {
+  background-color: #fefefe;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6px;
+  border-radius: 7px;
+}
+
+#tableEntries {
+  margin-top: 30px;
+  background: #fefefe;
+  min-height: 70vh;
+  opacity: 87%;
+}
+
+#entryContainer {}
+
+#entryHeadersWrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(1.5em, 1fr));
+  padding-left: 5px;
+}
+
+#tableHeading {
+  margin-left: 10px;
+}
+
+#entryWrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(1.5em, 1fr));
+}
+
+.entryBox {
+  border-left: #CCCCCC solid .5px;
+  border-right: #CCCCCC solid .5px;
+  border-top: #CCCCCC solid 1px;
+}
+
+.dataEntry {
+  text-align: center;
+}
+
+#customersButton {
+  background-color: #ad2525;
+  border: #cccccc solid .2px;
+}
+
+#ordersButton {
+  background-color: white;
+  color: #ad2525;
+  border: #cccccc solid .2px;
+}
+
+#dashboardButton {
+  background-color: white;
+  color: #ad2525;
+  border: #cccccc solid .2px;
+}

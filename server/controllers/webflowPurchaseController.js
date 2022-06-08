@@ -1,5 +1,4 @@
 const Customer = require('../models/customerModel').Customer;
-const Admin = require('../models/customerModel').Admin;
 
 const webflowPurchaseController = {};
 
