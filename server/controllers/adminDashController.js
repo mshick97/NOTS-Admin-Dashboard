@@ -31,7 +31,10 @@ adminDashController.adminLogin = (req, res, next) => {
       });
 
       if (searchRes) {
-        res.locals.isAdmin = true;
+        res.locals.isAdmin = {
+          validLogin: true,
+          adminName: { firstName: searchRes.firstName, lastName: searchRes.lastName }
+        };
         return next();
       }
 
@@ -40,6 +43,28 @@ adminDashController.adminLogin = (req, res, next) => {
         return next();
       }
     });
+}
+
+adminDashController.deleteUser = (req, res, next) => {
+  // axios has a very specific way of formating delete requests: find user id at req.body.source
+  const userId = req.body.source;
+
+  Customer.deleteOne({ _id: userId }, (err, deleteRes) => {
+    if (err) return next({
+      log: 'Server error while deleting',
+      status: 500,
+      err: err
+    });
+
+    if (deleteRes) {
+      res.locals.didDelete = 'Successfully deleted user';
+      return next();
+    }
+
+    // Unsure when this would ever fire, but don't want to risk breaking next chain
+    if (!deleteRes) return next();
+  })
+  return next();
 }
 
 module.exports = adminDashController;

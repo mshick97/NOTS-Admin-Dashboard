@@ -74,6 +74,11 @@ body {
   width: 80px;
 }
 
+.tableName {
+  padding-top: 30px;
+  text-decoration: underline;
+}
+
 #dashboardContainer {
   margin-top: 30px;
 }
@@ -96,21 +101,49 @@ body {
 
 #tableEntries {
   margin-top: 30px;
+  margin-left: 40px;
+  margin-right: 40px;
   background: #fefefe;
   min-height: 70vh;
   opacity: 87%;
+  padding-left: 40px;
+  padding-right: 40px;
 }
 
-#entryContainer {}
+#entryContainer {
+  position: relative;
+}
+
+.deleteIcon {
+  width: 15px;
+  position: absolute;
+  left: -14px;
+  top: 9px;
+  cursor: pointer;
+}
 
 #entryHeadersWrapper {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(1.5em, 1fr));
   padding-left: 5px;
+  border-bottom: #CCCCCC solid .5px;
+}
+
+#tableHeadContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 75px;
 }
 
 #tableHeading {
   margin-left: 10px;
+}
+
+#refreshButton {
+  height: 20px;
+  cursor: pointer;
 }
 
 #entryWrapper {
@@ -119,13 +152,12 @@ body {
 }
 
 .entryBox {
-  border-left: #CCCCCC solid .5px;
-  border-right: #CCCCCC solid .5px;
-  border-top: #CCCCCC solid 1px;
+  border-bottom: #CCCCCC solid .5px;
+  border-top: 0;
 }
 
 .dataEntry {
-  text-align: center;
+  margin-left: 10px;
 }
 
 #customersButton {

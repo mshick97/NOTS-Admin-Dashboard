@@ -1,12 +1,29 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class DBEntry extends Component {
   constructor(props) {
     super(props);
   }
+
   render() {
+    const { userId, updateTable } = this.props;
+
+    async function deleteUser() {
+      const url = 'http://localhost:3000/client/delete-user'
+
+      await axios.delete(url, {
+        headers: {},
+        data: {
+          source: userId
+        }
+      }).then(() => updateTable());
+    }
     return (
       <div id="entryContainer">
+        <div className='deleteIcon'>
+          <img src='https://www.svgrepo.com/show/21045/delete-button.svg' className='deleteIcon' onClick={deleteUser} />
+        </div>
         <div id="entryWrapper">
           <div className="entryBox">
             <p className='dataEntry'>{this.props.name}</p>

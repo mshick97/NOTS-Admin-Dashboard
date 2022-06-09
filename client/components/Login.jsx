@@ -21,8 +21,9 @@ class Login extends Component {
       const url = 'http://localhost:3000/client/admin-login';
       axios.post(url, { email: emailValue, password: passwordValue })
         .then(res => {
-          if (res.data === true) {
-            onSuccess();
+          console.log(res.data);
+          if (res.data.validLogin === true) {
+            onSuccess(res.data.adminName.firstName);
           }
         });
     }

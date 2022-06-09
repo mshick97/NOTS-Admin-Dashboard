@@ -11,9 +11,23 @@ class Table extends Component {
       customers: [],
       isLoading: true
     }
+    this.getUpdatedData = this.getUpdatedData.bind(this);
   }
 
   async componentDidMount() {
+    const customerArray = [];
+    try {
+      const url = 'http://localhost:3000/client/customers';
+      await axios.get(url).then(res => {
+        this.setState({ customers: res.data, isLoading: false });
+      })
+    }
+    catch (err) {
+      console.log(err.message);
+    }
+  }
+
+  async getUpdatedData() {
     const customerArray = [];
     try {
       const url = 'http://localhost:3000/client/customers';
@@ -30,10 +44,11 @@ class Table extends Component {
     const { isLoading, customers } = this.state;
 
     const dbArray = [];
-    customers.forEach(customer => {
+    customers.forEach((customer, i) => {
       dbArray.push(
         <DBEntry
-          key={`Customer key ${customer._id}`}
+          key={`Unique user ${i}`}
+          userId={customer._id}
           name={customer.fullName}
           email={customer.email}
           street1={customer.street1}
@@ -41,6 +56,7 @@ class Table extends Component {
           city={customer.city}
           state={customer.state}
           zip={customer.zip}
+          updateTable={() => this.getUpdatedData()}
         />
       )
     });
@@ -55,7 +71,10 @@ class Table extends Component {
 
     return (
       <div id="tableEntries">
-        <h2>Customers</h2>
+        <div id='tableHeadContainer'>
+          <h2 className="tableName">Customers</h2>
+          <img src={'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Refresh_icon.svg/1200px-Refresh_icon.svg.png'} id='refreshButton' />
+        </div>
         <div id="entryHeadersWrapper">
           <h5 className="tableHeading">Name</h5>
           <h5 className="tableHeading">Email</h5>

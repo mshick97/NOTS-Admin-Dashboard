@@ -22,7 +22,7 @@ webflowPurchaseController.checkCustomerInfo = (req, res, next) => {
     (err, searchRes) => {
       // If an error occurs server side at this point, hand off to the global error handler
       if (err) return next({
-        log: 'Internal server error'
+        log: 'Internal server error2'
       });
 
       // If customer does not exist -- create one with the only required field being the email

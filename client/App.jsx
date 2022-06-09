@@ -8,12 +8,12 @@ import Dashboard from './components/Dashboard.jsx';
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { loginStatus: false };
+    this.state = { loginStatus: false, username: '' };
     this.successfulLogin = this.successfulLogin.bind(this);
   }
 
-  successfulLogin() {
-    this.setState({ loginStatus: true });
+  successfulLogin(username) {
+    this.setState({ loginStatus: true, username: username });
   }
 
   render() {
@@ -22,12 +22,14 @@ class App extends Component {
       <div id="app">
         <div id="navContainer">
           <img src={'https://uploads-ssl.webflow.com/6093315d74407812c0b3270c/60e3ac82c23b7568fcd04be0_NOTS%20Horizontal.svg'} id="notsLogo" />
-          <p className='adminName'>Hello, Admin!</p>
+          <p className='adminName'>Hello{this.state.username === '' ? ' Admin' : (this.state.username !== '' ? ` ${this.state.username}` : ' Admin')}!</p>
         </div>
         {this.state.loginStatus === true ? <Dashboard /> : (this.state.loginStatus === false ? <Login onSuccess={this.successfulLogin} /> : <Dashboard />)}
       </div>
     )
   }
 }
+
+// https://mui.com/material-ui/react-snackbar/
 
 export default App;

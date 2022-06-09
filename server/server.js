@@ -20,35 +20,10 @@ app.use(cors());
 const webflowRouter = require(path.join(__dirname, './routes/webflowRoutes'));
 const clientRouter = require(path.join(__dirname, './routes/clientRoutes'));
 
-app.get('./client/styles/styles.css', (req, res) => {
-  return res.status(200).sendFile(path.join(__dirname, '/client/styles/styles.css'));
-})
-
 // The primary POST request coming in from a customer purchase
-app.use('/purchase', webflowRouter, (req, res) => {
-  return res.status(200).json(res.locals.newUser || res.locals.foundUser); // sending back the new or existing users info for fun
-});
+app.use('/purchase', webflowRouter);
 
-app.use('/client', clientRouter, (req, res) => {
-  // Redirect to admin portal if the login is valid
-  if (res.locals.isAdmin === true) {
-    return res.status(200).json(true);
-  }
-
-  // Prompt to try again if the login is invalid
-  if (res.locals.isAdmin === false) {
-    return res.status(200).json(false); // sending false to the "validLogin variable on the client side"
-  }
-
-  if (res.locals.customers) {
-    return res.status(200).json(res.locals.customers);
-  }
-});
-
-// Redirect endpoint for successful login attempt, could possible achieve it in React
-app.get('/admin-portal', (req, res) => {
-  return res.status(200)
-})
+app.use('/client', clientRouter);
 
 // Catch all for invalid endpoint requests
 app.use('*', (req, res) => res.status(404).json('Invalid request, please wait and try again'));
@@ -67,6 +42,13 @@ app.use((err, req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is listening on port: ${PORT}`);
 });
+
+
+
+// Don't need for development testing
+// app.get('./client/styles/styles.css', (req, res) => {
+//   return res.status(200).sendFile(path.join(__dirname, '/client/styles/styles.css'));
+// })
 
 
 // // For testing the server is running
