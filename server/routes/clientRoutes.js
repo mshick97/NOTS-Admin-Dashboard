@@ -20,6 +20,11 @@ Router.post('/admin-login', adminDashController.adminLogin, (req, res) => {
   }
 });
 
+Router.post('/update-user', adminDashController.updateUser, (req, res) => {
+  console.log('passing through adminDasboard router for updating a user');
+  return res.status(200).json('updated user successfully');
+})
+
 Router.delete('/delete-user', adminDashController.deleteUser, (req, res) => {
   console.log('passing through adminDasboard router for deleting a user');
   return res.status(200).json(res.locals.didDelete);

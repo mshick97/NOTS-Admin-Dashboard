@@ -15,7 +15,6 @@ class Table extends Component {
   }
 
   async componentDidMount() {
-    const customerArray = [];
     try {
       const url = 'http://localhost:3000/client/customers';
       await axios.get(url).then(res => {
@@ -73,13 +72,16 @@ class Table extends Component {
       <div id="tableEntries">
         <div id='tableHeadContainer'>
           <h2 className="tableName">Customers</h2>
-          <img src={'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Refresh_icon.svg/1200px-Refresh_icon.svg.png'} id='refreshButton' />
+          <img
+            src={'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Refresh_icon.svg/1200px-Refresh_icon.svg.png'}
+            id='refreshButton'
+            onClick={this.getUpdatedData}
+          />
         </div>
         <div id="entryHeadersWrapper">
           <h5 className="tableHeading">Name</h5>
           <h5 className="tableHeading">Email</h5>
-          <h5 className="tableHeading">Street 1</h5>
-          <h5 className="tableHeading">Street 2</h5>
+          <h5 className="tableHeading">Street</h5>
           <h5 className="tableHeading">City</h5>
           <h5 className="tableHeading">State</h5>
           <h5 className="tableHeading">Zip</h5>

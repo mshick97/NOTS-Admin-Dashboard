@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import CustomizedSnackbars from './snackbar.jsx'
 
 class DBEntry extends Component {
   constructor(props) {
@@ -8,20 +9,19 @@ class DBEntry extends Component {
 
   render() {
     const { userId, updateTable } = this.props;
-
     async function deleteUser() {
       const url = 'http://localhost:3000/client/delete-user'
-
       await axios.delete(url, {
         headers: {},
         data: {
           source: userId
         }
-      }).then(() => updateTable());
+      }).then(() => updateTable())
     }
+
     return (
       <div id="entryContainer">
-        <div className='deleteIcon'>
+        <div className='deleteWrapper'>
           <img src='https://www.svgrepo.com/show/21045/delete-button.svg' className='deleteIcon' onClick={deleteUser} />
         </div>
         <div id="entryWrapper">
@@ -32,10 +32,7 @@ class DBEntry extends Component {
             <p className='dataEntry'>{this.props.email}</p>
           </div>
           <div className="entryBox">
-            <p className='dataEntry'>{this.props.street1}</p>
-          </div>
-          <div className="entryBox">
-            <p className='dataEntry'>{this.props.street2}</p>
+            <p className='dataEntry'>{this.props.street1} {this.props.street2}</p>
           </div>
           <div className="entryBox">
             <p className='dataEntry'>{this.props.city}</p>

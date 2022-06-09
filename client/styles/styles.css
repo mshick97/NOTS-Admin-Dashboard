@@ -114,17 +114,21 @@ body {
   position: relative;
 }
 
+.deleteWrapper {
+  position: relative;
+}
+
 .deleteIcon {
-  width: 15px;
+  width: 14px;
   position: absolute;
-  left: -14px;
-  top: 9px;
+  left: -26px;
+  top: 18px;
   cursor: pointer;
 }
 
 #entryHeadersWrapper {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(1.5em, 1fr));
+  grid-template-columns: 0.75fr 1fr 1fr 0.75fr 0.5fr 0.5fr;
   padding-left: 5px;
   border-bottom: #CCCCCC solid .5px;
 }
@@ -146,9 +150,16 @@ body {
   cursor: pointer;
 }
 
+#refreshButton:active {
+  transform: rotate(50deg);
+  -webkit-transform: rotate(50deg);
+  -ms-transform: rotate(50deg);
+}
+
+
 #entryWrapper {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(1.5em, 1fr));
+  grid-template-columns: 0.75fr 1fr 1fr 0.75fr 0.5fr 0.5fr;
 }
 
 .entryBox {
