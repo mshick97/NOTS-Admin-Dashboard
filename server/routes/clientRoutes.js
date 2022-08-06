@@ -20,9 +20,19 @@ Router.post('/admin-login', adminDashController.adminLogin, (req, res) => {
   }
 });
 
+Router.post('/find-user', adminDashController.findUser, (req, res) => {
+  console.log('passing through adminDasboard router for finding an existing user');
+  return res.status(200).json(res.locals.foundUser);
+})
+
 Router.post('/update-user', adminDashController.updateUser, (req, res) => {
   console.log('passing through adminDasboard router for updating a user');
-  return res.status(200).json('updated user successfully');
+  return res.status(200).json(res.locals.updatedUser);
+})
+
+Router.post('/create-user', adminDashController.createNewCustomer, (req, res) => {
+  console.log('passing through adminDasboard router for creating a new user');
+  return res.status(200).json(res.locals.createdUser);
 })
 
 Router.delete('/delete-user', adminDashController.deleteUser, (req, res) => {

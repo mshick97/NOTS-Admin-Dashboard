@@ -11,8 +11,9 @@ const customerSchema = new Schema({
   street2: String,
   city: String,
   state: String,
-  zip: String
-});
+  zip: String,
+},
+  { bufferTimeoutMS: 20000 });
 
 // Admin schema for NOTS MongoDB
 const adminSchema = new Schema({
@@ -20,7 +21,8 @@ const adminSchema = new Schema({
   lastName: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true }
-});
+},
+  { bufferTimeoutMS: 20000 });
 
 const Customer = mongoose.model('customer', customerSchema);
 const Admin = mongoose.model('admin', adminSchema);

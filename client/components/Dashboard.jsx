@@ -4,9 +4,11 @@ import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 
 const Dashboard = () => {
+
   return (
     <div id="dashboardContainer">
       <div id="groupedButtonsContainer">
+
         <div id="groupedButtonsBackgound">
           <ButtonGroup variant="contained" aria-label="outlined primary button group">
             <Button id="dashboardButton">Dashboard</Button>
@@ -14,11 +16,11 @@ const Dashboard = () => {
             <Button id="customersButton">Customers</Button>
           </ButtonGroup>
         </div>
-      </div>
-      <div id="tableContainer">
 
       </div>
-      <Table />
+      <div id="tableContainer">
+        <Table />
+      </div>
     </div>
   )
 }

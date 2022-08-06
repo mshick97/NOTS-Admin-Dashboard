@@ -1,26 +1,26 @@
 const path = require('path');
 const express = require('express');
 const app = express();
+const mongoose = require('mongoose');
+const cors = require('cors');
 const PORT = 3000;
 
-// Database related imports and variables
-const mongoose = require('mongoose');
+// Database connection
 const mongooseURI = 'mongodb+srv://mshick97:C5a915F886!@notscustomerdb.0jqdgpw.mongodb.net/?retryWrites=true&w=majority';
 mongoose.connect(mongooseURI, () => {
-  console.log('Connected to the database');
-})
+  console.log('Connected to MongoDB');
+});
 
 // Parsing each request that comes into server
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-const cors = require('cors');
 app.use(cors());
 
 // For routes
-const webflowRouter = require(path.join(__dirname, './routes/webflowRoutes'));
-const clientRouter = require(path.join(__dirname, './routes/clientRoutes'));
+const webflowRouter = require('./routes/webflowRoutes');
+const clientRouter = require('./routes/clientRoutes');
 
-// The primary POST request coming in from a customer purchase
+// The primary requests coming in from a customer purchase
 app.use('/purchase', webflowRouter);
 
 app.use('/client', clientRouter);
@@ -43,18 +43,3 @@ app.listen(PORT, () => {
   console.log(`Server is listening on port: ${PORT}`);
 });
 
-
-
-// Don't need for development testing
-// app.get('./client/styles/styles.css', (req, res) => {
-//   return res.status(200).sendFile(path.join(__dirname, '/client/styles/styles.css'));
-// })
-
-
-// // For testing the server is running
-// const testerRouter = require(path.join(__dirname, './routes/testerRoutes'));
-
-// app.use('/test', testerRouter, (req, res) => {
-//   console.log('before return')
-//   return res.status(200).json('Successful test of routes, controller, and endpoint');
-// });

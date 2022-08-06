@@ -3,6 +3,30 @@ const Admin = require('../models/customerModel').Admin;
 
 const adminDashController = {};
 
+adminDashController.adminLogin = (req, res, next) => {
+  Admin.findOne({ email: req.body.email, password: req.body.password },
+    (err, searchRes) => {
+      if (err) return next({
+        log: 'Error occured in the adminLogin middleware',
+        status: 407,
+        message: { err: err }
+      });
+
+      if (searchRes) {
+        res.locals.isAdmin = {
+          validLogin: true,
+          adminName: { firstName: searchRes.firstName, lastName: searchRes.lastName }
+        };
+        return next();
+      }
+
+      if (!searchRes) {
+        res.locals.isAdmin = false;
+        return next();
+      }
+    });
+}
+
 adminDashController.getAllCustomers = (req, res, next) => {
   Customer.find({}, (err, searchRes) => {
     if (err) return next({
@@ -22,27 +46,53 @@ adminDashController.getAllCustomers = (req, res, next) => {
   });
 }
 
-adminDashController.adminLogin = (req, res, next) => {
-  Admin.findOne({ email: req.body.email, password: req.body.password },
-    (err, searchRes) => {
-      if (err) return next({
-        log: 'Server error',
-        status: 502
-      });
+adminDashController.createNewCustomer = (req, res, next) => {
+  const { fullName, email, street1, street2, city, state, zip } = req.body;
 
-      if (searchRes) {
-        res.locals.isAdmin = {
-          validLogin: true,
-          adminName: { firstName: searchRes.firstName, lastName: searchRes.lastName }
-        };
-        return next();
-      }
+  Customer.create({
+    fullName: fullName,
+    email: email,
+    street1: street1,
+    street2: street2,
+    city: city,
+    state: state,
+    zip: zip
+  }, (err, createRes) => {
+    if (err) return next({
+      log: 'Couldn\'t create new user',
+      message: err
+    })
 
-      if (!searchRes) {
-        res.locals.isAdmin = false;
-        return next();
-      }
+    if (createRes) {
+      res.locals.createdUser = createRes;
+      return next();
+    }
+
+    if (!createRes) {
+      res.locals.createdUser = 'Error creating a new user, but request was valid';
+      return next();
+    }
+  })
+}
+
+adminDashController.findUser = (req, res, next) => {
+  const { email } = req.body;
+
+  Customer.find({ email: email }, (err, searchRes) => {
+    if (err) return next({
+      log: 'Database issue, couldn\'t retrieve customers in getAllCustomers controller',
+      status: 502,
+      message: err,
     });
+
+    // Pass the data found in the search to the next invokation
+    if (searchRes) {
+      res.locals.foundUser = searchRes;
+      return next();
+    }
+
+    if (!searchRes) return next();
+  });
 }
 
 adminDashController.deleteUser = (req, res, next) => {
@@ -52,8 +102,7 @@ adminDashController.deleteUser = (req, res, next) => {
   Customer.deleteOne({ _id: userId }, (err, deleteRes) => {
     if (err) return next({
       log: 'Server error while deleting',
-      status: 500,
-      err: err
+      message: err
     });
 
     if (deleteRes) {
@@ -72,7 +121,7 @@ adminDashController.updateUser = (req, res, next) => {
 
   Customer.findOneAndUpdate({ _id: userId },
     {
-      fullName: email,
+      fullName: fullName,
       email: email,
       street1: street1,
       street2: street2,
@@ -82,7 +131,7 @@ adminDashController.updateUser = (req, res, next) => {
     }, (err, updateRes) => {
       if (err) return next({
         log: 'Server issue while trying to update user',
-        status: 500
+        message: err
       })
 
       if (updateRes) {

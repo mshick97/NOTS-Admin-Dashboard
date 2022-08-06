@@ -49,6 +49,7 @@ body {
 
 #loginSubheading {
   color: rgb(116, 116, 116);
+  font-weight: 400;
   height: 45px;
 }
 
@@ -79,8 +80,14 @@ body {
   text-decoration: underline;
 }
 
+#searchForm {
+  margin-top: 20px;
+  padding-right: 120px;
+}
+
 #dashboardContainer {
   margin-top: 30px;
+  margin-bottom: 40px;
 }
 
 #groupedButtonsContainer {
@@ -95,7 +102,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 6px;
+  padding: 8px;
   border-radius: 7px;
 }
 

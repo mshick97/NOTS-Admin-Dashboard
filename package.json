@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "npm test",
-    "start": "cross-env nodemon server/server.js",
-    "build": "cross-env webpack",
-    "dev": "webpack serve --open"
+    "start": "cross-env NODE_ENV=production node server/server.js",
+    "build": "cross-env NODE_ENV=production webpack",
+    "dev": "concurrently \"cross-env NODE_ENV=development nodemon server/server.js\" \"cross-env NODE_ENV=development webpack-dev-server --hot --open\""
   },
   "repository": {
     "type": "git",
@@ -38,7 +38,7 @@
     "typescript": "^4.7.3",
     "url-loader": "^4.1.1",
     "webpack-cli": "^4.9.2",
-    "webpack-config": "^7.5.0",
+    "webpack-config": "^7.0.0",
     "webpack-dev-server": "^4.9.2"
   },
   "dependencies": {
@@ -47,9 +47,11 @@
     "@mui/material": "^5.8.3",
     "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
+    "concurrently": "^7.3.0",
     "cors": "^2.8.5",
+    "escape-string-regexp": "^5.0.0",
     "express": "^4.18.1",
-    "mongoose": "^6.3.5",
+    "mongoose": "^6.5.1",
     "nodemon": "^2.0.16",
     "pg": "^8.7.3",
     "react": "^17.0.2",
