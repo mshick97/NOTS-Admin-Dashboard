@@ -22,11 +22,8 @@ module.exports = {
         }
       },
       {
-        test: /\.(jpg|png|svg)$/,
-        loader: 'url-loader',
-        options: {
-          limit: 25000,
-        },
+        test: /\.(png|svg|jpg|gif|ico)$/,
+        use: ['file-loader?name=[name].[ext]']
       },
       {
         test: /.(css|scss)$/,

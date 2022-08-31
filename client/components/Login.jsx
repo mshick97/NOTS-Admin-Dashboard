@@ -1,45 +1,60 @@
-import React, { Component } from 'react';
+import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import CustomSnackbar from './CustomSnackbar.jsx'
 import { useNavigate } from "react-router-dom";
-
 
 const Login = ({ onSuccess }) => {
   const navigate = useNavigate();
 
-  let emailValue = '';
-  let passwordValue = '';
+
+  // Hooks and functions below for invoking snackbar functionality on login error/ incorrect credentials
+  const [open, setOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+
+  const openSnackbar = () => {
+    setOpen(true);
+  }
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
+
+
+  // Below hooks and function are for login request to server
+  const loginForm = useRef(null);
 
   function loginAttempt() {
     const url = '/client/admin-login';
 
-    axios.post(url, { email: emailValue, password: passwordValue })
+    const loginAttempt = loginForm.current;
+    const email = loginAttempt["outlined-email-required"].value;
+    const password = loginAttempt["outlined-password-input"].value;
+
+    axios.post(url, { email: email, password: password })
       .then(res => {
         if (res.data.validLogin === true) {
           onSuccess(res.data.adminName.firstName);
-          navigate('/customers');
+          return navigate('/customers');
         }
 
         if (res.data === false) {
-          alert('Email or password incorrect, try again');
+          setSnackbarMessage('Invalid email or password');
+          return openSnackbar();
         }
 
       }).catch((err) => {
-        console.log(err);
-        alert('Email or password incorrect, try again');
+        setSnackbarMessage('Error while trying to login, please wait and try again');
+        openSnackbar();
+        return console.log(err);
       });
   }
 
-  function grabCredential(event, type) {
-    if (type === 'email') {
-      emailValue = event.target.value;
-    }
-    if (type === 'password') {
-      passwordValue = event.target.value;
-    }
-  }
 
   return (
     <div id="loginContainer">
@@ -51,6 +66,7 @@ const Login = ({ onSuccess }) => {
         noValidate
         autoComplete="off"
         id="loginForm"
+        ref={loginForm}
       >
         <img src={'https://uploads-ssl.webflow.com/6093315d74407812c0b3270c/61574b48f3de49d46e8ab2ff_NOTS%20%26%20Crest%20(BlackFont)-04.svg'} id='crestLogo' />
         <div id='subheadingContainer'>
@@ -59,21 +75,38 @@ const Login = ({ onSuccess }) => {
         </div>
         <TextField
           required
-          id="outlined-required"
-          label="Email"
+          id="outlined-email-required"
           defaultValue=""
-          onChange={(e) => grabCredential(e, "email")} />
+          label='emailField'
+        />
+
         <TextField
           required
           id="outlined-password-input"
-          label="Password"
           type="password"
           autoComplete="current-password"
-          onChange={(e) => grabCredential(e, "password")} />
-        <Button variant="contained" size="medium" onClick={() => loginAttempt()} id='loginButton'>
+          label='passwordField'
+        />
+
+        <Button
+          id='loginButton'
+          variant="contained"
+          size="medium"
+          onClick={() => {
+            loginAttempt();
+          }}
+        >
           Login
         </Button>
       </Box >
+
+      {open ? <CustomSnackbar
+        openSnackbar={openSnackbar}
+        handleSnackbarClose={handleSnackbarClose}
+        message={snackbarMessage}
+        severity="error"
+      /> : null}
+
     </div>
   );
 }
