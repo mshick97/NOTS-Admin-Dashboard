@@ -8,6 +8,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
+// Note: severity levels for snackbar are "error"(red), "warning"(orange), "info"(blue), "success"(green)
 export default function CustomSnackbar(props) {
   const {
     openSnackbar,

@@ -2,38 +2,38 @@ const express = require('express');
 const Router = express.Router();
 
 // Import controllers
-const authenticationController = require('../controllers/authenticationController.js');
-const customerController = require('../controllers/customerController');
-const adminController = require('../controllers/adminController');
+const { verifyJWT, handleRefreshToken } = require('../controllers/authenticationController.js');
+const { getAllCustomers, findUser, updateUser, createNewCustomer, deleteUser } = require('../controllers/customerController');
+const { adminLogin } = require('../controllers/adminController');
 
-Router.get('/customers', customerController.getAllCustomers, (req, res) => {
+Router.get('/customers', handleRefreshToken, getAllCustomers, (req, res) => {
   console.log('pre-return for customerController.getAllCustomers');
-  return res.status(200).json(res.locals.customers);
+  return res.status(200).json(res.locals);
 });
 
-Router.post('/admin-login', adminController.adminLogin, (req, res) => {
+Router.post('/admin-login', adminLogin, (req, res) => {
   console.log('pre-return for adminController.adminLogin');
   return res.status(200).json(res.locals.isAdmin);
 });
 
-Router.post('/find-user', customerController.findUser, (req, res) => {
+Router.post('/find-user', handleRefreshToken, findUser, (req, res) => {
   console.log('pre-return customerController.findUser');
-  return res.status(200).json(res.locals.foundUser);
+  return res.status(200).json(res.locals);
 });
 
-Router.post('/update-user', customerController.updateUser, (req, res) => {
+Router.post('/update-user', handleRefreshToken, updateUser, (req, res) => {
   console.log('pre-return for customerController.updateUser');
-  return res.status(200).json(res.locals.updatedUser);
+  return res.status(200).json(res.locals);
 });
 
-Router.post('/create-user', customerController.createNewCustomer, (req, res) => {
+Router.post('/create-user', handleRefreshToken, createNewCustomer, (req, res) => {
   console.log('pre-return for customerController.createNewCustomer');
-  return res.status(200).json(res.locals.createdUser);
+  return res.status(200).json(res.locals);
 });
 
-Router.delete('/delete-user', customerController.deleteUser, (req, res) => {
+Router.delete('/delete-user', handleRefreshToken, deleteUser, (req, res) => {
   console.log('pre-return for customerController.deleteUser');
-  return res.status(200).json(res.locals.didDelete);
+  return res.status(200).json(res.locals);
 });
 
 module.exports = Router;

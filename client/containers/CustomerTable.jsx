@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
@@ -15,7 +15,7 @@ const CustomerTable = () => {
     const url = '/client/customers';
     await axios.get(url)
       .then(res => {
-        setCustomers(res.data);
+        setCustomers(res.data.customers);
         setIsLoading(false);
       })
       .catch(err => {
@@ -80,13 +80,13 @@ const CustomerTable = () => {
               const data = { email: e.target.value };
 
               axios.post(url, data).then(res => {
-                if (res.data.length > 0) {
+                if (res.data.foundUser.length > 0) {
                   setPreSearchState(customers);
-                  setCustomers(res.data)
+                  setCustomers(res.data.foundUser)
                 }
 
                 // To rerender the app to go back to the previous table of customers if no results are found
-                if (res.data.length === 0 && preSearchState.length !== 0) setCustomers(preSearchState);
+                if (res.data.foundUser.length === 0 && preSearchState.length !== 0) setCustomers(preSearchState);
               })
             }, 500)
             }

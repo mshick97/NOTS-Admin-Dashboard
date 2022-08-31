@@ -11,8 +11,8 @@ const App = () => {
   const [username, setUsername] = useState('');
 
   const successfulLogin = (user) => {
-    setLoginStatus(true);
-    setUsername(user);
+    setLoginStatus(true); // for ensuring a successful login was made -- if false, will always bring user to login route / component
+    setUsername(user); // to display first name of admin in the nav bar
   }
 
   return (

@@ -1,8 +1,8 @@
-const path = require('path');
 const express = require('express');
 const app = express();
-const mongoose = require('mongoose');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
+const mongoose = require('mongoose');
 const PORT = 3000;
 
 // Database connection
@@ -13,7 +13,8 @@ mongoose.connect(mongooseURI, () => {
 
 // Parsing each request that comes into server
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: true })); // url encoded form data
 app.use(cors());
 
 // For routes

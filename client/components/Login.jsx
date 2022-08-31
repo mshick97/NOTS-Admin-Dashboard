@@ -1,18 +1,19 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
+import { useNavigate } from "react-router-dom";
+import AuthContext from '../context/AuthProvider.jsx';
 import axios from 'axios';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import CustomSnackbar from './CustomSnackbar.jsx'
-import { useNavigate } from "react-router-dom";
 
 const Login = ({ onSuccess }) => {
   const navigate = useNavigate();
 
-
   // Hooks and functions below for invoking snackbar functionality on login error/ incorrect credentials
   const [open, setOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('');
 
   const openSnackbar = () => {
     setOpen(true);
@@ -26,30 +27,46 @@ const Login = ({ onSuccess }) => {
   };
 
 
-  // Below hooks and function are for login request to server
+  // Below hook and function are for login request to server
+  const { setAuth } = useContext(AuthContext);
   const loginForm = useRef(null);
 
   function loginAttempt() {
-    const url = '/client/admin-login';
+    const LOGIN_URL = '/client/admin-login';
 
+    // grabs form in current state and pulls values for each field
     const loginAttempt = loginForm.current;
     const email = loginAttempt["outlined-email-required"].value;
     const password = loginAttempt["outlined-password-input"].value;
 
-    axios.post(url, { email: email, password: password })
+    if (!email || !password) { // if either field are null
+      setSnackbarMessage('Please enter your email and password');
+      setSnackbarSeverity('warning');
+      return openSnackbar();
+    }
+
+    axios.post(LOGIN_URL,
+      { email: email, password: password }, { withCredentials: true })
       .then(res => {
         if (res.data.validLogin === true) {
-          onSuccess(res.data.adminName.firstName);
+          const accessToken = res?.data?.accessToken;
+          const firstName = res?.data?.adminName?.firstName;
+          const lastName = res?.data?.adminName?.lastName;
+
+          setAuth({ accessToken, firstName, lastName });
+          onSuccess(firstName);
           return navigate('/customers');
         }
 
         if (res.data === false) {
           setSnackbarMessage('Invalid email or password');
+          setSnackbarSeverity('error');
           return openSnackbar();
         }
 
       }).catch((err) => {
         setSnackbarMessage('Error while trying to login, please wait and try again');
+        setSnackbarSeverity('error');
         openSnackbar();
         return console.log(err);
       });
@@ -77,7 +94,7 @@ const Login = ({ onSuccess }) => {
           required
           id="outlined-email-required"
           defaultValue=""
-          label='emailField'
+          label='Email'
         />
 
         <TextField
@@ -85,7 +102,7 @@ const Login = ({ onSuccess }) => {
           id="outlined-password-input"
           type="password"
           autoComplete="current-password"
-          label='passwordField'
+          label='Password'
         />
 
         <Button
@@ -104,7 +121,7 @@ const Login = ({ onSuccess }) => {
         openSnackbar={openSnackbar}
         handleSnackbarClose={handleSnackbarClose}
         message={snackbarMessage}
-        severity="error"
+        severity={snackbarSeverity}
       /> : null}
 
     </div>
