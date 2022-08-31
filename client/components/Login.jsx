@@ -6,20 +6,29 @@ import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
 
 
-const Login = (props) => {
-  let emailValue = '';
-  let passwordValue = '';
-  const { onSuccess } = props;
+const Login = ({ onSuccess }) => {
   const navigate = useNavigate();
 
+  let emailValue = '';
+  let passwordValue = '';
+
   function loginAttempt() {
-    const url = 'http://localhost:3000/client/admin-login';
+    const url = '/client/admin-login';
+
     axios.post(url, { email: emailValue, password: passwordValue })
       .then(res => {
         if (res.data.validLogin === true) {
           onSuccess(res.data.adminName.firstName);
           navigate('/customers');
         }
+
+        if (res.data === false) {
+          alert('Email or password incorrect, try again');
+        }
+
+      }).catch((err) => {
+        console.log(err);
+        alert('Email or password incorrect, try again');
       });
   }
 
@@ -61,7 +70,7 @@ const Login = (props) => {
           type="password"
           autoComplete="current-password"
           onChange={(e) => grabCredential(e, "password")} />
-        <Button variant="contained" size="medium" onClick={loginAttempt} id='loginButton'>
+        <Button variant="contained" size="medium" onClick={() => loginAttempt()} id='loginButton'>
           Login
         </Button>
       </Box >

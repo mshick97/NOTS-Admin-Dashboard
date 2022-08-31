@@ -1,43 +1,39 @@
 const express = require('express');
 const Router = express.Router();
-const adminDashController = require('../controllers/adminDashController');
 
-Router.get('/customers', adminDashController.getAllCustomers, (req, res) => {
-  console.log('passing through adminDashboard router for getting customers');
+// Import controllers
+const authenticationController = require('../controllers/authenticationController.js');
+const customerController = require('../controllers/customerController');
+const adminController = require('../controllers/adminController');
+
+Router.get('/customers', customerController.getAllCustomers, (req, res) => {
+  console.log('pre-return for customerController.getAllCustomers');
   return res.status(200).json(res.locals.customers);
 });
 
-Router.post('/admin-login', adminDashController.adminLogin, (req, res) => {
-  console.log('passing through adminDasboard router for login');
-  // Prompt to try again if the login is invalid
-  if (res.locals.isAdmin === false) {
-    return res.status(200).json(false); // sending false to the "validLogin variable on the client side"
-  }
-
-  // Redirect to admin portal if the login is valid
-  if (res.locals.isAdmin.validLogin === true) {
-    return res.status(200).json(res.locals.isAdmin);
-  }
+Router.post('/admin-login', adminController.adminLogin, (req, res) => {
+  console.log('pre-return for adminController.adminLogin');
+  return res.status(200).json(res.locals.isAdmin);
 });
 
-Router.post('/find-user', adminDashController.findUser, (req, res) => {
-  console.log('passing through adminDasboard router for finding an existing user');
+Router.post('/find-user', customerController.findUser, (req, res) => {
+  console.log('pre-return customerController.findUser');
   return res.status(200).json(res.locals.foundUser);
-})
+});
 
-Router.post('/update-user', adminDashController.updateUser, (req, res) => {
-  console.log('passing through adminDasboard router for updating a user');
+Router.post('/update-user', customerController.updateUser, (req, res) => {
+  console.log('pre-return for customerController.updateUser');
   return res.status(200).json(res.locals.updatedUser);
-})
+});
 
-Router.post('/create-user', adminDashController.createNewCustomer, (req, res) => {
-  console.log('passing through adminDasboard router for creating a new user');
+Router.post('/create-user', customerController.createNewCustomer, (req, res) => {
+  console.log('pre-return for customerController.createNewCustomer');
   return res.status(200).json(res.locals.createdUser);
-})
+});
 
-Router.delete('/delete-user', adminDashController.deleteUser, (req, res) => {
-  console.log('passing through adminDasboard router for deleting a user');
+Router.delete('/delete-user', customerController.deleteUser, (req, res) => {
+  console.log('pre-return for customerController.deleteUser');
   return res.status(200).json(res.locals.didDelete);
-})
+});
 
 module.exports = Router;

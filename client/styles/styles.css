@@ -189,8 +189,15 @@ body {
   border: #cccccc solid .2px;
 }
 
-#dashboardButton {
+#overviewButton {
   background-color: white;
   color: #ad2525;
   border: #cccccc solid .2px;
+}
+
+.loadingProgressWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10vh;
 }

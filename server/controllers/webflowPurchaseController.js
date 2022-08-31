@@ -3,26 +3,11 @@ const Customer = require('../models/customerModel').Customer;
 const webflowPurchaseController = {};
 
 webflowPurchaseController.checkCustomerInfo = (req, res, next) => {
-  // // For testing whether the req.body is populating correctly and can fill our mockDB
-  // const mockDB = [];
-  // mockDB.push(req.body);
-  // console.log(mockDB);
-  // console.log('passing through webflow purchase controller');
-
-  Customer.findOne({
-    email: req.body.email
-    // Don't need any of these since the only thing required in the schema is the email. SO if it finds the unique email, can send back entire customer
-    // fullName: req.body.fullName,
-    // street1: req.body.street1,
-    // street2: req.body.street2,
-    // city: req.body.city,
-    // state: req.body.state,
-    // zip: req.body.zip
-  },
+  Customer.findOne({ email: req.body.email },
     (err, searchRes) => {
       // If an error occurs server side at this point, hand off to the global error handler
       if (err) return next({
-        log: 'Internal server error2'
+        log: 'Internal server error'
       });
 
       // If customer does not exist -- create one with the only required field being the email

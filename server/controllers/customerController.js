@@ -1,36 +1,11 @@
 const Customer = require('../models/customerModel').Customer;
-const Admin = require('../models/customerModel').Admin;
 
-const adminDashController = {};
+const customerController = {};
 
-adminDashController.adminLogin = (req, res, next) => {
-  Admin.findOne({ email: req.body.email, password: req.body.password },
-    (err, searchRes) => {
-      if (err) return next({
-        log: 'Error occured in the adminLogin middleware',
-        status: 407,
-        message: { err: err }
-      });
-
-      if (searchRes) {
-        res.locals.isAdmin = {
-          validLogin: true,
-          adminName: { firstName: searchRes.firstName, lastName: searchRes.lastName }
-        };
-        return next();
-      }
-
-      if (!searchRes) {
-        res.locals.isAdmin = false;
-        return next();
-      }
-    });
-}
-
-adminDashController.getAllCustomers = (req, res, next) => {
+customerController.getAllCustomers = (req, res, next) => {
   Customer.find({}, (err, searchRes) => {
     if (err) return next({
-      log: 'Database issue, couldn\'t retrieve customers in getAllCustomers controller',
+      log: 'Database issue, couldn\'t retrieve customers in getAllCustomers middleware in customerController',
       status: 502,
       message: err,
     });
@@ -46,7 +21,7 @@ adminDashController.getAllCustomers = (req, res, next) => {
   });
 }
 
-adminDashController.createNewCustomer = (req, res, next) => {
+customerController.createNewCustomer = (req, res, next) => {
   const { fullName, email, street1, street2, city, state, zip } = req.body;
 
   Customer.create({
@@ -59,7 +34,7 @@ adminDashController.createNewCustomer = (req, res, next) => {
     zip: zip
   }, (err, createRes) => {
     if (err) return next({
-      log: 'Couldn\'t create new user',
+      log: 'Couldn\'t create new user in the createNewCustomer middleware in the customerController',
       message: err
     })
 
@@ -75,12 +50,12 @@ adminDashController.createNewCustomer = (req, res, next) => {
   })
 }
 
-adminDashController.findUser = (req, res, next) => {
+customerController.findUser = (req, res, next) => {
   const { email } = req.body;
 
   Customer.find({ email: email }, (err, searchRes) => {
     if (err) return next({
-      log: 'Database issue, couldn\'t retrieve customers in getAllCustomers controller',
+      log: 'Database issue, couldn\'t retrieve customers in getAllCustomers middleware in customerController',
       status: 502,
       message: err,
     });
@@ -95,13 +70,13 @@ adminDashController.findUser = (req, res, next) => {
   });
 }
 
-adminDashController.deleteUser = (req, res, next) => {
+customerController.deleteUser = (req, res, next) => {
   // axios has a very specific way of formating delete requests: find user id at req.body.source
   const userId = req.body.source;
 
   Customer.deleteOne({ _id: userId }, (err, deleteRes) => {
     if (err) return next({
-      log: 'Server error while deleting',
+      log: 'Server error while deleting a customer in the deleteUser middleware in customerController',
       message: err
     });
 
@@ -116,7 +91,7 @@ adminDashController.deleteUser = (req, res, next) => {
   return next();
 }
 
-adminDashController.updateUser = (req, res, next) => {
+customerController.updateUser = (req, res, next) => {
   const { userId, fullName, email, street1, street2, city, state, zip } = req.body; // need to attach to request specific things needed for edit
 
   Customer.findOneAndUpdate({ _id: userId },
@@ -130,7 +105,7 @@ adminDashController.updateUser = (req, res, next) => {
       zip: zip
     }, (err, updateRes) => {
       if (err) return next({
-        log: 'Server issue while trying to update user',
+        log: 'Server issue while trying to update user in the findOneAndUpdate middleware in customerController',
         message: err
       })
 
@@ -146,4 +121,4 @@ adminDashController.updateUser = (req, res, next) => {
     })
 }
 
-module.exports = adminDashController;
+module.exports = customerController;

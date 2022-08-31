@@ -1,39 +1,41 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import './styles/styles.css'
 import { Routes, Route } from "react-router-dom";
-import axios from 'axios';
 import Login from './components/Login.jsx'
-import Dashboard from './components/Dashboard.jsx';
+import Dashboard from './containers/MainDashboard.jsx';
+import RequireAuth from './components/RequireAuth.jsx';
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { loginStatus: false, username: '' };
-    this.successfulLogin = this.successfulLogin.bind(this);
+
+const App = () => {
+  const [loginStatus, setLoginStatus] = useState(false);
+  const [username, setUsername] = useState('');
+
+  const successfulLogin = (user) => {
+    setLoginStatus(true);
+    setUsername(user);
   }
 
-  successfulLogin(username) {
-    this.setState({ loginStatus: true, username: username });
-  }
-
-  render() {
-    // App.jsx:61 Uncaught (in promise) TypeError: Cannot read properties of undefined (reading 'setState')
-    return (
-      <div id="app">
-        <div id="navContainer">
-          <img src={'https://uploads-ssl.webflow.com/6093315d74407812c0b3270c/60e3ac82c23b7568fcd04be0_NOTS%20Horizontal.svg'} id="notsLogo" />
-          <p className='adminName'>
-            Hello{this.state.username === '' ? ' Admin' : (this.state.username !== '' ? ` ${this.state.username}` : ' Admin')}!
-          </p>
-        </div>
-        <Routes>
-          <Route path='/' element={<Login onSuccess={this.successfulLogin} />} />
-          <Route path='/customers' element={<Dashboard />} />
-        </Routes>
-        {/* {this.state.loginStatus === true ? <Dashboard /> : (this.state.loginStatus === false ? <Login onSuccess={this.successfulLogin} /> : <Dashboard />)} */}
+  return (
+    <div id="app">
+      <div id="navContainer">
+        <img src={'https://uploads-ssl.webflow.com/6093315d74407812c0b3270c/60e3ac82c23b7568fcd04be0_NOTS%20Horizontal.svg'} id="notsLogo" />
+        <p className='adminName'>
+          Hello{username === '' ? ' Admin' : (username !== '' ? ` ${username}` : ' Admin')}!
+        </p>
       </div>
-    )
-  }
+
+      <Routes>
+        {/* Public Routes */}
+        <Route path='/login' element={<Login onSuccess={successfulLogin} />} />
+
+        {/* Protected Routes */}
+        <Route path='/' element={<RequireAuth validLogin={loginStatus} />}>
+          <Route path='/*' element={<Dashboard />} />
+        </Route>
+      </Routes>
+
+    </div>
+  );
 }
 
 export default App;

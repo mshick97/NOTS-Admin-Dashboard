@@ -31,11 +31,14 @@ app.use('*', (req, res) => res.status(404).json('Invalid request, please wait an
 // Global error handler
 app.use((err, req, res) => {
   const defaultErr = {
-    log: 'Unknown internal server error',
+    log: 'An internal server error has occurred',
     status: 500,
-    message: { err: 'An error has occurred server-side' }
+    message: { err: 'An internal server error has occurred' }
   }
+
   const errObj = Object.assign({}, defaultErr, err);
+  console.log(errObj.log);
+
   return res.status(errObj.status).json(errObj.message);
 });
 
