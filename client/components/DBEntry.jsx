@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import AuthContext from '../context/AuthProvider.jsx';
 import axios from 'axios';
 
 
@@ -6,10 +7,15 @@ const DBEntry = (props) => {
   const { userId, getUpdatedData } = props; // for async function
   const { name, email, street1, street2, city, state, zip } = props;
 
+  const { auth } = useContext(AuthContext);
+  const accessToken = auth.accessToken;
+
   async function deleteUser() {
     const url = 'http://localhost:3000/client/delete-user'
     await axios.delete(url, {
-      headers: {},
+      headers: {
+        'authorization': accessToken
+      },
       data: {
         source: userId
       }

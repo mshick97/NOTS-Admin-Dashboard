@@ -7,12 +7,10 @@ import RequireAuth from './components/RequireAuth.jsx';
 
 
 const App = () => {
-  const [loginStatus, setLoginStatus] = useState(false);
   const [username, setUsername] = useState('');
 
   const successfulLogin = (user) => {
-    setLoginStatus(true); // for ensuring a successful login was made -- if false, will always bring user to login route / component
-    setUsername(user); // to display first name of admin in the nav bar
+    return setUsername(user); // to display first name of admin in the nav bar
   }
 
   return (
@@ -29,7 +27,7 @@ const App = () => {
         <Route path='/login' element={<Login onSuccess={successfulLogin} />} />
 
         {/* Protected Routes */}
-        <Route path='/' element={<RequireAuth validLogin={loginStatus} />}>
+        <Route path='/' element={<RequireAuth />}>
           <Route path='/*' element={<Dashboard />} />
         </Route>
       </Routes>

@@ -1,6 +1,6 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from "react-router-dom";
-import AuthContext from '../context/AuthProvider.jsx';
+import useAuth from '../hooks/useAuth.jsx';
 import axios from 'axios';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -28,7 +28,7 @@ const Login = ({ onSuccess }) => {
 
 
   // Below hook and function are for login request to server
-  const { setAuth } = useContext(AuthContext);
+  const { setAuth } = useAuth();
   const loginForm = useRef(null);
 
   function loginAttempt() {
@@ -49,11 +49,12 @@ const Login = ({ onSuccess }) => {
       { email: email, password: password }, { withCredentials: true })
       .then(res => {
         if (res.data.validLogin === true) {
+          const validLogin = res?.data?.validLogin;
           const accessToken = res?.data?.accessToken;
           const firstName = res?.data?.adminName?.firstName;
           const lastName = res?.data?.adminName?.lastName;
 
-          setAuth({ accessToken, firstName, lastName });
+          setAuth({ validLogin, accessToken, firstName, lastName });
           onSuccess(firstName);
           return navigate('/customers');
         }
