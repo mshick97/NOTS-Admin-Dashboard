@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import AuthContext from '../context/AuthProvider.jsx';
 import axios from 'axios';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
@@ -7,13 +8,21 @@ import TextField from '@mui/material/TextField';
 import { debounce } from "debounce";
 
 const CustomerTable = () => {
+  const { auth } = useContext(AuthContext);
+  const accessToken = auth.accessToken;
+
   const [customers, setCustomers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [preSearchState, setPreSearchState] = useState([]);
 
   async function getCustomerData() {
     const url = '/client/customers';
-    await axios.get(url)
+
+    await axios.get(url, {
+      headers: {
+        'authorization': accessToken
+      }
+    })
       .then(res => {
         setCustomers(res.data.customers);
         setIsLoading(false);
@@ -79,7 +88,11 @@ const CustomerTable = () => {
               const url = '/client/find-user'
               const data = { email: e.target.value };
 
-              axios.post(url, data).then(res => {
+              axios.post(url, data, {
+                headers: {
+                  'authorization': accessToken
+                }
+              }).then(res => {
                 if (res.data.foundUser.length > 0) {
                   setPreSearchState(customers);
                   setCustomers(res.data.foundUser)

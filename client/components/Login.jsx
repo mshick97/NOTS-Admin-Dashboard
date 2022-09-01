@@ -32,7 +32,7 @@ const Login = ({ onSuccess }) => {
   const loginForm = useRef(null);
 
   function loginAttempt() {
-    const LOGIN_URL = '/client/admin-login';
+    const LOGIN_URL = '/auth';
 
     // grabs form in current state and pulls values for each field
     const loginAttempt = loginForm.current;

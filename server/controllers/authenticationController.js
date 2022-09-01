@@ -4,18 +4,15 @@ require('dotenv').config();
 
 const authenticationController = {};
 
-authenticationController.verifyJWT = (req, res, next) => {
-  const authHeader = req.headers['authorization'];
-  if (!authHeader) return res.sendStatus(401);
-
-  console.log(authHeader);
-  const token = authHeader.split(' ')[1];
+authenticationController.verifyAccessJWT = (req, res, next) => {
+  const token = req.headers['authorization']; // storing token in header object with key of authorization
+  if (!token) return res.sendStatus(401); // returns if there is no token passed in
 
   jwt.verify(
     token,
     process.env.ACCESS_TOKEN_SECRET,
     (err, decoded) => {
-      if (err) return res.sendStatus(403);
+      if (err) return res.sendStatus(403); // if the token doesn't match up with the secret, could have been tampered with
 
       req.user = decoded.username;
       return next();
@@ -25,11 +22,10 @@ authenticationController.verifyJWT = (req, res, next) => {
 
 authenticationController.handleRefreshToken = (req, res, next) => {
   const cookies = req.cookies;
-  if (!cookies?.jwt) return res.status(401);
-  console.log(cookies.jwt);
+  if (!cookies?.jwt) return res.status(401); // if no cookie with a key of jwt is passed in
 
   const refreshToken = cookies.jwt;
-  Admin.findOne({ refreshToken: refreshToken }, (err, searchRes) => {
+  Admin.findOne({ refreshToken: refreshToken }, (err, tokenRes) => {
     if (err) {
       return next({
         log: 'Error has occurred in the handleRefreshToken middleware in authenticationController',
@@ -38,11 +34,12 @@ authenticationController.handleRefreshToken = (req, res, next) => {
       });
     }
 
-    if (!searchRes) {
+    if (!tokenRes) {
+      res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true })
       return res.sendStatus(403);
     }
 
-    if (searchRes) {
+    if (tokenRes) {
       jwt.verify(
         refreshToken,
         process.env.REFRESH_TOKEN_SECRET,
@@ -54,6 +51,11 @@ authenticationController.handleRefreshToken = (req, res, next) => {
             process.env.ACCESS_TOKEN_SECRET,
             { expiresIn: '1h' }
           );
+
+          if (!req.body) {
+            res.locals.isAdmin = accessToken;  // frontend needs this format of response
+            return res.json(res.locals.isAdmin);
+          };
 
           res.locals.accessToken = accessToken;
           return next();

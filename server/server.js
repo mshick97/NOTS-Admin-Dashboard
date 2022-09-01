@@ -2,29 +2,30 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const mongoose = require('mongoose');
+const connectDB = require('./config/DBConnect');
 const PORT = 3000;
 
-// Database connection
-const mongooseURI = 'mongodb+srv://mshick97:C5a915F886!@notscustomerdb.0jqdgpw.mongodb.net/?retryWrites=true&w=majority';
-mongoose.connect(mongooseURI, () => {
-  console.log('Connected to MongoDB');
-});
 
 // Parsing each request that comes into server
+connectDB();
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true })); // url encoded form data
 app.use(cors());
 
-// For routes
-const webflowRouter = require('./routes/webflowRoutes');
-const clientRouter = require('./routes/clientRoutes');
+
+// JWT authentication middlewares
+const { verifyAccessJWT, handleRefreshToken } = require('./controllers/authenticationController.js');
 
 // The primary requests coming in from a customer purchase
-app.use('/purchase', webflowRouter);
+app.use('/purchase', require('./routes/webflowRoutes'));
+app.use('/auth', require('./routes/adminRoutes'));
+app.use('/refresh', handleRefreshToken);
 
-app.use('/client', clientRouter);
+// Every API below must include an access token to access
+app.use(verifyAccessJWT);
+app.use('/client', require('./routes/clientRoutes'));
+
 
 // Catch all for invalid endpoint requests
 app.use('*', (req, res) => res.status(404).json('Invalid request, please try again'));
@@ -43,6 +44,5 @@ app.use((err, req, res) => {
   return res.status(errObj.status).json(errObj.message);
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is listening on port: ${PORT}`);
-});
+
+app.listen(PORT, () => console.log(`Server is listening on port: ${PORT}`));

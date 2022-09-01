@@ -26,7 +26,7 @@ adminController.adminLogin = (req, res, next) => {
     if (searchRes) {
       const hashedPassword = searchRes.password;
 
-      await bcrypt.compare(password + secret, hashedPassword, function (error, result) {
+      await bcrypt.compare(password + secret, hashedPassword, async function (error, result) {
         if (error) {
           return next({
             log: err,
@@ -35,6 +35,7 @@ adminController.adminLogin = (req, res, next) => {
         }
 
         if (result) {
+          // Creating access token for short session access to APIs and storing the refresh token to refresh access tokens
           const accessToken = jwt.sign(
             { username: searchRes.email },
             process.env.ACCESS_TOKEN_SECRET,
@@ -48,7 +49,7 @@ adminController.adminLogin = (req, res, next) => {
           );
 
           searchRes.refreshToken = refreshToken; // modifying the search result of the refreshToken property when an admin is found and their password is valid
-          searchRes.save(); // native method from mongoose allows you to save a document after modifying instead of having to re-query
+          await searchRes.save(); // native method from mongoose allows you to save a document after modifying instead of having to re-query
 
           res.locals.isAdmin = {
             validLogin: true,
@@ -56,7 +57,7 @@ adminController.adminLogin = (req, res, next) => {
             adminName: { firstName: searchRes.firstName, lastName: searchRes.lastName }
           };
 
-          res.cookie('jwt', refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 }) // setting max age to one day and sending back the refresh token as the cookie
+          res.cookie('jwt', refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 }) // setting max age to one day + sending back the refresh token as the cookie + not accessible by JS
           return next();
         }
 
