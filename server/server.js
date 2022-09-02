@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -14,17 +15,23 @@ app.use(express.urlencoded({ extended: true })); // url encoded form data
 app.use(cors());
 
 
+// Serve static files
+app.use(express.static(path.join(__dirname, './views/index.html')));
+app.use(express.static(path.join(__dirname, './client/styles')));
+app.use(express.static(path.join(__dirname, './client/images')));
+
+
 // JWT authentication middlewares
 const { verifyAccessJWT, handleRefreshToken } = require('./controllers/authenticationController.js');
 
 // The primary requests coming in from a customer purchase
 app.use('/purchase', require('./routes/webflowRoutes'));
-app.use('/auth', require('./routes/adminRoutes'));
+app.use('/auth', require('./routes/authRoutes'));
 app.use('/refresh', handleRefreshToken);
 
 // Every API below must include an access token to access
 app.use(verifyAccessJWT);
-app.use('/client', require('./routes/clientRoutes'));
+app.use('/customers', require('./routes/customersRoutes'));
 
 
 // Catch all for invalid endpoint requests
@@ -44,5 +51,6 @@ app.use((err, req, res) => {
   return res.status(errObj.status).json(errObj.message);
 });
 
+// first part of string until %s changes console log color to cyan; characters after resets the color back to normal
+app.listen(PORT, () => console.log('\x1b[36m%s\x1b[0m', `Server is listening on port: ${PORT}`));
 
-app.listen(PORT, () => console.log(`Server is listening on port: ${PORT}`));

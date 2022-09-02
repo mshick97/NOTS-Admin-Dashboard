@@ -22,7 +22,7 @@ authenticationController.verifyAccessJWT = (req, res, next) => {
 
 authenticationController.handleRefreshToken = (req, res, next) => {
   const cookies = req.cookies;
-  if (!cookies?.jwt) return res.status(401); // if no cookie with a key of jwt is passed in
+  if (!cookies['jwt']) return res.status(401); // if no cookie with a key of jwt is passed in
 
   const refreshToken = cookies.jwt;
   Admin.findOne({ refreshToken: refreshToken }, (err, tokenRes) => {
@@ -44,21 +44,15 @@ authenticationController.handleRefreshToken = (req, res, next) => {
         refreshToken,
         process.env.REFRESH_TOKEN_SECRET,
         (error, decoded) => {
-          if (error || searchRes.email !== decoded.username) return res.sendStatus(403);
+          if (error || tokenRes.email !== decoded.username) return res.sendStatus(403);
 
           const accessToken = jwt.sign(
             { username: decoded.username },
             process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: '1h' }
+            { expiresIn: '10s' }
           );
 
-          if (!req.body) {
-            res.locals.isAdmin = accessToken;  // frontend needs this format of response
-            return res.json(res.locals.isAdmin);
-          };
-
-          res.locals.accessToken = accessToken;
-          return next();
+          return res.json({ accessToken });
         }
       )
     }

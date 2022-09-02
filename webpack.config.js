@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { SourceMapDevToolPlugin } = require('webpack');
 
 module.exports = {
   // Enters into first index.js to bundle
@@ -12,8 +13,14 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?/,
+        test: /\.js$/,
+        enforce: 'pre',
+        use: ['source-map-loader'],
+      },
+      {
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
+        enforce: 'pre',
         use: {
           loader: 'babel-loader',
           options: {
@@ -42,9 +49,12 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'index.html',
+      template: './views/index.html',
       favicon: './client/images/favicon.ico'
     }),
+    new SourceMapDevToolPlugin({
+      filename: "index.js.map"
+    })
   ],
   devServer: {
     static: {

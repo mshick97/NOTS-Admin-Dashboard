@@ -39,13 +39,13 @@ adminController.adminLogin = (req, res, next) => {
           const accessToken = jwt.sign(
             { username: searchRes.email },
             process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: '1h' }
+            { expiresIn: '10s' }
           );
 
           const refreshToken = jwt.sign(
             { username: searchRes.email },
             process.env.REFRESH_TOKEN_SECRET,
-            { expiresIn: '1d' }
+            { expiresIn: '5h' }
           );
 
           searchRes.refreshToken = refreshToken; // modifying the search result of the refreshToken property when an admin is found and their password is valid
@@ -57,7 +57,7 @@ adminController.adminLogin = (req, res, next) => {
             adminName: { firstName: searchRes.firstName, lastName: searchRes.lastName }
           };
 
-          res.cookie('jwt', refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 }) // setting max age to one day + sending back the refresh token as the cookie + not accessible by JS
+          res.cookie('jwt', refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 }); // setting max age to one day + sending back the refresh token as the cookie + not accessible by JS
           return next();
         }
 

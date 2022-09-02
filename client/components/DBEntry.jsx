@@ -4,22 +4,22 @@ import axios from 'axios';
 
 
 const DBEntry = (props) => {
-  const { userId, getUpdatedData } = props; // for async function
+  const { userId, getCustomerData } = props; // for async function
   const { name, email, street1, street2, city, state, zip } = props;
 
   const { auth } = useContext(AuthContext);
   const accessToken = auth.accessToken;
 
   async function deleteUser() {
-    const url = 'http://localhost:3000/client/delete-user'
-    await axios.delete(url, {
+    const DELETE_CUSTOMER_URL = '/customers'
+    await axios.delete(DELETE_CUSTOMER_URL, {
       headers: {
         'authorization': accessToken
       },
       data: {
         source: userId
       }
-    }).then(() => getUpdatedData())
+    }).then(() => getCustomerData())
   }
 
   return (

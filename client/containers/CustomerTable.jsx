@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import AuthContext from '../context/AuthProvider.jsx';
+import useRefreshToken from '../hooks/useRefreshToken.jsx';
 import axios from 'axios';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
@@ -9,6 +10,7 @@ import { debounce } from "debounce";
 
 const CustomerTable = () => {
   const { auth } = useContext(AuthContext);
+  const refreshToken = useRefreshToken();
   const accessToken = auth.accessToken;
 
   const [customers, setCustomers] = useState([]);
@@ -16,9 +18,9 @@ const CustomerTable = () => {
   const [preSearchState, setPreSearchState] = useState([]);
 
   async function getCustomerData() {
-    const url = '/client/customers';
+    const GET_CUSTOMERS_URL = '/customers';
 
-    await axios.get(url, {
+    await axios.get(GET_CUSTOMERS_URL, {
       headers: {
         'authorization': accessToken
       }
@@ -26,9 +28,11 @@ const CustomerTable = () => {
       .then(res => {
         setCustomers(res.data.customers);
         setIsLoading(false);
+        refreshToken();
       })
       .catch(err => {
         console.log(err);
+        refreshToken();
       });
 
     return;
@@ -65,7 +69,7 @@ const CustomerTable = () => {
           city={customer.city}
           state={customer.state}
           zip={customer.zip}
-          getUpdatedData={() => getUpdatedData()}
+          getCustomerData={() => getCustomerData()}
         />
       )
     });
@@ -85,22 +89,28 @@ const CustomerTable = () => {
             <TextField id="outlined-basic" label="Search by email" variant="outlined" onChange={debounce(e => {
               e.preventDefault();
 
-              const url = '/client/find-user'
+              const FIND_USER_URL = '/customers/find_user'
               const data = { email: e.target.value };
 
-              axios.post(url, data, {
+              axios.post(FIND_USER_URL, data, {
                 headers: {
                   'authorization': accessToken
                 }
               }).then(res => {
                 if (res.data.foundUser.length > 0) {
                   setPreSearchState(customers);
-                  setCustomers(res.data.foundUser)
+                  setCustomers(res.data.foundUser);
                 }
 
                 // To rerender the app to go back to the previous table of customers if no results are found
                 if (res.data.foundUser.length === 0 && preSearchState.length !== 0) setCustomers(preSearchState);
+
+                refreshToken();
               })
+                .catch(err => {
+                  console.log(err);
+                  refreshToken();
+                })
             }, 500)
             }
             />
