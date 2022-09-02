@@ -1,10 +1,10 @@
 {
-  "name": "solo-project",
+  "name": "NOTS-Hair-Admin-Dashboard",
   "version": "1.0.0",
-  "description": "\"An admin's GUI for NOTS, designed for tracking orders and visualizing the customer data base.\"",
-  "main": "index.js",
+  "description": "An admin's GUI for NOTS, designed for tracking orders and visualizing the customer data base.",
+  "main": "server.js",
   "scripts": {
-    "test": "npm test",
+    "test": "",
     "start": "cross-env NODE_ENV=production node server/server.js",
     "build": "cross-env NODE_ENV=production webpack",
     "dev": "concurrently \"cross-env NODE_ENV=development nodemon server/server.js\" \"cross-env NODE_ENV=development webpack-dev-server --hot --open\""
@@ -18,7 +18,7 @@
     "dasboard",
     "administrative panel"
   ],
-  "author": "Maxwell X Shick",
+  "author": "Maxwell Shick",
   "license": "UNLICENSED",
   "bugs": {
     "url": "https://github.com/mshick97/NOTS-Admin-Dashboard/issues"
