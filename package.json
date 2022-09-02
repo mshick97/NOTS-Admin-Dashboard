@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "",
-    "start": "cross-env NODE_ENV=production node server/server.js",
+    "start": "node server/server.js",
+    "local-start": "cross-env NODE_ENV=production node server/server.js",
     "build": "cross-env NODE_ENV=production webpack --config ./webpack.config.js",
     "dev": "concurrently \"cross-env NODE_ENV=development nodemon server/server.js\" \"cross-env NODE_ENV=development webpack-dev-server --hot --open\""
   },

@@ -1,4 +1,5 @@
 node_modules
+build
 webflow-btn-code.js
 bcryptUtil
 .env
