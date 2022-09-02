@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import AuthContext from '../context/AuthProvider.jsx';
-import axios from 'axios';
+import useAxiosPrivate from '../hooks/useAxiosPrivate.jsx';
 
 
 const DBEntry = (props) => {
@@ -10,9 +10,10 @@ const DBEntry = (props) => {
   const { auth } = useContext(AuthContext);
   const accessToken = auth.accessToken;
 
+  const axiosPrivate = useAxiosPrivate();
   async function deleteUser() {
     const DELETE_CUSTOMER_URL = '/customers'
-    await axios.delete(DELETE_CUSTOMER_URL, {
+    await axiosPrivate.delete(DELETE_CUSTOMER_URL, {
       headers: {
         'authorization': accessToken
       },

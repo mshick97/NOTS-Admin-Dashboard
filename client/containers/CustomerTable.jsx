@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import AuthContext from '../context/AuthProvider.jsx';
-import useRefreshToken from '../hooks/useRefreshToken.jsx';
-import axios from 'axios';
+import useAxiosPrivate from '../hooks/useAxiosPrivate.jsx';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import DBEntry from "../components/DBEntry.jsx";
@@ -10,29 +10,28 @@ import { debounce } from "debounce";
 
 const CustomerTable = () => {
   const { auth } = useContext(AuthContext);
-  const refreshToken = useRefreshToken();
+  const axiosPrivate = useAxiosPrivate();
   const accessToken = auth.accessToken;
 
   const [customers, setCustomers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [preSearchState, setPreSearchState] = useState([]);
 
+  // If there is an error with the async request and refresh token has expired, navigate user to login but persist their state
+  const navigate = useNavigate();
+  const location = useLocation();
+
   async function getCustomerData() {
     const GET_CUSTOMERS_URL = '/customers';
 
-    await axios.get(GET_CUSTOMERS_URL, {
-      headers: {
-        'authorization': accessToken
-      }
-    })
+    await axiosPrivate.get(GET_CUSTOMERS_URL)
       .then(res => {
         setCustomers(res.data.customers);
         setIsLoading(false);
-        refreshToken();
       })
       .catch(err => {
         console.log(err);
-        refreshToken();
+        navigate('/login', { state: { from: location }, replace: true });
       });
 
     return;
@@ -92,7 +91,7 @@ const CustomerTable = () => {
               const FIND_USER_URL = '/customers/find_user'
               const data = { email: e.target.value };
 
-              axios.post(FIND_USER_URL, data, {
+              axiosPrivate.post(FIND_USER_URL, data, {
                 headers: {
                   'authorization': accessToken
                 }
@@ -104,12 +103,10 @@ const CustomerTable = () => {
 
                 // To rerender the app to go back to the previous table of customers if no results are found
                 if (res.data.foundUser.length === 0 && preSearchState.length !== 0) setCustomers(preSearchState);
-
-                refreshToken();
               })
                 .catch(err => {
                   console.log(err);
-                  refreshToken();
+                  // refreshToken();
                 })
             }, 500)
             }

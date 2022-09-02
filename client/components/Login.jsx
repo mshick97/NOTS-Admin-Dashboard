@@ -9,6 +9,8 @@ import CustomSnackbar from './CustomSnackbar.jsx'
 
 const Login = ({ onSuccess }) => {
   const navigate = useNavigate();
+  const location = useNavigate();
+  const from = location.state?.from?.pathname || '/customers';
 
   // Hooks and functions below for invoking snackbar functionality on login error/ incorrect credentials
   const [open, setOpen] = useState(false);
@@ -56,7 +58,7 @@ const Login = ({ onSuccess }) => {
 
           setAuth({ validLogin, accessToken, firstName, lastName });
           onSuccess(firstName);
-          return navigate('/customers');
+          return navigate(from, { replace: true });
         }
 
         if (res.data === false) {

@@ -39,13 +39,13 @@ adminController.adminLogin = (req, res, next) => {
           const accessToken = jwt.sign(
             { username: searchRes.email },
             process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: '10s' }
+            { expiresIn: '600s' }
           );
 
           const refreshToken = jwt.sign(
             { username: searchRes.email },
             process.env.REFRESH_TOKEN_SECRET,
-            { expiresIn: '5h' }
+            { expiresIn: '1d' }
           );
 
           searchRes.refreshToken = refreshToken; // modifying the search result of the refreshToken property when an admin is found and their password is valid
