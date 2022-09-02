@@ -16,9 +16,9 @@ app.use(cors());
 
 
 // Serve static files
-app.use(express.static(path.join(__dirname, './views/index.html')));
-app.use(express.static(path.join(__dirname, './client/styles')));
-app.use(express.static(path.join(__dirname, './client/images')));
+app.use(express.static(path.resolve(__dirname, '../build')));
+app.use('/css', express.static(path.resolve(__dirname, '../client/styles')));
+app.use(express.static(path.resolve(__dirname, '../client/images')));
 
 
 // JWT authentication middlewares

@@ -6,7 +6,7 @@
   "scripts": {
     "test": "",
     "start": "cross-env NODE_ENV=production node server/server.js",
-    "build": "cross-env NODE_ENV=production webpack",
+    "build": "cross-env NODE_ENV=production webpack --config ./webpack.config.js",
     "dev": "concurrently \"cross-env NODE_ENV=development nodemon server/server.js\" \"cross-env NODE_ENV=development webpack-dev-server --hot --open\""
   },
   "repository": {
@@ -29,7 +29,6 @@
     "@babel/preset-env": "^7.18.2",
     "@babel/preset-react": "^7.17.12",
     "babel-loader": "^8.2.5",
-    "cross-env": "^7.0.3",
     "css-loader": "^6.7.1",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
@@ -53,6 +52,7 @@
     "concurrently": "^7.3.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "debounce": "^1.2.1",
     "dotenv": "^16.0.2",
     "escape-string-regexp": "^5.0.0",
