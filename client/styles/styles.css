@@ -9,6 +9,10 @@ body {
   min-height: 100vh;
 }
 
+#homeButton {
+  cursor: pointer;
+}
+
 #loginContainer {
   display: flex;
   flex-direction: column;

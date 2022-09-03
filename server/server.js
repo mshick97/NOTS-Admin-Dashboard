@@ -25,7 +25,7 @@ app.use(express.static(path.resolve(__dirname, '../client/images')));
 const { verifyAccessJWT, handleRefreshToken } = require('./controllers/authenticationController.js');
 
 // The primary requests coming in from a customer purchase
-app.use('/purchase', require('./routes/webflowRoutes'));
+app.use('/webflow', require('./routes/webflowRoutes'));
 app.use('/auth', require('./routes/authRoutes'));
 app.use('/refresh', handleRefreshToken);
 
