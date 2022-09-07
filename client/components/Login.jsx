@@ -7,7 +7,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import CustomSnackbar from './CustomSnackbar.jsx'
 
-const Login = ({ onSuccess }) => {
+const Login = () => {
   const navigate = useNavigate();
   const location = useNavigate();
   const from = location.state?.from?.pathname || '/customers';
@@ -57,7 +57,6 @@ const Login = ({ onSuccess }) => {
           const lastName = res?.data?.adminName?.lastName;
 
           setAuth({ validLogin, accessToken, firstName, lastName });
-          onSuccess(firstName);
           return navigate(from, { replace: true });
         }
 
