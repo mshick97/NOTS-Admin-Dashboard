@@ -81,7 +81,7 @@ customerController.deleteUser = (req, res, next) => {
     });
 
     if (deleteRes) {
-      res.locals.didDelete = 'Successfully deleted user';
+      res.locals.didDelete = true;
       return next();
     }
 

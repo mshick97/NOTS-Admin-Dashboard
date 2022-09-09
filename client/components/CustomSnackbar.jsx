@@ -11,7 +11,6 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 // Note: severity levels for snackbar are "error"(red), "warning"(orange), "info"(blue), "success"(green)
 export default function CustomSnackbar(props) {
   const {
-    openSnackbar,
     handleSnackbarClose,
     message,
     severity,
@@ -20,7 +19,7 @@ export default function CustomSnackbar(props) {
   return (
     <Stack spacing={2} sx={{ width: '100%' }}>
 
-      <Snackbar open={openSnackbar} autoHideDuration={5000} onClose={handleSnackbarClose}>
+      <Snackbar open={true} autoHideDuration={5000} onClose={handleSnackbarClose}>
         <Alert onClose={handleSnackbarClose} severity={severity} sx={{ width: '100%' }}>
           {message}
         </Alert>

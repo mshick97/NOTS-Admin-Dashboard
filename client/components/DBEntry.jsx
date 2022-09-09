@@ -2,8 +2,8 @@ import React from 'react';
 import { useNavigate, useLocation } from "react-router-dom";
 import useAxiosPrivate from '../hooks/useAxiosPrivate.jsx';
 
-
 const DBEntry = (props) => {
+  const { openSnackbar } = props;
   const { userId, getCustomerData } = props; // for async function
   const { name, email, street1, street2, city, state, zip } = props;
 
@@ -17,7 +17,14 @@ const DBEntry = (props) => {
       data: {
         source: userId
       }
-    }).then(() => getCustomerData())
+    }).then(() => {
+      openSnackbar(`User with email ${email} deleted`, 'success');
+      getCustomerData()
+    })
+      .catch(err => {
+        console.log(err);
+        if (err.response.status === 403) navigate('/login', { state: { from: location }, replace: true });
+      });
   }
 
   return (

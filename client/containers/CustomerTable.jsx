@@ -6,14 +6,31 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import DBEntry from "../components/DBEntry.jsx";
 import TextField from '@mui/material/TextField';
+import CustomSnackbar from '../components/CustomSnackbar.jsx';
 import { debounce } from "debounce";
 
 const CustomerTable = () => {
   const axiosPrivate = useAxiosPrivate();
 
+  // For managing customers from getCustomerData function and findUser function
   const [customers, setCustomers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [preSearchState, setPreSearchState] = useState([]);
+
+  // For custom snackbar
+  const [open, setOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('');
+
+  const openSnackbar = (message, severity) => {
+    setSnackbarMessage(message);
+    setSnackbarSeverity(severity);
+    setOpen(true);
+  }
+
+  const handleSnackbarClose = (event, reason) => {
+    setOpen(false);
+  };
 
   // If there is an error with the async request and refresh token has expired, navigate user to login but persist their state
   const navigate = useNavigate();
@@ -29,7 +46,7 @@ const CustomerTable = () => {
       })
       .catch(err => {
         console.log(err);
-        navigate('/login', { state: { from: location }, replace: true });
+        if (err.response.status === 403) navigate('/login', { state: { from: location }, replace: true });
       });
 
     return;
@@ -51,7 +68,7 @@ const CustomerTable = () => {
       })
       .catch(err => {
         console.log(err);
-        navigate('/login', { state: { from: location }, replace: true });
+        if (err.response.status === 403) navigate('/login', { state: { from: location }, replace: true });
       })
   }
 
@@ -87,6 +104,7 @@ const CustomerTable = () => {
           state={customer.state}
           zip={customer.zip}
           getCustomerData={() => getCustomerData()}
+          openSnackbar={openSnackbar}
         />
       )
     });
@@ -126,6 +144,13 @@ const CustomerTable = () => {
           <h5 className="tableHeading">Zip</h5>
         </div>
         {dbArray}
+
+        {open ? <CustomSnackbar
+          handleSnackbarClose={handleSnackbarClose}
+          message={snackbarMessage}
+          severity={snackbarSeverity}
+        /> : null}
+
       </div>
     )
   }

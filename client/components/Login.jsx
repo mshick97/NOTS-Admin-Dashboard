@@ -22,9 +22,6 @@ const Login = () => {
   }
 
   const handleSnackbarClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
     setOpen(false);
   };
 
@@ -120,7 +117,6 @@ const Login = () => {
       </Box >
 
       {open ? <CustomSnackbar
-        openSnackbar={openSnackbar}
         handleSnackbarClose={handleSnackbarClose}
         message={snackbarMessage}
         severity={snackbarSeverity}
