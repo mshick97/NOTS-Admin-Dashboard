@@ -1,14 +1,12 @@
-import React, { useState } from 'react'
-import { useNavigate, useLocation } from "react-router-dom";
-import { useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
+import useErrorRedirect from "../hooks/useErrorRedirect.jsx";
 import useAxiosPrivate from '../hooks/useAxiosPrivate.jsx';
 
 const OrdersContainer = () => {
   const axiosPrivate = useAxiosPrivate();
-  const [orders, setOrders] = useState([]);
+  const redirect = useErrorRedirect();
 
-  const navigate = useNavigate();
-  const location = useLocation();
+  const [orders, setOrders] = useState([]);
 
   async function getOrderData() {
     const GET_ORDERS_URL = '/orders';
@@ -20,7 +18,7 @@ const OrdersContainer = () => {
       })
       .catch(err => {
         console.log(err);
-        if (err.response.status === 403) navigate('/login', { state: { from: location }, replace: true });
+        redirect(err);
       });
   }
 

@@ -9,7 +9,7 @@ Router.get('/', getAllCustomers, (req, res) => {
   return res.status(200).json(res.locals);
 });
 
-Router.delete('/', deleteUser, (req, res) => {
+Router.delete('/:id', deleteUser, (req, res) => {
   console.log('returning: customerController.deleteUser');
   return res.status(200).json(res.locals);
 });

@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useContext } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import AuthContext from '../context/AuthProvider.jsx';
+import React, { useState, useEffect } from "react";
 import useAxiosPrivate from '../hooks/useAxiosPrivate.jsx';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import DBEntry from "../components/DBEntry.jsx";
 import TextField from '@mui/material/TextField';
 import CustomSnackbar from '../components/CustomSnackbar.jsx';
+import useErrorRedirect from "../hooks/useErrorRedirect.jsx";
 import { debounce } from "debounce";
 
 const CustomerTable = () => {
   const axiosPrivate = useAxiosPrivate();
+  const redirect = useErrorRedirect();
 
   // For managing customers from getCustomerData function and findUser function
   const [customers, setCustomers] = useState([]);
@@ -32,10 +32,6 @@ const CustomerTable = () => {
     setOpen(false);
   };
 
-  // If there is an error with the async request and refresh token has expired, navigate user to login but persist their state
-  const navigate = useNavigate();
-  const location = useLocation();
-
   async function getCustomerData() {
     const GET_CUSTOMERS_URL = '/customers';
 
@@ -46,7 +42,7 @@ const CustomerTable = () => {
       })
       .catch(err => {
         console.log(err);
-        if (err.response.status === 403) navigate('/login', { state: { from: location }, replace: true });
+        redirect(err);
       });
 
     return;
@@ -68,8 +64,8 @@ const CustomerTable = () => {
       })
       .catch(err => {
         console.log(err);
-        if (err.response.status === 403) navigate('/login', { state: { from: location }, replace: true });
-      })
+        redirect(err);
+      });
   }
 
   useEffect(() => {

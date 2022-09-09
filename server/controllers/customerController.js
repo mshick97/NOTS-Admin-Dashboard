@@ -72,7 +72,7 @@ customerController.findUser = (req, res, next) => {
 
 customerController.deleteUser = (req, res, next) => {
   // axios has a very specific way of formating delete requests: find user id at req.body.source
-  const userId = req.body.source;
+  const userId = req.params.id;
 
   Customer.deleteOne({ _id: userId }, (err, deleteRes) => {
     if (err) return next({
@@ -87,8 +87,7 @@ customerController.deleteUser = (req, res, next) => {
 
     // Unsure when this would ever fire, but don't want to risk breaking next chain
     if (!deleteRes) return next();
-  })
-  return next();
+  });
 }
 
 customerController.updateUser = (req, res, next) => {

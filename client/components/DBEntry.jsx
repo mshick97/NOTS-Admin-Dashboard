@@ -1,29 +1,27 @@
 import React from 'react';
-import { useNavigate, useLocation } from "react-router-dom";
 import useAxiosPrivate from '../hooks/useAxiosPrivate.jsx';
+import useErrorRedirect from "../hooks/useErrorRedirect.jsx";
 
 const DBEntry = (props) => {
+  const axiosPrivate = useAxiosPrivate();
+  const redirect = useErrorRedirect();
+
   const { openSnackbar } = props;
   const { userId, getCustomerData } = props; // for async function
   const { name, email, street1, street2, city, state, zip } = props;
 
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const axiosPrivate = useAxiosPrivate();
   async function deleteUser() {
-    const DELETE_CUSTOMER_URL = '/customers'
-    await axiosPrivate.delete(DELETE_CUSTOMER_URL, {
-      data: {
-        source: userId
-      }
-    }).then(() => {
-      openSnackbar(`User with email ${email} deleted`, 'success');
-      getCustomerData()
-    })
+    const DELETE_CUSTOMER_URL = `/customers/${userId}`;
+
+    await axiosPrivate.delete(DELETE_CUSTOMER_URL)
+      .then(() => {
+        openSnackbar(`User with email ${email} deleted`, 'success');
+        getCustomerData()
+      })
       .catch(err => {
         console.log(err);
-        if (err.response.status === 403) navigate('/login', { state: { from: location }, replace: true });
+        openSnackbar('Error deleting user from database', 'error');
+        redirect(err);
       });
   }
 
