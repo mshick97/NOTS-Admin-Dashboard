@@ -32,6 +32,7 @@ app.use('/refresh', handleRefreshToken);
 // Every API below must include an access token to access
 app.use(verifyAccessJWT);
 app.use('/customers', require('./routes/customersRoutes'));
+app.use('/orders', require('./routes/ordersRoutes'));
 
 
 // Catch all for invalid endpoint requests

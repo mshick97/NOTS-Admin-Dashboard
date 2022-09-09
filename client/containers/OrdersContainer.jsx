@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect } from 'react';
 import useAxiosPrivate from '../hooks/useAxiosPrivate.jsx';
 
@@ -6,13 +7,20 @@ const OrdersContainer = () => {
   const axiosPrivate = useAxiosPrivate();
   const [orders, setOrders] = useState([]);
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
   async function getOrderData() {
-    const GET_ORDERS_URL = '/webflow';
+    const GET_ORDERS_URL = '/orders';
 
     await axiosPrivate.get(GET_ORDERS_URL)
       .then(orders => {
         console.log(orders.data)
         setOrders(orders.data);
+      })
+      .catch(err => {
+        console.log(err);
+        navigate('/login', { state: { from: location }, replace: true });
       });
   }
 

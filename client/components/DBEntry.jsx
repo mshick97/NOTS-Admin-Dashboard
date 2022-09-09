@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import AuthContext from '../context/AuthProvider.jsx';
+import React from 'react';
+import { useNavigate, useLocation } from "react-router-dom";
 import useAxiosPrivate from '../hooks/useAxiosPrivate.jsx';
 
 
@@ -7,16 +7,13 @@ const DBEntry = (props) => {
   const { userId, getCustomerData } = props; // for async function
   const { name, email, street1, street2, city, state, zip } = props;
 
-  const { auth } = useContext(AuthContext);
-  const accessToken = auth.accessToken;
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const axiosPrivate = useAxiosPrivate();
   async function deleteUser() {
     const DELETE_CUSTOMER_URL = '/customers'
     await axiosPrivate.delete(DELETE_CUSTOMER_URL, {
-      headers: {
-        'authorization': accessToken
-      },
       data: {
         source: userId
       }

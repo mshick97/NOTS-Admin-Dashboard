@@ -9,9 +9,7 @@ import TextField from '@mui/material/TextField';
 import { debounce } from "debounce";
 
 const CustomerTable = () => {
-  const { auth } = useContext(AuthContext);
   const axiosPrivate = useAxiosPrivate();
-  const accessToken = auth.accessToken;
 
   const [customers, setCustomers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -35,6 +33,26 @@ const CustomerTable = () => {
       });
 
     return;
+  }
+
+  async function findUser(e) {
+    const FIND_USER_URL = '/customers/find_user'
+    const data = { email: e.target.value };
+
+    await axiosPrivate.post(FIND_USER_URL, data)
+      .then(res => {
+        if (res.data.foundUser.length > 0) {
+          setPreSearchState(customers);
+          setCustomers(res.data.foundUser);
+        }
+
+        // To rerender the app to go back to the previous table of customers if no results are found
+        if (res.data.foundUser.length === 0 && preSearchState.length !== 0) setCustomers(preSearchState);
+      })
+      .catch(err => {
+        console.log(err);
+        navigate('/login', { state: { from: location }, replace: true });
+      })
   }
 
   useEffect(() => {
@@ -85,29 +103,9 @@ const CustomerTable = () => {
             autoComplete="off"
             id='searchForm'
           >
-            <TextField id="outlined-basic" label="Search by email" variant="outlined" onChange={debounce(e => {
-              e.preventDefault();
-
-              const FIND_USER_URL = '/customers/find_user'
-              const data = { email: e.target.value };
-
-              axiosPrivate.post(FIND_USER_URL, data, {
-                headers: {
-                  'authorization': accessToken
-                }
-              }).then(res => {
-                if (res.data.foundUser.length > 0) {
-                  setPreSearchState(customers);
-                  setCustomers(res.data.foundUser);
-                }
-
-                // To rerender the app to go back to the previous table of customers if no results are found
-                if (res.data.foundUser.length === 0 && preSearchState.length !== 0) setCustomers(preSearchState);
-              })
-                .catch(err => {
-                  console.log(err);
-                  // refreshToken();
-                })
+            <TextField id="outlined-basic" label="Search by email" variant="outlined" onChange={debounce((e) => {
+              // e.preventDefault();
+              findUser(e);
             }, 500)
             }
             />
