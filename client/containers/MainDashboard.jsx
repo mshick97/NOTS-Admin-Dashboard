@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route, useNavigate } from "react-router-dom";
 import OverviewContainer from './OverviewContainer.jsx';
 import OrdersContainer from './OrdersContainer.jsx';
-import CustomerTable from './CustomerTable.jsx';
+import CustomTable from './CustomTable.jsx';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 
@@ -25,7 +25,7 @@ const Dashboard = () => {
         <Routes>
           <Route path='/overview' element={<OverviewContainer />} />
           <Route path='/orders' element={<OrdersContainer />} />
-          <Route path='/customers' element={<CustomerTable />} />
+          <Route path='/customers' element={<CustomTable />} />
         </Routes>
       </div>
     </div>

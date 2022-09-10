@@ -53,10 +53,11 @@ module.exports = {
       favicon: './client/images/favicon.ico'
     }),
     new SourceMapDevToolPlugin({
-      filename: "index.js.map"
+      // filename: "index.js.map"
     })
   ],
   devServer: {
+    historyApiFallback: true,
     static: {
       directory: path.resolve(__dirname, 'build')
     },

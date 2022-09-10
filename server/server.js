@@ -9,16 +9,21 @@ const PORT = 3000;
 
 // Parsing each request that comes into server
 connectDB();
-app.use(express.json());
-app.use(cookieParser());
-app.use(express.urlencoded({ extended: true })); // url encoded form data
 app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // url encoded form data
+app.use(cookieParser());
 
 
-// Serve static files
+// Serving static files
 app.use(express.static(path.resolve(__dirname, '../build')));
 app.use('/css', express.static(path.resolve(__dirname, '../client/styles')));
-app.use(express.static(path.resolve(__dirname, '../client/images')));
+
+// For handling React Router routes in production
+app.use('/login', (req, res) => res.sendFile(path.join(__dirname, '../build/index.html')));
+app.use('/overview', (req, res) => res.sendFile(path.join(__dirname, '../build/index.html')));
+app.use('/orders', (req, res) => res.sendFile(path.join(__dirname, '../build/index.html')));
+app.use('/customers', (req, res) => res.sendFile(path.join(__dirname, '../build/index.html')));
 
 
 // JWT authentication middlewares
@@ -31,8 +36,9 @@ app.use('/refresh', handleRefreshToken);
 
 // Every API below must include an access token to access
 app.use(verifyAccessJWT);
-app.use('/customers', require('./routes/customersRoutes'));
-app.use('/orders', require('./routes/ordersRoutes'));
+app.use('/overview_data', require('./routes/overviewRoutes'));
+app.use('/order_info', require('./routes/ordersRoutes'));
+app.use('/users', require('./routes/customersRoutes'));
 
 
 // Catch all for invalid endpoint requests
@@ -54,4 +60,3 @@ app.use((err, req, res) => {
 
 // first part of string until %s changes console log color to cyan; characters after resets the color back to normal
 app.listen(PORT, () => console.log('\x1b[36m%s\x1b[0m', `Server is listening on port: ${PORT}`));
-
