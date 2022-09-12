@@ -1,4 +1,5 @@
 const path = require('path');
+const firebaseFunctions = require('firebase-functions');
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -60,3 +61,5 @@ app.use((err, req, res) => {
 
 // first part of string until %s changes console log color to cyan; characters after resets the color back to normal
 app.listen(PORT, () => console.log('\x1b[36m%s\x1b[0m', `Server is listening on port: ${PORT}`));
+
+exports.app = firebaseFunctions.https.onRequest(app);
