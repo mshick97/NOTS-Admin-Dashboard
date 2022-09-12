@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate } from "react-router-dom";
 import useAuth from '../hooks/useAuth.jsx';
-import axios from '../api/axios';
+import { axiosPublic } from '../api/axios';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -44,7 +44,7 @@ const Login = () => {
       return openSnackbar();
     }
 
-    axios.post(LOGIN_URL,
+    axiosPublic.post(LOGIN_URL,
       { email: email, password: password }, { withCredentials: true })
       .then(res => {
         if (res.data.validLogin === true) {
