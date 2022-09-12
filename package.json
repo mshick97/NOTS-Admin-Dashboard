@@ -2,13 +2,13 @@
   "name": "NOTS-Hair-Admin-Dashboard",
   "version": "1.0.0",
   "description": "An admin's GUI for NOTS, designed for tracking orders and visualizing the customer data base.",
-  "main": "server.js",
+  "main": "functions/index.js",
   "scripts": {
     "test": "",
-    "start": "node server/server.js",
-    "local-start": "cross-env NODE_ENV=production node server/server.js",
+    "start": "node functions/index.js",
+    "local-start": "cross-env NODE_ENV=production node functions/index.js",
     "build": "cross-env NODE_ENV=production webpack --config ./webpack.config.js",
-    "dev": "concurrently \"cross-env NODE_ENV=development nodemon server/server.js\" \"cross-env NODE_ENV=development webpack-dev-server --hot --open\""
+    "dev": "concurrently \"cross-env NODE_ENV=development nodemon functions/index.js\" \"cross-env NODE_ENV=development webpack-dev-server --hot --open\""
   },
   "repository": {
     "type": "git",
