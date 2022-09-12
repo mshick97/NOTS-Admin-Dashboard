@@ -11,6 +11,7 @@ const PORT = 80;
 // Parsing each request that comes into server
 connectDB();
 app.use(cors({ origin: true }));
+app.options('*', cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // url encoded form data
 app.use(cookieParser());
