@@ -17,14 +17,14 @@ app.use(cookieParser());
 
 
 // Serving static files
-app.use(express.static(path.resolve(__dirname, '../build')));
-app.use('/css', express.static(path.resolve(__dirname, '../client/styles')));
+app.use(express.static(path.resolve(__dirname, './build')));
+app.use('/css', express.static(path.resolve(__dirname, '../build')));
 
 // For handling React Router routes in production
-app.use('/login', (req, res) => res.sendFile(path.join(__dirname, '../build/index.html')));
-app.use('/overview', (req, res) => res.sendFile(path.join(__dirname, '../build/index.html')));
-app.use('/orders', (req, res) => res.sendFile(path.join(__dirname, '../build/index.html')));
-app.use('/customers', (req, res) => res.sendFile(path.join(__dirname, '../build/index.html')));
+app.use('/login', (req, res) => res.sendFile(path.join(__dirname, './build/index.html')));
+app.use('/overview', (req, res) => res.sendFile(path.join(__dirname, './build/index.html')));
+app.use('/orders', (req, res) => res.sendFile(path.join(__dirname, './build/index.html')));
+app.use('/customers', (req, res) => res.sendFile(path.join(__dirname, './build/index.html')));
 
 
 // JWT authentication middlewares
