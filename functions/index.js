@@ -2,7 +2,7 @@ const path = require('path');
 const firebaseFunctions = require('firebase-functions');
 const express = require('express');
 const app = express();
-const cors = require('cors');
+const cors = require('cors')({ origin: 'https://nots-admin-dashboard.web.app' });
 const cookieParser = require('cookie-parser');
 const connectDB = require('./config/DBConnect');
 const PORT = 80;
@@ -10,8 +10,7 @@ const PORT = 80;
 
 // Parsing each request that comes into server
 connectDB();
-app.use(cors({ origin: 'https://nots-admin-dashboard.web.app' }));
-app.options('*', cors());
+app.use(cors);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // url encoded form data
 app.use(cookieParser());
