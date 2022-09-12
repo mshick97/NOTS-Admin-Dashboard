@@ -45,7 +45,7 @@ const Login = () => {
     }
 
     axiosPublic.post(LOGIN_URL,
-      { email: email, password: password }, { withCredentials: true })
+      { email: email, password: password }, { withCredentials: false })
       .then(res => {
         if (res.data.validLogin === true) {
           const validLogin = res?.data?.validLogin;
