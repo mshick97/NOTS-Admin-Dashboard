@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt-js');
 const jwt = require('jsonwebtoken');
 const { secret } = require('../bcryptUtil/saltAndSecret');
 const Admin = require('../models/adminModel').Admin;

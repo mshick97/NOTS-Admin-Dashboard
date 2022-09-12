@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt-js');
 const { saltRounds, secret } = require('./saltAndSecret');
 
 const authenticationController = {};
