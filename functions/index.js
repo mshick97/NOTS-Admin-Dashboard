@@ -5,7 +5,7 @@ const app = express();
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const connectDB = require('./config/DBConnect');
-const PORT = 3000;
+const PORT = 80;
 
 
 // Parsing each request that comes into server
@@ -60,6 +60,6 @@ app.use((err, req, res) => {
 });
 
 // first part of string until %s changes console log color to cyan; characters after resets the color back to normal
-app.listen(PORT, () => console.log('\x1b[36m%s\x1b[0m', `Server is listening on port: ${PORT}`));
+// app.listen(PORT, () => console.log('\x1b[36m%s\x1b[0m', `Server is listening on port: ${PORT}`));
 
-exports.app = firebaseFunctions.https.onRequest(app);
+exports.server = firebaseFunctions.https.onRequest(app);

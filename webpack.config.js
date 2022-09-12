@@ -65,7 +65,7 @@ module.exports = {
     compress: true,
     hot: true,
     proxy: {
-      '/**': 'http://localhost:3000'
+      '/**': 'http://localhost:80'
     },
     watchFiles: ['client'],
   },
