@@ -64,8 +64,3 @@ app.use((err, req, res) => {
 process.env.NODE_ENV === 'development' ?
   app.listen(PORT, () => console.log('\x1b[36m%s\x1b[0m', `Server is listening on port: ${PORT}`)) :
   exports.server = firebaseFunctions.https.onRequest(app);
-
-// // first part of string until %s changes console log color to cyan; characters after resets the color back to normal
-// // app.listen(PORT, () => console.log('\x1b[36m%s\x1b[0m', `Server is listening on port: ${PORT}`));
-
-// exports.server = firebaseFunctions.https.onRequest(app);
