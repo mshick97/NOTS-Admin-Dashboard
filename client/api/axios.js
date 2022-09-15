@@ -11,5 +11,5 @@ export const axiosPrivate = axios.create({
   baseURL: BASE_URL,
   // baseURL: 'http://localhost:3000',
   headers: { 'Content-Type': 'application/json' },
-  withCredentials: false
+  withCredentials: true
 });
