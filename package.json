@@ -4,11 +4,12 @@
   "description": "An admin's GUI for NOTS, designed for tracking orders and visualizing the customer data base.",
   "main": "functions/index.js",
   "scripts": {
-    "test": "",
     "start": "node functions/index.js",
-    "local-start": "cross-env NODE_ENV=production node functions/index.js",
+    "production-start": "cross-env NODE_ENV=production node functions/index.js",
     "build": "cross-env NODE_ENV=production webpack --config ./webpack.config.js",
-    "dev": "concurrently \"cross-env NODE_ENV=development nodemon functions/index.js\" \"cross-env NODE_ENV=development webpack-dev-server --hot --open\""
+    "dev": "concurrently \"cross-env NODE_ENV=development nodemon functions/index.js\" \"cross-env NODE_ENV=development webpack-dev-server --hot --open\"",
+    "docker-build": "docker build --tag nots .",
+    "docker-run": "docker run --publish 3000:3000 nots"
   },
   "repository": {
     "type": "git",

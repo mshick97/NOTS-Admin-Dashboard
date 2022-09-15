@@ -1,2 +1,0 @@
-docker build --tag nots .
-docker run --publish 3000:3000 nots
