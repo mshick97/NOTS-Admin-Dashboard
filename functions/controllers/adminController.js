@@ -1,6 +1,5 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { secret } = require('../bcryptUtil/saltAndSecret');
 const Admin = require('../models/adminModel').Admin;
 require('dotenv').config();
 
@@ -26,7 +25,7 @@ adminController.adminLogin = (req, res, next) => {
     if (searchRes) {
       const hashedPassword = searchRes.password;
 
-      await bcrypt.compare(password + secret, hashedPassword, async function (error, result) {
+      await bcrypt.compare(password + process.env.BCRYPT_SECRET, hashedPassword, async function (error, result) {
         if (error) {
           return next({
             log: err,
