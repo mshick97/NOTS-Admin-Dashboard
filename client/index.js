@@ -6,7 +6,7 @@ import { disableReactDevTools } from '@fvilers/disable-react-devtools';
 require('dotenv').config();
 import App from './App.jsx';
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV !== 'development') {
   disableReactDevTools();
 }
 
