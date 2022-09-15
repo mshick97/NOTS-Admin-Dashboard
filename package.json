@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node functions/index.js",
     "production-start": "cross-env NODE_ENV=production node functions/index.js",
+    "development-start": "cross-env NODE_ENV=development node functions/index.js",
     "build": "cross-env NODE_ENV=production webpack --config ./webpack.config.js",
     "dev": "concurrently \"cross-env NODE_ENV=development nodemon functions/index.js\" \"cross-env NODE_ENV=development webpack-dev-server --hot --open\"",
     "docker-build": "docker build --tag nots .",

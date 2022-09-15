@@ -6,7 +6,6 @@ import Login from './components/Login.jsx'
 import Dashboard from './containers/MainDashboard.jsx';
 import RequireAuth from './components/RequireAuth.jsx';
 
-
 const App = () => {
   const { auth } = useContext(AuthContext);
   const navigate = useNavigate();

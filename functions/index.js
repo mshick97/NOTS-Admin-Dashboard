@@ -6,7 +6,7 @@ const cors = require('cors')({ origin: 'https://nots-admin-dashboard.web.app' })
 const cookieParser = require('cookie-parser');
 const connectDB = require('./config/DBConnect');
 require('dotenv').config();
-const PORT = 80;
+const PORT = 3000;
 
 
 // Parsing each request that comes into server
