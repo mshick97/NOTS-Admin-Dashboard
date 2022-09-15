@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import { BrowserRouter, HashRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthProvider.jsx';
 import { disableReactDevTools } from '@fvilers/disable-react-devtools';
+require('dotenv').config();
 import App from './App.jsx';
 
 if (process.env.NODE_ENV === 'production') {

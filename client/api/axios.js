@@ -1,4 +1,5 @@
 import axios from "axios";
+require('dotenv').config();
 
 const BASE_URL = process.env.NODE_ENV === 'development' ? '' : 'https://us-central1-nots-admin-dashboard.cloudfunctions.net/server';
 
