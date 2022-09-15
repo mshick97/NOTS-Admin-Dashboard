@@ -12,9 +12,13 @@ const PORT = 3000;
 // Defining allowed origins and handling CORS
 const allowedOrigins = [
   'https://nots-admin-dashboard.web.app',
+  'https://nots-admin-dashboard.web.app/',
   'https://nots-admin-dashboard.firebaseapp.com',
+  'https://nots-admin-dashboard.firebaseapp.com/',
   'https://admin.notshair.com',
-  'https://www.admin.notshair.com'
+  'https://admin.notshair.com/',
+  'https://www.admin.notshair.com',
+  'https://www.admin.notshair.com/'
 ];
 
 const corsOptions = {
