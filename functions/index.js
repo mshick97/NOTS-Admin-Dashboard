@@ -5,6 +5,7 @@ const app = express();
 const cors = require('cors')({ origin: 'https://nots-admin-dashboard.web.app' });
 const cookieParser = require('cookie-parser');
 const connectDB = require('./config/DBConnect');
+require('dotenv').config();
 const PORT = 80;
 
 
