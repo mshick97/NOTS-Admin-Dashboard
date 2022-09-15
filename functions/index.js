@@ -30,6 +30,7 @@ const corsOptions = {
 
 // Parsing each request that comes into server
 connectDB();
+// app.use(cors());
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // url encoded form data
