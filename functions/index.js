@@ -50,18 +50,13 @@ app.use('/orders', (req, res) => res.sendFile(path.join(__dirname, './build/inde
 app.use('/customers', (req, res) => res.sendFile(path.join(__dirname, './build/index.html')));
 
 
-// JWT authentication middlewares
-const { verifyAccessJWT, handleRefreshToken } = require('./controllers/authenticationController.js');
-
 // The primary requests coming in from a customer purchase
 app.use('/webflow', require('./routes/webflowRoutes'));
 app.use('/auth', require('./routes/authRoutes'));
-app.use('/refresh', (req, res, next) => {
-  return handleRefreshToken(req, res, next)
-});
+app.use('/refresh', require('./controllers/authenticationController.js').handleRefreshToken); // For refreshing the access token
 
 // Every API below must include an access token to access
-app.use(verifyAccessJWT);
+app.use(require('./controllers/authenticationController.js').verifyAccessJWT);
 app.use('/overview_data', require('./routes/overviewRoutes'));
 app.use('/order_info', require('./routes/ordersRoutes'));
 app.use('/users', require('./routes/customersRoutes'));

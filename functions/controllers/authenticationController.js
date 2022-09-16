@@ -22,10 +22,10 @@ authenticationController.verifyAccessJWT = (req, res, next) => {
 
 authenticationController.handleRefreshToken = (req, res, next) => {
   const cookies = req.cookies;
-  if (!cookies['jwt']) return res.status(401); // if no cookie with a key of jwt is passed in
+  if (!cookies['jwt']) return res.status(401).end(); // if no cookie with a key of jwt is passed in
 
   const refreshToken = cookies.jwt;
-  Admin.findOne({ refreshToken: refreshToken }, (err, tokenRes) => {
+  Admin.find({ refreshToken: refreshToken }, (err, tokenRes) => {
     if (err) {
       return next({
         log: 'Error has occurred in the handleRefreshToken middleware in authenticationController',
@@ -36,7 +36,7 @@ authenticationController.handleRefreshToken = (req, res, next) => {
 
     if (!tokenRes) {
       res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true })
-      return res.sendStatus(403);
+      return res.status(403).end();
     }
 
     if (tokenRes) {
