@@ -56,7 +56,9 @@ const { verifyAccessJWT, handleRefreshToken } = require('./controllers/authentic
 // The primary requests coming in from a customer purchase
 app.use('/webflow', require('./routes/webflowRoutes'));
 app.use('/auth', require('./routes/authRoutes'));
-app.use('/refresh', handleRefreshToken);
+app.use('/refresh', (req, res, next) => {
+  return handleRefreshToken(req, res, next)
+});
 
 // Every API below must include an access token to access
 app.use(verifyAccessJWT);
