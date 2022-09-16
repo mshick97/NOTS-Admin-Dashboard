@@ -8,9 +8,13 @@
     ],
     "rewrites": [
       {
-        "source": "/server",
+        "source": "**",
         "function": "server",
         "destination": "/index.html"
+      },
+      {
+        "source": "/server",
+        "function": "server"
       }
     ]
   },
