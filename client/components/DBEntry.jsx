@@ -11,7 +11,7 @@ const DBEntry = (props) => {
   const { name, email, street1, street2, city, state, zip } = props;
 
   async function deleteUser() {
-    const DELETE_CUSTOMER_URL = `/customers/${userId}`;
+    const DELETE_CUSTOMER_URL = `/server/customers/${userId}`;
 
     await axiosPrivate.delete(DELETE_CUSTOMER_URL)
       .then(() => {
