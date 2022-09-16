@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const firebaseAdmin = require('firebase-admin');
 const Admin = require('../models/adminModel').Admin;
 require('dotenv').config();
 
@@ -46,8 +47,24 @@ adminController.adminLogin = (req, res, next) => {
             { username: searchRes.email },
             process.env.REFRESH_TOKEN_SECRET,
             // { expiresIn: '1d' }
-            { expiresIn: '10s' }
+            { expiresIn: '15s' }
           );
+
+          const expiresIn = 24 * 60 * 60 * 1000; // setting max age to one day
+          // await firebaseAdmin.auth().createSessionCookie(searchRes.email, { expiresIn })
+          //   .then(async (sessionCookie) => {
+          //     searchRes.refreshToken = sessionCookie; // modifying the search result of the refreshToken property when an admin is found and their password is valid
+          //     await searchRes.save(); // native method from mongoose allows you to save a document after modifying instead of having to re-query
+
+          //     res.locals.isAdmin = {
+          //       validLogin: true,
+          //       accessToken: accessToken,
+          //       adminName: { firstName: searchRes.firstName, lastName: searchRes.lastName }
+          //     };
+
+          //     res.cookie('__session', sessionCookie, { httpOnly: true, secure: true, maxAge: expiresIn });
+          //     return next();
+          //   });
 
           searchRes.refreshToken = refreshToken; // modifying the search result of the refreshToken property when an admin is found and their password is valid
           await searchRes.save(); // native method from mongoose allows you to save a document after modifying instead of having to re-query
@@ -58,7 +75,7 @@ adminController.adminLogin = (req, res, next) => {
             adminName: { firstName: searchRes.firstName, lastName: searchRes.lastName }
           };
 
-          res.cookie('jwt', refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 }); // setting max age to one day + sending back the refresh token as the cookie + not accessible by JS
+          res.cookie('__session', refreshToken, { httpOnly: true, secure: true, maxAge: 24 * 60 * 60 * 1000 }); // setting max age to one day + sending back the refresh token as the cookie + not accessible by JS
           return next();
         }
 

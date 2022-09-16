@@ -22,9 +22,9 @@ authenticationController.verifyAccessJWT = (req, res, next) => {
 
 authenticationController.handleRefreshToken = (req, res, next) => {
   const cookies = req.cookies;
-  if (!cookies['jwt']) return res.status(401).end(); // if no cookie with a key of jwt is passed in
+  if (!cookies['__session']) return res.sendStatus(401); // if no cookie with a key of jwt is passed in
 
-  const refreshToken = cookies.jwt;
+  const refreshToken = cookies.__session;
   Admin.find({ refreshToken: refreshToken }, (err, tokenRes) => {
     if (err) {
       return next({
@@ -35,8 +35,8 @@ authenticationController.handleRefreshToken = (req, res, next) => {
     }
 
     if (!tokenRes) {
-      res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true })
-      return res.status(403).end();
+      res.clearCookie('__session', { httpOnly: true, sameSite: 'None', secure: true })
+      return res.sendStatus(403);
     }
 
     if (tokenRes) {

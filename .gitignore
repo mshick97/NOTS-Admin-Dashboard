@@ -6,3 +6,4 @@ package-lock.json
 .firebase
 .firebaserc
 firebase-debug.log
+adminSDKCreds.json

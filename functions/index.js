@@ -1,11 +1,17 @@
 const path = require('path');
 const firebaseFunctions = require('firebase-functions');
+const firebaseAdmin = require('firebase-admin');
+const adminSDKCreds = require('./adminSDKCreds.json');
 const express = require('express');
 const app = express();
 const cookieParser = require('cookie-parser');
 const connectDB = require('./config/DBConnect');
 require('dotenv').config();
 const PORT = 3000;
+
+firebaseAdmin.initializeApp({
+  credential: firebaseAdmin.credential.cert(adminSDKCreds)
+});
 
 
 // Defining allowed origins and handling CORS
