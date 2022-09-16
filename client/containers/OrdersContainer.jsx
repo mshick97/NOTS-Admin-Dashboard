@@ -9,7 +9,7 @@ const OrdersContainer = () => {
   const [orders, setOrders] = useState([]);
 
   async function getOrderData() {
-    const GET_ORDERS_URL = '/server/order_info';
+    const GET_ORDERS_URL = '/order_info';
 
     await axiosPrivate.get(GET_ORDERS_URL)
       .then(orders => {

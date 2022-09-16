@@ -33,7 +33,7 @@ const CustomerTable = () => {
   };
 
   async function getCustomerData() {
-    const GET_CUSTOMERS_URL = '/server/users';
+    const GET_CUSTOMERS_URL = '/users';
 
     await axiosPrivate.get(GET_CUSTOMERS_URL)
       .then(res => {
@@ -49,7 +49,7 @@ const CustomerTable = () => {
   }
 
   async function findUser(e) {
-    const FIND_USER_URL = '/server/users/find_user'
+    const FIND_USER_URL = '/users/find_user'
     const data = { email: e.target.value };
 
     await axiosPrivate.post(FIND_USER_URL, data)
