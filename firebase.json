@@ -8,6 +8,11 @@
     ],
     "rewrites": [
       {
+        "source": "/server",
+        "function": "server",
+        "region": "us-central1"
+      },
+      {
         "source": "**",
         "function": "server",
         "destination": "/index.html"
