@@ -1,4 +1,4 @@
-import { axiosPublic } from '../api/axios';
+import { axiosPublic } from '../api/axios.js';
 import useAuth from './useAuth.jsx';
 
 const useRefreshToken = () => {

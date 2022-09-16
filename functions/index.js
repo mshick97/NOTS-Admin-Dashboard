@@ -2,7 +2,6 @@ const path = require('path');
 const firebaseFunctions = require('firebase-functions');
 const express = require('express');
 const app = express();
-const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const connectDB = require('./config/DBConnect');
 require('dotenv').config();
@@ -18,24 +17,23 @@ const allowedOrigins = [
   'https://admin.notshair.com',
   'https://admin.notshair.com/',
   'https://www.admin.notshair.com',
-  'https://www.admin.notshair.com/'
+  'https://www.admin.notshair.com/',
+  'http://localhost:3000',
+  'http://localhost:3000/',
+  'http://localhost:8080',
+  'http://localhost:8080/'
 ];
 
 const corsOptions = {
-  origin: function (origin, callback) {
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  }
+  origin: true,
+  credentials: true
 }
+const cors = require('cors')(corsOptions);
 
 
 // Parsing each request that comes into server
 connectDB();
-// app.use(cors()); // For localhost when in development
-app.use(cors(corsOptions));
+app.use(cors);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // url encoded form data
 app.use(cookieParser());
