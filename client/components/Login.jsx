@@ -31,7 +31,7 @@ const Login = () => {
   const loginForm = useRef(null);
 
   function loginAttempt() {
-    const LOGIN_URL = '/server/auth';
+    const LOGIN_URL = '/api/auth';
 
     // grabs form in current state and pulls values for each field
     const loginAttempt = loginForm.current;

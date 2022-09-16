@@ -8,13 +8,13 @@
     ],
     "rewrites": [
       {
-        "source": "/server/*",
+        "source": "/api/*",
         "function": "https://us-central1-nots-admin-dashboard.cloudfunctions.net/server",
         "region": "us-central1"
       },
       {
         "source": "**",
-        "function": "server",
+        "function": "https://us-central1-nots-admin-dashboard.cloudfunctions.net/server",
         "destination": "/index.html"
       }
     ]
