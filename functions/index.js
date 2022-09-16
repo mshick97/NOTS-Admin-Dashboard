@@ -50,22 +50,22 @@ app.use(express.static(path.resolve(__dirname, './build')));
 app.use('/css', express.static(path.resolve(__dirname, '../build')));
 
 // For handling React Router routes in production
-app.use('/server/login', (req, res) => res.sendFile(path.join(__dirname, './build/index.html')));
-app.use('/server/overview', (req, res) => res.sendFile(path.join(__dirname, './build/index.html')));
-app.use('/server/orders', (req, res) => res.sendFile(path.join(__dirname, './build/index.html')));
-app.use('/server/customers', (req, res) => res.sendFile(path.join(__dirname, './build/index.html')));
+app.use('/login', (req, res) => res.sendFile(path.join(__dirname, './build/index.html')));
+app.use('/overview', (req, res) => res.sendFile(path.join(__dirname, './build/index.html')));
+app.use('/orders', (req, res) => res.sendFile(path.join(__dirname, './build/index.html')));
+app.use('/customers', (req, res) => res.sendFile(path.join(__dirname, './build/index.html')));
 
 
 // The primary requests coming in from a customer purchase
 app.use('/webflow', require('./routes/webflowRoutes'));
-app.use('/server/auth', require('./routes/authRoutes'));
-app.use('/server/refresh', require('./controllers/authenticationController.js').handleRefreshToken); // For refreshing the access token
+app.use('/auth', require('./routes/authRoutes'));
+app.use('/refresh', require('./controllers/authenticationController.js').handleRefreshToken); // For refreshing the access token
 
 // Every API below must include an access token to access
 app.use(require('./controllers/authenticationController.js').verifyAccessJWT);
-app.use('/server/overview_data', require('./routes/overviewRoutes'));
-app.use('/server/order_info', require('./routes/ordersRoutes'));
-app.use('/server/users', require('./routes/customersRoutes'));
+app.use('/overview_data', require('./routes/overviewRoutes'));
+app.use('/order_info', require('./routes/ordersRoutes'));
+app.use('/users', require('./routes/customersRoutes'));
 
 
 // Catch all for invalid endpoint requests
