@@ -60,7 +60,7 @@ adminController.adminLogin = (req, res, next) => {
             adminName: { firstName: searchRes.firstName, lastName: searchRes.lastName }
           };
 
-          res.cookie('__session', refreshToken, { httpOnly: true, secure: true, maxAge: 24 * 60 * 60 * 1000 }); // setting max age to one day + sending back the refresh token as the cookie + not accessible by JS
+          // res.cookie('__session', refreshToken, { httpOnly: true, secure: true, maxAge: 24 * 60 * 60 * 1000 }); // setting max age to one day + sending back the refresh token as the cookie + not accessible by JS
           return next();
         }
 
