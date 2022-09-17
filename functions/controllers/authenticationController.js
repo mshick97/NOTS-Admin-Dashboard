@@ -25,7 +25,7 @@ authenticationController.handleRefreshToken = (req, res, next) => {
   if (!cookies['__session']) return res.sendStatus(401); // if no cookie with a key of jwt is passed in
 
   const refreshToken = cookies.__session;
-  Admin.find({ refreshToken: refreshToken }, (err, tokenRes) => {
+  Admin.findOne({ refreshToken: refreshToken }, (err, tokenRes) => {
     if (err) {
       return next({
         log: 'Error has occurred in the handleRefreshToken middleware in authenticationController',
@@ -35,7 +35,7 @@ authenticationController.handleRefreshToken = (req, res, next) => {
     }
 
     if (!tokenRes) {
-      res.clearCookie('__session', { httpOnly: true, sameSite: 'None', secure: true })
+      res.clearCookie('__session', { httpOnly: true, sameSite: 'None', secure: true });
       return res.sendStatus(403);
     }
 
@@ -52,7 +52,7 @@ authenticationController.handleRefreshToken = (req, res, next) => {
             { expiresIn: '10s' }
           );
 
-          return res.json({ accessToken });
+          return res.json({ accessToken: accessToken });
         }
       )
     }

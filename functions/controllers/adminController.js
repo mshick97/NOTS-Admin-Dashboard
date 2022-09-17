@@ -47,7 +47,7 @@ adminController.adminLogin = (req, res, next) => {
             { username: searchRes.email },
             process.env.REFRESH_TOKEN_SECRET,
             // { expiresIn: '1d' }
-            { expiresIn: '15s' }
+            { expiresIn: '40s' }
           );
 
           searchRes.refreshToken = refreshToken; // modifying the search result of the refreshToken property when an admin is found and their password is valid
