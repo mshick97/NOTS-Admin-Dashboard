@@ -5,7 +5,7 @@ const useRefreshToken = () => {
   const { setAuth } = useAuth();
 
   const refresh = async () => {
-    const response = await axiosPublic.get('/refresh', {
+    const response = await axiosPublic.get('/api/refresh', {
       withCredentials: true
     });
 
