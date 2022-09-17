@@ -9,12 +9,12 @@
     "rewrites": [
       {
         "source": "/api/*",
-        "function": "https://us-central1-nots-admin-dashboard.cloudfunctions.net/server",
+        "function": "server",
         "region": "us-central1"
       },
       {
         "source": "**",
-        "function": "https://us-central1-nots-admin-dashboard.cloudfunctions.net/server",
+        "function": "server",
         "destination": "/index.html"
       }
     ]

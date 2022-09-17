@@ -72,6 +72,7 @@ adminController.adminLogin = (req, res, next) => {
           res.locals.isAdmin = {
             validLogin: true,
             accessToken: accessToken,
+            refreshToken: refreshToken,
             adminName: { firstName: searchRes.firstName, lastName: searchRes.lastName }
           };
 
