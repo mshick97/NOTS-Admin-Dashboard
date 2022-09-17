@@ -57,7 +57,7 @@ app.use('/customers', (req, res) => res.sendFile(path.join(__dirname, './build/i
 
 
 // The primary requests coming in from a customer purchase
-app.use('/webflow', require('./routes/webflowRoutes'));
+app.use('/api/webflow', require('./routes/webflowRoutes'));
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/refresh', require('./controllers/authenticationController.js').handleRefreshToken); // For refreshing the access token
 
@@ -65,7 +65,7 @@ app.use('/api/refresh', require('./controllers/authenticationController.js').han
 app.use(require('./controllers/authenticationController.js').verifyAccessJWT);
 app.use('/api/overview_data', require('./routes/overviewRoutes'));
 app.use('/api/order_info', require('./routes/ordersRoutes'));
-app.use('/api/users', require('./routes/customersRoutes'));
+app.use('/api/users', require('./routes/usersRoutes'));
 
 
 // Catch all for invalid endpoint requests
