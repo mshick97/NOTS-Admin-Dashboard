@@ -56,16 +56,8 @@ app.use('/orders', (req, res) => res.sendFile(path.join(__dirname, './build/inde
 app.use('/customers', (req, res) => res.sendFile(path.join(__dirname, './build/index.html')));
 
 
-// The primary requests coming in from a customer purchase
-app.use('/api/webflow', require('./routes/webflowRoutes'));
-app.use('/api/auth', require('./routes/authRoutes'));
-app.use('/api/refresh', require('./controllers/authenticationController.js').handleRefreshToken); // For refreshing the access token
-
-// Every API below must include an access token to access
-app.use(require('./controllers/authenticationController.js').verifyAccessJWT);
-app.use('/api/overview_data', require('./routes/overviewRoutes'));
-app.use('/api/order_info', require('./routes/ordersRoutes'));
-app.use('/api/users', require('./routes/usersRoutes'));
+// For handling all client requests in admin application + Webflow POST requests
+app.use('/api', require('./routes/apiRoutes'));
 
 
 // Catch all for invalid endpoint requests
