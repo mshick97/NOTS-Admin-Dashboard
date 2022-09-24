@@ -3,13 +3,14 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import useErrorRedirect from "../hooks/useErrorRedirect.jsx";
 import useAxiosPrivate from '../hooks/useAxiosPrivate.jsx';
+import DataCard from '../components/DataCard.jsx';
 
 const OrdersContainer = () => {
   const axiosPrivate = useAxiosPrivate();
   const redirect = useErrorRedirect();
 
   const [isLoading, setIsLoading] = useState(true);
-  const [orders, setOrders] = useState([]);
+  const [orderData, setOrderData] = useState([]);
 
   async function getOrderData() {
     const GET_ORDERS_URL = '/api/order_info';
@@ -17,7 +18,7 @@ const OrdersContainer = () => {
     await axiosPrivate.get(GET_ORDERS_URL)
       .then(orders => {
         console.log(orders.data)
-        setOrders(orders.data);
+        setOrderData(orders.data);
         setIsLoading(false);
       })
       .catch(err => {
@@ -45,8 +46,12 @@ const OrdersContainer = () => {
     return (
       <section id='OrdersContainer'>
         <h1>Orders</h1>
-        
-        {orders.map((order, i) => <p key={i}>{order.orderId}</p>)}
+        <DataCard heading={'New Orders'} cardData={orderData.length} />
+
+        {orderData.map((order, i) => {
+          <DataCard/>
+        })}
+
       </section>
     )
   }
