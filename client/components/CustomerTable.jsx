@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import useAxiosPrivate from '../hooks/useAxiosPrivate.jsx';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
-import DBEntry from "../components/DBEntry.jsx";
+import DBEntry from "./DBEntry.jsx";
 import TextField from '@mui/material/TextField';
-import CustomSnackbar from '../components/CustomSnackbar.jsx';
+import CustomSnackbar from './CustomSnackbar.jsx';
 import useErrorRedirect from "../hooks/useErrorRedirect.jsx";
 import { debounce } from "debounce";
 
@@ -73,7 +73,7 @@ const CustomerTable = () => {
   }, []);
 
 
-  if (isLoading === true) {
+  if (isLoading) {
     return (
       <div className="loadingProgressWrapper">
         <Box sx={{ display: 'flex' }} id='loadingBox'>
@@ -84,7 +84,7 @@ const CustomerTable = () => {
   }
 
 
-  if (isLoading === false) {
+  if (!isLoading) {
     const dbArray = [];
 
     customers.forEach((customer, i) => {
@@ -106,7 +106,7 @@ const CustomerTable = () => {
     });
 
     return (
-      <div id="tableEntries">
+      <div id="table">
 
         <div id='tableHeadContainer'>
           <h2 className="tableName">Customers</h2>

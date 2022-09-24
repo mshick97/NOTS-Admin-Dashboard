@@ -3,7 +3,7 @@ import './styles/styles.css'
 import AuthContext from './context/AuthProvider.jsx';
 import { Routes, Route, useNavigate } from "react-router-dom";
 import Login from './components/Login.jsx'
-import Dashboard from './containers/MainDashboard.jsx';
+import Dashboard from './containers/Dashboard.jsx';
 import RequireAuth from './components/RequireAuth.jsx';
 
 const App = () => {

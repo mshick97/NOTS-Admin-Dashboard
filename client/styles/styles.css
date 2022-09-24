@@ -62,10 +62,6 @@ body {
   background-color: #ad2525;
 }
 
-#root {}
-
-#app {}
-
 #navContainer {
   background: white;
   margin: 0;
@@ -110,7 +106,7 @@ body {
   border-radius: 7px;
 }
 
-#tableEntries {
+#table {
   margin-top: 30px;
   margin-left: 40px;
   margin-right: 40px;
@@ -119,6 +115,7 @@ body {
   opacity: 87%;
   padding-left: 40px;
   padding-right: 40px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 
 #entryContainer {
@@ -194,8 +191,6 @@ body {
 }
 
 #overviewButton {
-  background-color: white;
-  color: #ad2525;
   border: #cccccc solid .2px;
 }
 
@@ -203,5 +198,5 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 10vh;
+  margin-top: 20vh;
 }
