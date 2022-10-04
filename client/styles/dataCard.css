@@ -1,0 +1,11 @@
+.DataCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  max-width: 180px;
+  min-width: 180px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  padding: 10px 20px;
+  border: .5px solid black;
+  border-radius: 10px;
+}

@@ -12,6 +12,9 @@ const OrdersContainer = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [orderData, setOrderData] = useState([]);
 
+  // For specific order data computations
+  const [grossRevenue, setGrossRevenue] = useState(0);
+
   async function getOrderData() {
     const GET_ORDERS_URL = '/api/order_info';
 
@@ -19,6 +22,13 @@ const OrdersContainer = () => {
       .then(orders => {
         console.log(orders.data)
         setOrderData(orders.data);
+
+        let grossTotal = 0;
+        orders.data.forEach(order => {
+          grossTotal += order.netAmount.value;
+        });
+
+        setGrossRevenue(grossTotal);
         setIsLoading(false);
       })
       .catch(err => {
@@ -44,14 +54,12 @@ const OrdersContainer = () => {
 
   if (!isLoading) {
     return (
-      <section id='OrdersContainer'>
-        <h1>Orders</h1>
-        <DataCard heading={'New Orders'} cardData={orderData.length} />
-
-        {orderData.map((order, i) => {
-          <DataCard/>
-        })}
-
+      <section id='ordersContainer'>
+        <h2 className="tableName">Orders</h2>
+        <div className='dataCardContainer'>
+          <DataCard heading={'New Orders'} cardData={orderData.length} />
+          <DataCard heading={'Total Gross Revenue'} cardData={'$' + grossRevenue} />
+        </div>
       </section>
     )
   }
