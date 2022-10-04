@@ -1,69 +1,73 @@
 import React, { useState, useEffect } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
-import useErrorRedirect from "../hooks/useErrorRedirect.jsx";
+import useErrorRedirect from '../hooks/useErrorRedirect.jsx';
 import useAxiosPrivate from '../hooks/useAxiosPrivate.jsx';
 import DataCard from '../components/DataCard.jsx';
 
 const OrdersContainer = () => {
-  const axiosPrivate = useAxiosPrivate();
-  const redirect = useErrorRedirect();
+	document.title = 'NOTS Admin | Orders';
 
-  const [isLoading, setIsLoading] = useState(true);
-  const [orderData, setOrderData] = useState([]);
+	const axiosPrivate = useAxiosPrivate();
+	const redirect = useErrorRedirect();
 
-  // For specific order data computations
-  const [grossRevenue, setGrossRevenue] = useState(0);
+	const [isLoading, setIsLoading] = useState(true);
+	const [orderData, setOrderData] = useState([]);
 
-  async function getOrderData() {
-    const GET_ORDERS_URL = '/api/order_info';
+	// For specific order data computations
+	const [grossRevenue, setGrossRevenue] = useState(0);
 
-    await axiosPrivate.get(GET_ORDERS_URL)
-      .then(orders => {
-        console.log(orders.data)
-        setOrderData(orders.data);
+	async function getOrderData() {
+		const GET_ORDERS_URL = '/api/order_info';
 
-        let grossTotal = 0;
-        orders.data.forEach(order => {
-          grossTotal += order.netAmount.value;
-        });
+		await axiosPrivate
+			.get(GET_ORDERS_URL)
+			.then((orders) => {
+				console.log(orders.data);
+				setOrderData(orders.data);
 
-        setGrossRevenue(grossTotal);
-        setIsLoading(false);
-      })
-      .catch(err => {
-        console.log(err);
-        redirect(err);
-      });
-  }
+				let grossTotal = 0;
+				orders.data.forEach((order) => {
+					grossTotal += order.netAmount.value;
+				});
 
-  useEffect(() => {
-    getOrderData();
-  }, []);
+				setGrossRevenue(grossTotal);
+				setIsLoading(false);
+			})
+			.catch((err) => {
+				console.log(err);
+				redirect(err);
+			});
+	}
 
-  
-  if (isLoading) {
-    return (
-      <div className="loadingProgressWrapper">
-        <Box sx={{ display: 'flex' }} id='loadingBox'>
-          <CircularProgress />
-        </Box>
-      </div>
-    )
-  }
+	useEffect(() => {
+		getOrderData();
+	}, []);
 
-  if (!isLoading) {
-    return (
-      <section id='ordersContainer'>
-        <h2 className="tableName">Orders</h2>
-        <div className='dataCardContainer'>
-          <DataCard heading={'New Orders'} cardData={orderData.length} />
-          <DataCard heading={'Total Gross Revenue'} cardData={'$' + grossRevenue} />
-        </div>
-      </section>
-    )
-  }
- 
-}
+	if (isLoading) {
+		return (
+			<div className='loadingProgressWrapper'>
+				<Box sx={{ display: 'flex' }} id='loadingBox'>
+					<CircularProgress />
+				</Box>
+			</div>
+		);
+	}
 
-export default OrdersContainer; 
+	if (!isLoading) {
+		return (
+			<section id='ordersContainer'>
+				<h2 className='tableName'>Orders</h2>
+				<div className='dataCardContainer'>
+					<DataCard heading={'New Orders'} cardData={orderData.length} />
+					<DataCard
+						heading={'Total Gross Revenue'}
+						cardData={'$' + grossRevenue}
+					/>
+				</div>
+			</section>
+		);
+	}
+};
+
+export default OrdersContainer;

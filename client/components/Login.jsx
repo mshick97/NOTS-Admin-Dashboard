@@ -9,6 +9,8 @@ import Button from '@mui/material/Button';
 import CustomSnackbar from './CustomSnackbar.jsx';
 
 const Login = () => {
+	document.title = 'NOTS Admin | Login';
+
 	const navigate = useNavigate();
 	const location = useNavigate();
 	const from = location.state?.from?.pathname || '/customers';
@@ -18,7 +20,7 @@ const Login = () => {
 	const [snackbarMessage, setSnackbarMessage] = useState('');
 	const [snackbarSeverity, setSnackbarSeverity] = useState('');
 
-	const [fetching, setFetching] = useState(false);
+	const [fetching, setFetching] = useState(false); // for loading UI on login
 
 	const openSnackbar = () => {
 		setOpen(true);
