@@ -1,5 +1,5 @@
 FROM node:16.17.0
-WORKDIR /home/usr/src/
+WORKDIR /home/usr/src
 ENV PATH="./node_modules/.bin:$PATH"
 COPY . .
 RUN npm ci
