@@ -1,1 +1,9 @@
 node_modules
+.git
+build
+misc
+.firebase
+.firebaserc
+firebase-debug.log
+adminSDKCreds.json
+ui-debug.log
