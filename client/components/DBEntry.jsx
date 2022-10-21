@@ -1,6 +1,6 @@
 import React from 'react';
 import useAxiosPrivate from '../hooks/useAxiosPrivate.jsx';
-import useErrorRedirect from "../hooks/useErrorRedirect.jsx";
+import useErrorRedirect from '../hooks/useErrorRedirect.jsx';
 
 const DBEntry = (props) => {
   const axiosPrivate = useAxiosPrivate();
@@ -13,12 +13,13 @@ const DBEntry = (props) => {
   async function deleteUser() {
     const DELETE_CUSTOMER_URL = `/api/users/${userId}`;
 
-    await axiosPrivate.delete(DELETE_CUSTOMER_URL)
+    await axiosPrivate
+      .delete(DELETE_CUSTOMER_URL)
       .then(() => {
         openSnackbar(`User with email ${email} deleted`, 'success');
-        getCustomerData()
+        getCustomerData();
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         openSnackbar('Error deleting user from database', 'error');
         redirect(err);
@@ -27,31 +28,33 @@ const DBEntry = (props) => {
 
   return (
     <div id="entryContainer">
-      <div className='deleteWrapper'>
-        <img src='https://www.svgrepo.com/show/21045/delete-button.svg' className='deleteIcon' onClick={deleteUser} />
+      <div className="deleteWrapper">
+        <img src="https://www.svgrepo.com/show/21045/delete-button.svg" className="deleteIcon" onClick={deleteUser} />
       </div>
       <div id="entryWrapper">
         <div className="entryBox">
-          <p className='dataEntry'>{name}</p>
+          <p className="dataEntry">{name}</p>
         </div>
         <div className="entryBox">
-          <p className='dataEntry'>{email}</p>
+          <p className="dataEntry">{email}</p>
         </div>
         <div className="entryBox">
-          <p className='dataEntry'>{street1} {street2}</p>
+          <p className="dataEntry">
+            {street1} {street2}
+          </p>
         </div>
         <div className="entryBox">
-          <p className='dataEntry'>{city}</p>
+          <p className="dataEntry">{city}</p>
         </div>
         <div className="entryBox">
-          <p className='dataEntry'>{state}</p>
+          <p className="dataEntry">{state}</p>
         </div>
         <div className="entryBox">
-          <p className='dataEntry'>{zip}</p>
+          <p className="dataEntry">{zip}</p>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default DBEntry;

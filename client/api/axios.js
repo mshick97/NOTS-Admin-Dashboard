@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 const BASE_URL = 'https://us-central1-nots-admin-dashboard.cloudfunctions.net/server';
 
@@ -9,5 +9,5 @@ export const axiosPublic = axios.create({
 export const axiosPrivate = axios.create({
   // baseURL: BASE_URL,
   headers: { 'Content-Type': 'application/json' },
-  withCredentials: true
+  withCredentials: true,
 });

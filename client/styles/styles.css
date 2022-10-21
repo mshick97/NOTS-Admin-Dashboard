@@ -2,7 +2,7 @@
 @import './dataCard.css';
 
 body {
-  background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url("../images/admin_panel_bg.jpg_large") no-repeat center;
+  background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('../images/admin_panel_bg.jpg_large') no-repeat center;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -118,7 +118,8 @@ body {
   opacity: 87%;
   padding-left: 40px;
   padding-right: 40px;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
   border-radius: 10px;
 }
 
@@ -142,7 +143,7 @@ body {
   display: grid;
   grid-template-columns: 0.75fr 1fr 1fr 0.75fr 0.5fr 0.5fr;
   padding-left: 5px;
-  border-bottom: #CCCCCC solid .5px;
+  border-bottom: #cccccc solid 0.5px;
 }
 
 #tableHeadContainer {
@@ -168,14 +169,13 @@ body {
   -ms-transform: rotate(50deg);
 }
 
-
 #entryWrapper {
   display: grid;
   grid-template-columns: 0.75fr 1fr 1fr 0.75fr 0.5fr 0.5fr;
 }
 
 .entryBox {
-  border-bottom: #CCCCCC solid .5px;
+  border-bottom: #cccccc solid 0.5px;
   border-top: 0;
 }
 
@@ -185,17 +185,17 @@ body {
 
 #customersButton {
   background-color: #ad2525;
-  border: #cccccc solid .2px;
+  border: #cccccc solid 0.2px;
 }
 
 #ordersButton {
   background-color: white;
   color: #ad2525;
-  border: #cccccc solid .2px;
+  border: #cccccc solid 0.2px;
 }
 
 #overviewButton {
-  border: #cccccc solid .2px;
+  border: #cccccc solid 0.2px;
 }
 
 .loadingProgressWrapper {
