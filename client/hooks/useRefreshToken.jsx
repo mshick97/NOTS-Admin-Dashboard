@@ -6,17 +6,17 @@ const useRefreshToken = () => {
 
   const refresh = async () => {
     const response = await axiosPublic.get('/api/refresh', {
-      withCredentials: true
+      withCredentials: true,
     });
 
-    setAuth(prev => {
+    setAuth((prev) => {
       return { ...prev, accessToken: response.data.accessToken };
     });
 
     return response.data.accessToken;
-  }
+  };
 
   return refresh;
-}
+};
 
 export default useRefreshToken;

@@ -5,6 +5,7 @@ import OrdersContainer from './OrdersContainer.jsx';
 import CustomerTable from '../components/CustomerTable.jsx';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import { OVERVIEW_ROUTE, ORDERS_ROUTE, CUSTOMERS_ROUTE } from '../constants.js';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ const Dashboard = () => {
             <Button
               id="overviewButton"
               onClick={() => {
-                navigate('/overview');
+                navigate(OVERVIEW_ROUTE);
               }}
               style={path === '/overview' ? activeStyle : inactiveStyle}>
               Overview
@@ -38,7 +39,7 @@ const Dashboard = () => {
             <Button
               id="ordersButton"
               onClick={() => {
-                navigate('/orders');
+                navigate(ORDERS_ROUTE);
               }}
               style={path === '/orders' ? activeStyle : inactiveStyle}>
               Orders
@@ -47,7 +48,7 @@ const Dashboard = () => {
             <Button
               id="customersButton"
               onClick={() => {
-                navigate('/customers');
+                navigate(CUSTOMERS_ROUTE);
               }}
               style={path === '/customers' ? activeStyle : inactiveStyle}>
               Customers
@@ -58,9 +59,9 @@ const Dashboard = () => {
 
       <div id="tableContainer">
         <Routes>
-          <Route path="/overview" element={<OverviewContainer />} />
-          <Route path="/orders" element={<OrdersContainer />} />
-          <Route path="/customers" element={<CustomerTable />} />
+          <Route path={OVERVIEW_ROUTE} element={<OverviewContainer />} />
+          <Route path={ORDERS_ROUTE} element={<OrdersContainer />} />
+          <Route path={CUSTOMERS_ROUTE} element={<CustomerTable />} />
         </Routes>
       </div>
     </div>

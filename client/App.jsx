@@ -5,7 +5,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import Login from './components/Login.jsx';
 import Dashboard from './containers/Dashboard.jsx';
 import RequireAuth from './components/RequireAuth.jsx';
-import { LOGIN_ROUTE } from './constants';
+import { LOGIN_ROUTE, OVERVIEW_ROUTE } from './constants';
 
 const App = () => {
   const { auth } = useContext(AuthContext);
@@ -14,7 +14,7 @@ const App = () => {
   return (
     <div id="app">
       <div id="navContainer">
-        <div id="homeButton" onClick={() => navigate('/overview')}>
+        <div id="homeButton" onClick={() => navigate(OVERVIEW_ROUTE)}>
           <img src={'https://uploads-ssl.webflow.com/6093315d74407812c0b3270c/60e3ac82c23b7568fcd04be0_NOTS%20Horizontal.svg'} id="notsLogo" />
         </div>
         <p className="adminName">Hello {auth.firstName}!</p>
