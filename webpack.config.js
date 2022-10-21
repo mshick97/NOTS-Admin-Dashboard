@@ -10,6 +10,9 @@ module.exports = {
     filename: 'bundle.js',
   },
   mode: 'development',
+  resolve: {
+    extensions: ['.js', '.jsx'],
+  },
   module: {
     rules: [
       {
@@ -24,13 +27,13 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env', '@babel/preset-react']
-          }
-        }
+            presets: ['@babel/preset-env', '@babel/preset-react'],
+          },
+        },
       },
       {
         test: /\.(png|svg|jpg|gif|ico)$/,
-        use: ['file-loader?name=[name].[ext]']
+        use: ['file-loader?name=[name].[ext]'],
       },
       {
         test: /.(css|scss)$/,
@@ -38,35 +41,35 @@ module.exports = {
         exclude: /(node_modules)/,
         use: [
           // Creates `style` nodes from JS strings
-          "style-loader",
+          'style-loader',
           // Translates CSS into CommonJS
-          "css-loader",
+          'css-loader',
           // Compiles Sass to CSS
-          "sass-loader",
+          'sass-loader',
         ],
       },
-    ]
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: './views/index.html',
-      favicon: './client/images/favicon.ico'
+      favicon: './client/images/favicon.ico',
     }),
     new SourceMapDevToolPlugin({
       // filename: "index.js.map"
-    })
+    }),
   ],
   devServer: {
     historyApiFallback: true,
     static: {
-      directory: path.resolve(__dirname, 'build')
+      directory: path.resolve(__dirname, 'build'),
     },
     port: 8080,
     compress: true,
     hot: true,
     proxy: {
-      '/**': 'http://localhost:3000'
+      '/**': 'http://localhost:3000',
     },
     watchFiles: ['client'],
   },
-}
+};

@@ -1,12 +1,12 @@
 import React, { useState, useRef, Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useAuth from '../hooks/useAuth.jsx';
+import useAuth from '../hooks/useAuth';
 import { axiosPublic } from '../api/axios';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import CustomSnackbar from './CustomSnackbar.jsx';
+import CustomSnackbar from './CustomSnackbar';
 
 const Login = () => {
   document.title = 'NOTS Admin | Login';

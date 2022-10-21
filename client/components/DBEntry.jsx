@@ -1,6 +1,6 @@
 import React from 'react';
-import useAxiosPrivate from '../hooks/useAxiosPrivate.jsx';
-import useErrorRedirect from '../hooks/useErrorRedirect.jsx';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
+import useErrorRedirect from '../hooks/useErrorRedirect';
 
 const DBEntry = (props) => {
   const axiosPrivate = useAxiosPrivate();

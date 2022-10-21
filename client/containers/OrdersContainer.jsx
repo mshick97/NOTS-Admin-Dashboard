@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useReducer } from 'react';
+import ordersReducer, { initialOrderState } from '../reducers/ordersReducer';
+import { SET_IS_LOADING_TYPE, SET_ORDER_DATA_TYPE, SET_SALES_TYPE, SET_AVG_ORDER_VAL, SET_AVG_ORDER_SIZE } from '../constants';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
-import useErrorRedirect from '../hooks/useErrorRedirect.jsx';
-import useAxiosPrivate from '../hooks/useAxiosPrivate.jsx';
-import DataCard from '../components/DataCard.jsx';
+import useErrorRedirect from '../hooks/useErrorRedirect';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
+import DataCard from '../components/DataCard';
+import OrderTable from '../components/OrderTable';
 
 const OrdersContainer = () => {
   document.title = 'NOTS Admin | Orders';
@@ -11,13 +14,32 @@ const OrdersContainer = () => {
   const axiosPrivate = useAxiosPrivate();
   const redirect = useErrorRedirect();
 
-  const [isLoading, setIsLoading] = useState(true);
-  const [orderData, setOrderData] = useState([]);
+  const [state, dispatch] = useReducer(ordersReducer, initialOrderState);
 
-  // For specific order data computations
-  const [sales, setSales] = useState(0);
-  const [avgOrderVal, setAvgOrderVal] = useState(0);
-  const [avgOrderSize, setAvgOrderSize] = useState(1);
+  const averagingFunction = (orderData) => {
+    let avgOrderVal = 0;
+    let avrOrderSize = 0;
+
+    let totalPaid = 0;
+    let totalOrderedItems = 0;
+
+    for (const customerPurchase in orderData) {
+      console.log(orderData[customerPurchase]);
+      totalPaid += orderData[customerPurchase].customerPaid.value;
+      orderData[customerPurchase].purchasedItems.forEach((item) => {
+        return (totalOrderedItems += item.count);
+      });
+    }
+
+    // Takes total of all orders and divides this by number of orders
+    avgOrderVal = Math.round((totalPaid / orderData.length) * 100) / 100;
+    // Takes every item ordered in all orders and divides them by the amount of orders
+    avrOrderSize = Math.round((totalOrderedItems / orderData.length) * 100) / 100;
+
+    dispatch({ type: SET_AVG_ORDER_VAL, payload: avgOrderVal });
+    dispatch({ type: SET_AVG_ORDER_SIZE, payload: avrOrderSize });
+    return;
+  };
 
   async function getOrderData() {
     const GET_ORDERS_URL = '/api/order_info';
@@ -25,17 +47,16 @@ const OrdersContainer = () => {
     await axiosPrivate
       .get(GET_ORDERS_URL)
       .then((orders) => {
-        console.log(orders.data);
-        setOrderData(orders.data);
+        dispatch({ type: SET_ORDER_DATA_TYPE, payload: orders.data });
 
         let grossTotal = 0;
         orders.data.forEach((order) => {
-          console.log(order);
           grossTotal += order.netAmount.value;
         });
 
-        setSales(grossTotal);
-        setIsLoading(false);
+        averagingFunction(orders.data);
+        dispatch({ type: SET_SALES_TYPE, payload: grossTotal });
+        dispatch({ type: SET_IS_LOADING_TYPE });
       })
       .catch((err) => {
         console.log(err);
@@ -47,7 +68,7 @@ const OrdersContainer = () => {
     getOrderData();
   }, []);
 
-  if (isLoading) {
+  if (state.isLoading) {
     return (
       <div className="loadingProgressWrapper">
         <Box sx={{ display: 'flex' }} id="loadingBox">
@@ -57,16 +78,18 @@ const OrdersContainer = () => {
     );
   }
 
-  if (!isLoading) {
+  if (!state.isLoading) {
     return (
       <section id="ordersContainer">
         <h2 className="tableName">Orders</h2>
         <div className="dataCardContainer">
-          <DataCard heading={'New Orders'} cardData={orderData.length} />
-          <DataCard heading={'Total Sales'} cardData={'$' + sales} />
-          <DataCard heading={'Avg. Order Value'} cardData={'$' + avgOrderVal} />
-          <DataCard heading={'Avg. Order Size'} cardData={avgOrderSize} />
+          <DataCard heading={'New Orders'} cardData={state.orderData.length} />
+          <DataCard heading={'Total Sales'} cardData={'$' + state.sales} />
+          <DataCard heading={'Avg. Order Value'} cardData={'$' + state.avgOrderVal} />
+          <DataCard heading={'Avg. Order Size'} cardData={state.avgOrderSize} />
         </div>
+
+        <OrderTable orderData={state.orderData} getOrderData={getOrderData} />
       </section>
     );
   }

@@ -1,7 +1,7 @@
 import React from 'react';
-import useAuth from './useAuth.jsx';
+import useAuth from './useAuth';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { LOGIN_ROUTE } from '../constants.js';
+import { LOGIN_ROUTE } from '../constants';
 
 const ErrorResponse = () => {
   const { setAuth } = useAuth();
@@ -10,7 +10,7 @@ const ErrorResponse = () => {
   const location = useLocation();
 
   return (err) => {
-    if (err.response.status === 403 || err.response.status === 401) {
+    if (err.response?.status === 403 || err.response?.status === 401) {
       setAuth({ firstName: 'Admin', lastName: 'Admin' });
       navigate(LOGIN_ROUTE, { state: { from: location }, replace: true });
     }

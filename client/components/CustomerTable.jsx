@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import useAxiosPrivate from '../hooks/useAxiosPrivate.jsx';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
-import DBEntry from './DBEntry.jsx';
+import DBEntry from './DBEntry';
 import TextField from '@mui/material/TextField';
-import CustomSnackbar from './CustomSnackbar.jsx';
-import useErrorRedirect from '../hooks/useErrorRedirect.jsx';
+import CustomSnackbar from './CustomSnackbar';
+import useErrorRedirect from '../hooks/useErrorRedirect';
 import { debounce } from 'debounce';
 
 const CustomerTable = () => {

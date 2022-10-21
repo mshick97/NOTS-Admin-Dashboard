@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import './styles/styles.css';
-import AuthContext from './context/AuthProvider.jsx';
+import AuthContext from './context/AuthProvider';
 import { Routes, Route, useNavigate } from 'react-router-dom';
-import Login from './components/Login.jsx';
-import Dashboard from './containers/Dashboard.jsx';
-import RequireAuth from './components/RequireAuth.jsx';
+import Login from './components/Login';
+import Dashboard from './containers/Dashboard';
+import RequireAuth from './components/RequireAuth';
 import { LOGIN_ROUTE, OVERVIEW_ROUTE } from './constants';
 
 const App = () => {

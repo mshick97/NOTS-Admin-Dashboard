@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
-import OverviewContainer from './OverviewContainer.jsx';
-import OrdersContainer from './OrdersContainer.jsx';
-import CustomerTable from '../components/CustomerTable.jsx';
+import OverviewContainer from './OverviewContainer';
+import OrdersContainer from './OrdersContainer';
+import CustomerTable from '../components/CustomerTable';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import { OVERVIEW_ROUTE, ORDERS_ROUTE, CUSTOMERS_ROUTE } from '../constants.js';
+import { OVERVIEW_ROUTE, ORDERS_ROUTE, CUSTOMERS_ROUTE } from '../constants';
 
 const Dashboard = () => {
   const navigate = useNavigate();
