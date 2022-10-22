@@ -2,11 +2,20 @@ import React from 'react';
 import OrderEntry from './OrderEntry';
 
 const OrderTable = (props) => {
-  const { orderData, getOrderData } = props;
+  const { orderData, getOrderData, navigateToOrder } = props;
 
   const orderEntries = [];
   orderData.forEach((order) => {
-    orderEntries.push(<OrderEntry orderData={order} />);
+    orderEntries.push(
+      <OrderEntry
+        orderData={order}
+        key={order.orderId}
+        onClick={() => {
+          console.log('clicked');
+          navigateToOrder(order.orderId);
+        }}
+      />
+    );
   });
 
   return (

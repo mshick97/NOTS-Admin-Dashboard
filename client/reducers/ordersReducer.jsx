@@ -6,6 +6,7 @@ export const initialOrderState = {
   sales: 0,
   avgOrderVal: 0,
   avgOrderSize: 1,
+  orderId: '',
 };
 
 const ordersReducer = (state, action) => {
@@ -24,6 +25,9 @@ const ordersReducer = (state, action) => {
 
     case SET_AVG_ORDER_SIZE:
       return { ...state, avgOrderSize: action.payload };
+
+    case SET_ORDER_ID:
+      return { ...state, orderId: action.payload };
 
     default:
       throw new Error('Action not found in reducer');

@@ -1,20 +1,37 @@
 import React, { useEffect, useReducer } from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import ordersReducer, { initialOrderState } from '../reducers/ordersReducer';
-import { SET_IS_LOADING_TYPE, SET_ORDER_DATA_TYPE, SET_SALES_TYPE, SET_AVG_ORDER_VAL, SET_AVG_ORDER_SIZE } from '../constants';
+import {
+  SET_IS_LOADING_TYPE,
+  SET_ORDER_DATA_TYPE,
+  SET_SALES_TYPE,
+  SET_AVG_ORDER_VAL,
+  SET_AVG_ORDER_SIZE,
+  SET_ORDER_ID,
+  ORDERS_ROUTE,
+} from '../constants';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import useErrorRedirect from '../hooks/useErrorRedirect';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import DataCard from '../components/DataCard';
-import OrderTable from '../components/OrderTable';
+import OrdersTable from '../components/OrdersTable';
+import OrderDetails from '../components/OrderDetails';
 
 const OrdersContainer = () => {
   document.title = 'NOTS Admin | Orders';
 
   const axiosPrivate = useAxiosPrivate();
   const redirect = useErrorRedirect();
+  const navigate = useNavigate();
 
   const [state, dispatch] = useReducer(ordersReducer, initialOrderState);
+
+  const navigateToOrder = (orderId) => {
+    console.log(orderId);
+    dispatch({ type: SET_ORDER_ID, payload: orderId });
+    return navigate(ORDERS_ROUTE + `/${orderId}`);
+  };
 
   const averagingFunction = (orderData) => {
     let avgOrderVal = 0;
@@ -89,7 +106,11 @@ const OrdersContainer = () => {
           <DataCard heading={'Avg. Order Size'} cardData={state.avgOrderSize} />
         </div>
 
-        <OrderTable orderData={state.orderData} getOrderData={getOrderData} />
+        <Routes>
+          <Route path="/" element={<OrdersTable orderData={state.orderData} getOrderData={getOrderData} navigateToOrder={navigateToOrder} />}>
+            <Route path=":orderId" element={<OrderDetails orderData={state.orderData} />} />
+          </Route>
+        </Routes>
       </section>
     );
   }
