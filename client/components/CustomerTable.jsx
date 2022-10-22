@@ -55,6 +55,8 @@ const CustomerTable = () => {
     const FIND_USER_URL = '/api/users/find_user';
     const data = { email: e.target.value };
 
+    if (e.target.value === '') return;
+
     await axiosPrivate
       .post(FIND_USER_URL, data)
       .then((res) => {

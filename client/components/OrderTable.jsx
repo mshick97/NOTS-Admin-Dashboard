@@ -22,12 +22,13 @@ const OrderTable = (props) => {
 
       <div id="entryHeadersWrapper">
         <h5 className="tableHeading">Order Number</h5>
-        <h5 className="tableHeading">Status</h5>
         <h5 className="tableHeading">Customer</h5>
+        <h5 className="tableHeading">Status</h5>
         <h5 className="tableHeading">Date</h5>
         <h5 className="tableHeading">Items</h5>
         <h5 className="tableHeading">Total</h5>
       </div>
+      {orderEntries}
     </div>
   );
 };

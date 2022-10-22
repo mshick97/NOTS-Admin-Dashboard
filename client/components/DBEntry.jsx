@@ -27,7 +27,7 @@ const DBEntry = (props) => {
   }
 
   return (
-    <div id="entryContainer">
+    <div className="entryContainer">
       <div className="deleteWrapper">
         <img src="https://www.svgrepo.com/show/21045/delete-button.svg" className="deleteIcon" onClick={deleteUser} />
       </div>

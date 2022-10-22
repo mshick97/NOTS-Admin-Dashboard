@@ -38,7 +38,7 @@ const OrdersContainer = () => {
 
     dispatch({ type: SET_AVG_ORDER_VAL, payload: avgOrderVal });
     dispatch({ type: SET_AVG_ORDER_SIZE, payload: avrOrderSize });
-    return;
+    return totalOrderedItems;
   };
 
   async function getOrderData() {
