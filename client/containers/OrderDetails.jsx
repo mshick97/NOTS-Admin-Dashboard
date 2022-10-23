@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ORDERS_ROUTE } from '../constants';
+import PurchaseDetails from '../components/PurchaseDetails';
 import BillingDetails from '../components/BillingDetails';
 import OrderSummary from '../components/OrderSummary';
 
@@ -22,6 +23,7 @@ const OrderDetails = () => {
           <p>Total: {orderData.totals.total.string}</p>
         </div>
         <BillingDetails name={orderData.customerInfo.fullName} address={orderData.billingAddress} email={orderData.customerInfo.email} />
+        <PurchaseDetails />
       </h2>
     </div>
   );
