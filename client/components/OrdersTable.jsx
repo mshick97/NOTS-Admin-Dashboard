@@ -24,10 +24,9 @@ const OrderTable = () => {
 
   const [state, dispatch] = useReducer(ordersReducer, initialOrderState);
 
-  const navigateToOrder = (orderId) => {
-    console.log(orderId);
-    dispatch({ type: SET_ORDER_ID, payload: orderId });
-    return navigate(ORDERS_ROUTE + `/${orderId}`);
+  const navigateToOrder = (orderData) => {
+    dispatch({ type: SET_ORDER_ID, payload: orderData.orderId });
+    return navigate(ORDERS_ROUTE + `/${orderData.orderId}`, { state: orderData });
   };
 
   const averagingFunction = (orderData) => {

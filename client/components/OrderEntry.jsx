@@ -29,7 +29,7 @@ const OrderEntry = (props) => {
     <div
       className="entryContainer"
       onClick={() => {
-        navigateToOrder(orderData.orderId);
+        navigateToOrder(orderData);
       }}>
       <div id="entryWrapper">
         <div className="entryBox">

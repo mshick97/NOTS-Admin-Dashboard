@@ -1,5 +1,7 @@
 @import './ordersPage.css';
 @import './dataCard.css';
+@import './orderDetails.css';
+@import './billingDetails.css';
 
 body {
   background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('../images/admin_panel_bg.jpg_large') no-repeat center;

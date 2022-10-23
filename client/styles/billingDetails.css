@@ -1,0 +1,11 @@
+.addressWrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+}
+
+.addressSpans {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+}

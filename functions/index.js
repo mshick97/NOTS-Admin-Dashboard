@@ -46,16 +46,17 @@ app.use(cookieParser());
 app.use(express.static(path.resolve(__dirname, './build')));
 app.use('/css', express.static(path.resolve(__dirname, './build')));
 
-// app.use('/orders', express.static(path.join(__dirname, './build')));
-
 // For handling React Router routes in production
-app.use('/login', (req, res) => res.sendFile(path.join(__dirname, './build/index.html')));
-app.use('/overview', (req, res) => res.sendFile(path.join(__dirname, './build/index.html')));
-app.use('/orders', (req, res) => res.sendFile(path.join(__dirname, 'build', 'index.html')));
-app.use('/customers', (req, res) => res.sendFile(path.join(__dirname, './build/index.html')));
+app.use('/login', express.static(path.join(__dirname, '..', 'build', 'index.html')));
+app.use('/overview', express.static(path.join(__dirname, '..', 'build', 'index.html')));
+app.use('/orders', express.static(path.join(__dirname, '..', 'build', 'index.html')));
+app.use('/customers', express.static(path.join(__dirname, '..', 'build', 'index.html')));
 
 // For handling all client requests in admin application + Webflow POST requests
 app.use('/api', require('./routes/apiRoutes'));
+
+// Catch all specifically for client-side, React Router routes
+app.use('/*', express.static(path.join(__dirname, '..', 'build', 'index.html')));
 
 // Catch all for invalid endpoint requests
 app.use('*', (req, res) => res.status(404).json('Invalid request, please try again'));

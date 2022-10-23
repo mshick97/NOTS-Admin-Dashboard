@@ -3,12 +3,12 @@ import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import NotFound from '../components/NotFound';
 import OverviewContainer from './OverviewContainer';
 import OrdersContainer from './OrdersContainer';
-import CustomerTable from '../components/CustomerTable';
+import CustomerTable from './CustomerTable';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import { OVERVIEW_ROUTE, ORDERS_ROUTE, CUSTOMERS_ROUTE } from '../constants';
 import OrdersTable from '../components/OrdersTable';
-import OrderDetails from '../components/OrderDetails';
+import OrderDetails from './OrderDetails';
 
 const Dashboard = () => {
   const navigate = useNavigate();

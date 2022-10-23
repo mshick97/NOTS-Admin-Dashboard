@@ -3,15 +3,15 @@ require('dotenv').config();
 
 const WEBFLOW_API_KEY = process.env.WEBFLOW_API_KEY;
 const NOTS_HAIR_SITE_ID = process.env.NOTS_HAIR_SITE_ID;
-const WEBFLOW_API_URL = 'https://api.webflow.com'
+const WEBFLOW_API_URL = 'https://api.webflow.com';
 
 const ordersController = {};
 
 ordersController.getOrders = async (req, res, next) => {
   const WEBFLOW_ORDERS_URL = `${WEBFLOW_API_URL}/sites/${NOTS_HAIR_SITE_ID}/orders`;
-  
+
   const orders = await axios.get(WEBFLOW_ORDERS_URL, {
-    headers: { 'Authorization': `Bearer ${WEBFLOW_API_KEY}` }
+    headers: { Authorization: `Bearer ${WEBFLOW_API_KEY}` },
   });
 
   const ordersData = [];
@@ -19,6 +19,7 @@ ordersController.getOrders = async (req, res, next) => {
   orders.data.forEach((orderDetails) => {
     const {
       acceptedOn,
+      billingAddress,
       comment,
       customerInfo,
       customerPaid,
@@ -29,11 +30,12 @@ ordersController.getOrders = async (req, res, next) => {
       purchasedItems,
       status,
       stripeDetails,
-      totals
+      totals,
     } = orderDetails;
 
     const order = {
       acceptedOn: acceptedOn,
+      billingAddress: billingAddress,
       comment: comment,
       customerInfo: customerInfo,
       customerPaid: customerPaid,
@@ -44,8 +46,8 @@ ordersController.getOrders = async (req, res, next) => {
       purchasedItems: purchasedItems,
       status: status,
       stripeDetails: stripeDetails,
-      totals: totals
-    }
+      totals: totals,
+    };
 
     ordersData.push(order);
   });
@@ -53,6 +55,6 @@ ordersController.getOrders = async (req, res, next) => {
   res.locals.orderData = ordersData;
 
   return next();
-}
+};
 
 module.exports = ordersController;

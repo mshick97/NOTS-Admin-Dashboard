@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
-import DBEntry from './DBEntry';
+import DBEntry from '../components/DBEntry';
 import TextField from '@mui/material/TextField';
-import CustomSnackbar from './CustomSnackbar';
+import CustomSnackbar from '../components/CustomSnackbar';
 import useErrorRedirect from '../hooks/useErrorRedirect';
 import { debounce } from 'debounce';
 
