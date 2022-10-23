@@ -5,6 +5,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import Login from './components/Login';
 import Dashboard from './containers/Dashboard';
 import RequireAuth from './components/RequireAuth';
+import NotFound from './components/NotFound';
 import { LOGIN_ROUTE, OVERVIEW_ROUTE } from './constants';
 
 const App = () => {

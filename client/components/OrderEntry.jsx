@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const OrderEntry = (props) => {
-  const { orderData } = props;
+  const { orderData, navigateToOrder } = props;
 
   const convertDateToString = (dateString) => {
     const options = { year: 'numeric', month: 'short', day: 'numeric' };
@@ -11,14 +11,26 @@ const OrderEntry = (props) => {
   const unfulfilledStyle = {
     color: 'rgb(234, 167, 0)',
     fontWeight: 500,
+    border: '2px solid rgb(234, 167, 0)',
+    borderRadius: '5px',
+    width: '130px',
+    paddingLeft: '10px',
   };
   const fulfilledStyle = {
     color: 'rgb(0, 164, 87)',
     fontWeight: 500,
+    border: '2px solid rgb(0, 164, 87)',
+    borderRadius: '5px',
+    width: '130px',
+    paddingLeft: '10px',
   };
 
   return (
-    <div id="entryContainer">
+    <div
+      className="entryContainer"
+      onClick={() => {
+        navigateToOrder(orderData.orderId);
+      }}>
       <div id="entryWrapper">
         <div className="entryBox">
           <p className="dataEntry">{orderData.orderId}</p>

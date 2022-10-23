@@ -1,4 +1,4 @@
-import { SET_IS_LOADING_TYPE, SET_ORDER_DATA_TYPE, SET_SALES_TYPE, SET_AVG_ORDER_VAL, SET_AVG_ORDER_SIZE } from '../constants';
+import { SET_IS_LOADING_TYPE, SET_ORDER_DATA_TYPE, SET_SALES_TYPE, SET_AVG_ORDER_VAL, SET_AVG_ORDER_SIZE, SET_ORDER_ID } from '../constants';
 
 export const initialOrderState = {
   isLoading: true,

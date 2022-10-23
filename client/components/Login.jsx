@@ -1,5 +1,6 @@
 import React, { useState, useRef, Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ORDERS_ROUTE } from '../constants';
 import useAuth from '../hooks/useAuth';
 import { axiosPublic } from '../api/axios';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -13,7 +14,7 @@ const Login = () => {
 
   const navigate = useNavigate();
   const location = useNavigate();
-  const from = location.state?.from?.pathname || '/orders';
+  const from = location.state?.from?.pathname || ORDERS_ROUTE;
 
   // Hooks and functions below for invoking snackbar functionality on login error/ incorrect credentials
   const [open, setOpen] = useState(false);
