@@ -13,7 +13,7 @@ const OrderEntry = (props) => {
     fontWeight: 500,
     border: '2px solid rgb(234, 167, 0)',
     borderRadius: '5px',
-    width: '130px',
+    width: '125px',
     paddingLeft: '10px',
   };
   const fulfilledStyle = {
@@ -21,7 +21,7 @@ const OrderEntry = (props) => {
     fontWeight: 500,
     border: '2px solid rgb(0, 164, 87)',
     borderRadius: '5px',
-    width: '130px',
+    width: '125px',
     paddingLeft: '10px',
   };
 

@@ -7,8 +7,8 @@ import CustomerTable from './CustomerTable';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import { OVERVIEW_ROUTE, ORDERS_ROUTE, CUSTOMERS_ROUTE } from '../constants';
-import OrdersTable from '../components/OrdersTable';
-import OrderDetails from './OrderDetails';
+import OrdersTable from './OrdersTable';
+import OrderDetails from '../components/OrderDetails';
 
 const Dashboard = () => {
   const navigate = useNavigate();

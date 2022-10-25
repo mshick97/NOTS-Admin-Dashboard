@@ -42,15 +42,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // url encoded form data
 app.use(cookieParser());
 
-// Serving static files
-app.use(express.static(path.resolve(__dirname, './build')));
-app.use('/css', express.static(path.resolve(__dirname, './build')));
-
 // For handling React Router routes in production
 app.use('/login', express.static(path.join(__dirname, '..', 'build', 'index.html')));
 app.use('/overview', express.static(path.join(__dirname, '..', 'build', 'index.html')));
 app.use('/orders', express.static(path.join(__dirname, '..', 'build', 'index.html')));
 app.use('/customers', express.static(path.join(__dirname, '..', 'build', 'index.html')));
+
+// Serving static files
+app.use('/css', express.static(path.resolve(__dirname, './build')));
+app.use(express.static(path.resolve(__dirname, './build')));
 
 // For handling all client requests in admin application + Webflow POST requests
 app.use('/api', require('./routes/apiRoutes'));

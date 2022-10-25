@@ -2,7 +2,6 @@ import React from 'react';
 
 const BillingDetails = (props) => {
   const { name, address, email } = props;
-  console.log(name, address, email);
 
   return (
     <div id="BillingDetails">

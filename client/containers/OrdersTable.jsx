@@ -15,7 +15,7 @@ import Box from '@mui/material/Box';
 import useErrorRedirect from '../hooks/useErrorRedirect';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import DataCard from '../components/DataCard';
-import OrderEntry from './OrderEntry';
+import OrderEntry from '../components/OrderEntry';
 
 const OrderTable = () => {
   const axiosPrivate = useAxiosPrivate();

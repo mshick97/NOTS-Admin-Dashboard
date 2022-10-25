@@ -1,0 +1,12 @@
+#purchasedItemsHeader {
+  display: grid;
+  grid-template-columns: 0.15fr 0.35fr 0.25fr 0.15fr 0.15fr;
+  border-bottom: #cccccc solid 0.5px;
+}
+
+.purchasedItemDetails {
+  display: grid;
+  grid-template-columns: 0.15fr 0.35fr 0.25fr 0.15fr 0.15fr;
+  border-bottom: #cccccc solid 0.5px;
+  border-top: 0;
+}
