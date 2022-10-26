@@ -15,6 +15,9 @@ body {
   min-height: 100vh;
 }
 
+.hello {
+}
+
 #homeButton {
   cursor: pointer;
 }
