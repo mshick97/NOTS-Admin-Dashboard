@@ -1,5 +1,5 @@
 import React, { StrictMode } from 'react';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthProvider';
 import { disableReactDevTools } from '@fvilers/disable-react-devtools';
@@ -9,7 +9,8 @@ if (process.env.NODE_ENV !== 'development') {
   disableReactDevTools();
 }
 
-render(
+const root = createRoot(document.getElementById('root'));
+root.render(
   <StrictMode>
     <BrowserRouter>
       <AuthProvider>
@@ -18,6 +19,5 @@ render(
         </Routes>
       </AuthProvider>
     </BrowserRouter>
-  </StrictMode>,
-  document.getElementById('root')
+  </StrictMode>
 );
