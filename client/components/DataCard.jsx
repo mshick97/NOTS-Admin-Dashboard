@@ -8,7 +8,7 @@ const DataCard = (props) => {
       <div className="dataCardHeader">
         <p>{heading}:</p>
       </div>
-      <p>{cardData}</p>
+      <p className="cardData">{cardData}</p>
     </div>
   );
 };

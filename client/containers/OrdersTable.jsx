@@ -94,10 +94,10 @@ const OrderTable = () => {
     return (
       <>
         <div className="dataCardContainer">
-          <DataCard heading={'New Orders'} cardData={state.orderData.length} />
-          <DataCard heading={'Total Sales'} cardData={'$' + state.sales} />
-          <DataCard heading={'Avg. Order Value'} cardData={'$' + state.avgOrderVal} />
-          <DataCard heading={'Avg. Order Size'} cardData={state.avgOrderSize} />
+          <DataCard heading={'New Orders'} cardData={state.orderData.length} id="newOrders" />
+          <DataCard heading={'Total Sales'} cardData={'$' + state.sales} id="totalSales" />
+          <DataCard heading={'Avg. Order Value'} cardData={'$' + state.avgOrderVal} id="avgOrderValue" />
+          <DataCard heading={'Avg. Order Size'} cardData={state.avgOrderSize} id="avgOrderSize" />
         </div>
 
         <div id="table" className="orderTable">

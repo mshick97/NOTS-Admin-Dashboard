@@ -13,6 +13,12 @@
     "docker-build": "docker build --tag nots .",
     "docker-run": "docker run --publish 3000:3000 nots"
   },
+  "jest": {
+    "transform": {
+      "^.+\\.(js|jsx)$": "babel-jest"
+    },
+    "testEnvironment": "jsdom"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mshick97/NOTS-Admin-Dashboard.git"
@@ -32,6 +38,8 @@
     "@babel/core": "^7.18.2",
     "@babel/preset-env": "^7.18.2",
     "@babel/preset-react": "^7.17.12",
+    "@testing-library/react": "^13.4.0",
+    "babel-jest": "^29.2.2",
     "babel-loader": "^8.2.5",
     "css-loader": "^6.7.1",
     "file-loader": "^6.2.0",

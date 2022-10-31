@@ -6,3 +6,4 @@ package-lock.json
 .firebase
 adminSDKCreds.json
 ui-debug.log
+orderDataMock.json
