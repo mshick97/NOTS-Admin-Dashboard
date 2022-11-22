@@ -10,7 +10,7 @@ import OrderEntry from '../components/OrderEntry';
 
 const OrderTable = () => {
   const navigate = useNavigate();
-  const { isLoading, data } = useGetOrderData();
+  const { isLoading, data, refetch } = useGetOrderData();
   const [state, dispatch] = useReducer(ordersReducer, initialOrderState);
 
   const navigateToOrder = (orderData) => {
@@ -81,7 +81,7 @@ const OrderTable = () => {
           <img
             src={'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Refresh_icon.svg/1200px-Refresh_icon.svg.png'}
             id="refreshButton"
-            onClick={() => getOrderData()}
+            onClick={refetch}
           />
         </div>
 

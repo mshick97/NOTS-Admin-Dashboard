@@ -13,7 +13,7 @@ const useGetOrderData = () => {
     return orders.data;
   }
 
-  const { isLoading, data, isError, error } = useQuery(['orderData'], getOrderData, {
+  const { isLoading, data, isError, error, refetch } = useQuery(['orderData'], getOrderData, {
     staleTime: 30000,
     retry: false,
   });
@@ -25,7 +25,7 @@ const useGetOrderData = () => {
     }
   }, [isError]);
 
-  return { isLoading, data };
+  return { isLoading, data, refetch };
 };
 
 export default useGetOrderData;
