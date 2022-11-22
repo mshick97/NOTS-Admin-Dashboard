@@ -1,4 +1,4 @@
-import React, { useState, useRef, Suspense } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ORDERS_ROUTE } from '../constants';
 import useAuth from '../hooks/useAuth';

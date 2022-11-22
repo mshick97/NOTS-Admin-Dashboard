@@ -2,7 +2,6 @@ import React from 'react';
 
 const PurchasedItemDetails = (props) => {
   const { variantImage, productName, variantSKU, count, rowTotal } = props.item;
-  console.log(props.item);
 
   return (
     <div className="purchasedItemDetails">

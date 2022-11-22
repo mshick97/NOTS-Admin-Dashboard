@@ -43,10 +43,10 @@ app.use(express.urlencoded({ extended: true })); // url encoded form data
 app.use(cookieParser());
 
 // For handling React Router routes in production
-app.use('/login', express.static(path.join(__dirname, '..', 'build', 'index.html')));
-app.use('/overview', express.static(path.join(__dirname, '..', 'build', 'index.html')));
-app.use('/orders', express.static(path.join(__dirname, '..', 'build', 'index.html')));
-app.use('/customers', express.static(path.join(__dirname, '..', 'build', 'index.html')));
+app.use('/login', express.static(path.join(__dirname, '..', 'build')));
+app.use('/overview', express.static(path.join(__dirname, '..', 'build')));
+app.use('/orders', express.static(path.join(__dirname, '..', 'build')));
+app.use('/customers', express.static(path.join(__dirname, '..', 'build')));
 
 // Serving static files
 app.use('/css', express.static(path.resolve(__dirname, './build')));

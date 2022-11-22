@@ -11,7 +11,6 @@ const OrderDetails = () => {
   // State for this page is transferred using React Router lib instead of prop drilling / context API
   const orderData = location.state;
 
-  console.log(orderData);
   return (
     <div id="OrderDetails">
       <button onClick={() => navigate(ORDERS_ROUTE)}>Go back</button>
