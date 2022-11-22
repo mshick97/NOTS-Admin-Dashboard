@@ -8,7 +8,7 @@
     "test": "jest ./__tests__",
     "production-start": "cross-env NODE_ENV=production node functions/index.js",
     "development-start": "cross-env NODE_ENV=development node functions/index.js",
-    "build": "cross-env NODE_ENV=production webpack --config ./webpack.config.js",
+    "build": "cross-env NODE_ENV=production webpack --config ./webpack.config.js --mode production",
     "dev": "concurrently \"cross-env NODE_ENV=development nodemon functions/index.js\" \"cross-env NODE_ENV=development webpack-dev-server --hot --open\"",
     "docker-build": "docker build --tag nots .",
     "docker-run": "docker run --publish 3000:3000 nots"
