@@ -56,7 +56,8 @@ module.exports = {
       favicon: './client/images/favicon.ico',
     }),
     new SourceMapDevToolPlugin({
-      // filename: "index.js.map"
+      // filename: '[file].js',
+      // sourceMapFilename: '[name].js.map',
     }),
   ],
   devServer: {

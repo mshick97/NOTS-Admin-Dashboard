@@ -3,17 +3,17 @@ import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { useQuery } from '@tanstack/react-query';
 import useErrorRedirect from '../hooks/useErrorRedirect';
 
-const useGetOrderData = () => {
+const useGetCustomerData = () => {
   const axiosPrivate = useAxiosPrivate();
   const redirect = useErrorRedirect();
 
-  async function getOrderData() {
-    const GET_ORDERS_URL = '/api/order_info';
-    const orders = await axiosPrivate.get(GET_ORDERS_URL);
-    return orders.data;
+  async function getCustomerData() {
+    const GET_CUSTOMERS_URL = '/api/users';
+    const customers = await axiosPrivate(GET_CUSTOMERS_URL);
+    return customers.data.customers;
   }
 
-  const { isLoading, data, isError, error, refetch } = useQuery(['orderData'], getOrderData, {
+  const { isLoading, data, isError, error, refetch } = useQuery(['customerData'], getCustomerData, {
     staleTime: 30000,
     retry: false,
   });
@@ -28,4 +28,4 @@ const useGetOrderData = () => {
   return { isLoading, data, refetch };
 };
 
-export default useGetOrderData;
+export default useGetCustomerData;
