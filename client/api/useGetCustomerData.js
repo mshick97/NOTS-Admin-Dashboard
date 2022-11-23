@@ -21,7 +21,6 @@ const useGetCustomerData = () => {
   useEffect(() => {
     if (isError) {
       redirect(error);
-      console.log(error);
     }
   }, [isError]);
 

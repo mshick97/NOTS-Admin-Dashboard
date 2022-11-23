@@ -21,7 +21,6 @@ const useGetOrderData = () => {
   useEffect(() => {
     if (isError) {
       redirect(error);
-      console.log(error);
     }
   }, [isError]);
 

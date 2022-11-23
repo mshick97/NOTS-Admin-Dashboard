@@ -10,7 +10,7 @@ const ErrorResponse = () => {
   const location = useLocation();
 
   return (err) => {
-    if (err.response?.status === 403 || err.response?.status === 401) {
+    if (err?.response?.status === 403 || err?.response?.status === 401) {
       setAuth({ firstName: 'Admin', lastName: 'Admin' });
       navigate(LOGIN_ROUTE, { state: { from: location }, replace: true });
     }

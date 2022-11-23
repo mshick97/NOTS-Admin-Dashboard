@@ -1,13 +1,19 @@
-import React from 'react';
-import { useLocation, Outlet, Navigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useLocation, useOutlet, useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import { LOGIN_ROUTE } from '../constants';
 
 const RequireAuth = () => {
   const location = useLocation();
   const { auth } = useAuth();
+  const outlet = useOutlet();
+  const navigate = useNavigate();
 
-  return auth?.validLogin ? <Outlet /> : <Navigate to={LOGIN_ROUTE} state={{ from: location }} replace={true} />;
+  useEffect(() => {
+    auth?.validLogin ? outlet : navigate(LOGIN_ROUTE, { state: { from: location }, replace: true });
+  }, [auth, location.pathname]);
+
+  return outlet;
 };
 
 export default RequireAuth;

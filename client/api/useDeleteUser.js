@@ -20,6 +20,7 @@ const useDeleteUser = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['customerData'] });
     },
+    retry: false,
   });
 
   useEffect(() => {

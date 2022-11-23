@@ -111,13 +111,7 @@ const Login = () => {
             </Box>
           </div>
         ) : (
-          <Button
-            id="loginButton"
-            variant="contained"
-            size="medium"
-            onClick={() => {
-              loginAttempt();
-            }}>
+          <Button id="loginButton" variant="contained" size="medium" onClick={loginAttempt}>
             Login
           </Button>
         )}

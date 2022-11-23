@@ -17,6 +17,7 @@ const useFindUser = () => {
 
   const { mutateAsync, data, isLoading, isError, error } = useMutation({
     mutationFn: (event) => findUser(event),
+    retry: false,
   });
 
   useEffect(() => {
