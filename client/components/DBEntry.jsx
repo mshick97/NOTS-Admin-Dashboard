@@ -1,35 +1,26 @@
 import React from 'react';
-import useAxiosPrivate from '../hooks/useAxiosPrivate';
-import useErrorRedirect from '../hooks/useErrorRedirect';
 
 const DBEntry = (props) => {
-  const axiosPrivate = useAxiosPrivate();
-  const redirect = useErrorRedirect();
-
   const { openSnackbar } = props;
-  const { userId, getCustomerData } = props; // for async function
+  const { userId, deleteUser } = props; // for async function
   const { name, email, street1, street2, city, state, zip } = props;
 
-  async function deleteUser() {
-    const DELETE_CUSTOMER_URL = `/api/users/${userId}`;
+  const handleDelete = async () => {
+    const deleteResult = await deleteUser(userId);
 
-    await axiosPrivate
-      .delete(DELETE_CUSTOMER_URL)
-      .then(() => {
-        openSnackbar(`User with email ${email} deleted`, 'success');
-        getCustomerData();
-      })
-      .catch((err) => {
-        console.log(err);
-        openSnackbar('Error deleting user from database', 'error');
-        redirect(err);
-      });
-  }
+    if (deleteResult.didDelete) {
+      return openSnackbar(`User with email ${email} deleted`, 'success');
+    }
+
+    if (!deleteResult.didDelete) {
+      return openSnackbar('Error deleting user from database', 'error');
+    }
+  };
 
   return (
     <div className="entryContainer">
       <div className="deleteWrapper">
-        <img src="https://www.svgrepo.com/show/21045/delete-button.svg" className="deleteIcon" onClick={deleteUser} />
+        <img src="https://www.svgrepo.com/show/21045/delete-button.svg" className="deleteIcon" onClick={handleDelete} />
       </div>
       <div id="entryWrapper">
         <div className="entryBox">

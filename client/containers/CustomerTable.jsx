@@ -7,6 +7,7 @@ import CustomSnackbar from '../components/CustomSnackbar';
 import { debounce } from 'debounce';
 import useGetCustomerData from '../api/useGetCustomerData';
 import useFindUser from '../api/useFindUser';
+import useDeleteUser from '../api/useDeleteUser';
 
 const CustomerTable = () => {
   document.title = 'NOTS Admin | Customers';
@@ -14,6 +15,7 @@ const CustomerTable = () => {
   // Custom Axios API hooks that cache with React Query
   const getCustomerData = useGetCustomerData();
   const findUser = useFindUser();
+  const deleteUser = useDeleteUser();
 
   // For managing customers from getCustomerData function and findUser function
   const [customerList, setCustomerList] = useState([]);
@@ -50,7 +52,7 @@ const CustomerTable = () => {
     if (!getCustomerData.isLoading) {
       setCustomerList(getCustomerData.data);
     }
-  }, [getCustomerData.isLoading]);
+  }, [getCustomerData.isLoading, getCustomerData.data]);
 
   useEffect(() => {
     if (!findUser.isLoading) {
@@ -115,7 +117,7 @@ const CustomerTable = () => {
             city={customer.city}
             state={customer.state}
             zip={customer.zip}
-            getCustomerData={getCustomerData.refetch}
+            deleteUser={deleteUser.mutateAsync}
             openSnackbar={openSnackbar}
           />
         );
