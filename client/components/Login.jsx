@@ -1,13 +1,13 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ORDERS_ROUTE } from '../constants';
 import useAuth from '../hooks/useAuth';
-import { axiosPublic } from '../api/axios';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import CustomSnackbar from './CustomSnackbar';
+import useLogin from '../api/useLogin';
 
 const Login = () => {
   document.title = 'NOTS Admin | Login';
@@ -21,27 +21,23 @@ const Login = () => {
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('');
 
-  const [fetching, setFetching] = useState(false); // for loading UI on login
+  const loginAttempt = useLogin();
 
   const openSnackbar = () => {
     setOpen(true);
   };
 
-  const handleSnackbarClose = (event, reason) => {
+  const handleSnackbarClose = () => {
     setOpen(false);
   };
 
   // Below hook and function are for login request to server
-  const { setAuth } = useAuth();
+  const { setAuth, auth } = useAuth();
   const loginForm = useRef(null);
 
-  function loginAttempt() {
-    const LOGIN_URL = '/api/auth';
-
-    // grabs form in current state and pulls values for each field
-    const loginAttempt = loginForm.current;
-    const email = loginAttempt['outlined-email-required'].value;
-    const password = loginAttempt['outlined-password-input'].value;
+  const handleClick = async () => {
+    const email = loginForm.current['outlined-email-required'].value;
+    const password = loginForm.current['outlined-password-input'].value;
 
     if (!email || !password) {
       // if either field are null
@@ -50,37 +46,34 @@ const Login = () => {
       return openSnackbar();
     }
 
-    setFetching(true); // to toggle loading spinning icon when logging in
+    const loginCreds = { email, password };
+    const loginResults = await loginAttempt.mutateAsync(loginCreds);
 
-    axiosPublic
-      .post(LOGIN_URL, { email: email, password: password }, { withCredentials: true })
-      .then((res) => {
-        if (res.data.validLogin === true) {
-          const validLogin = res?.data?.validLogin;
-          const accessToken = res?.data?.accessToken;
-          const firstName = res?.data?.adminName?.firstName;
-          const lastName = res?.data?.adminName?.lastName;
+    if (loginResults.validLogin === true) {
+      const validLogin = loginResults.validLogin;
+      const accessToken = loginResults.accessToken;
+      const firstName = loginResults.adminName?.firstName;
+      const lastName = loginResults.adminName?.lastName;
 
-          setAuth({ validLogin, accessToken, firstName, lastName });
-          setFetching(false);
-          return navigate(from, { replace: true });
-        }
+      return setAuth({ validLogin, accessToken, firstName, lastName });
+    }
 
-        if (res.data === false) {
-          setFetching(false);
-          setSnackbarMessage('Invalid email or password');
-          setSnackbarSeverity('error');
-          return openSnackbar();
-        }
-      })
-      .catch((err) => {
-        setSnackbarMessage('Error while trying to login, please wait and try again');
-        setSnackbarSeverity('error');
-        openSnackbar();
-        setFetching(false);
-        return console.log(err);
-      });
-  }
+    if (loginResults.validLogin === false) {
+      setSnackbarMessage('Invalid email or password');
+      setSnackbarSeverity('error');
+      return openSnackbar();
+    }
+
+    if (loginAttempt.isError) {
+      setSnackbarMessage('Error while trying to login, please wait and try again');
+      setSnackbarSeverity('error');
+      return openSnackbar();
+    }
+  };
+
+  useEffect(() => {
+    if (auth.validLogin === true) navigate(from, { replace: true });
+  }, [auth]);
 
   return (
     <div id="loginContainer">
@@ -104,14 +97,14 @@ const Login = () => {
         <TextField required id="outlined-email-required" defaultValue="" label="Email" />
         <TextField required id="outlined-password-input" type="password" autoComplete="current-password" label="Password" />
 
-        {fetching ? (
+        {loginAttempt.isLoading ? (
           <div style={{ margin: '6px 0 1px 0' }}>
             <Box sx={{ display: 'flex' }} id="loadingBox">
               <CircularProgress />
             </Box>
           </div>
         ) : (
-          <Button id="loginButton" variant="contained" size="medium" onClick={loginAttempt}>
+          <Button id="loginButton" variant="contained" size="medium" onClick={handleClick}>
             Login
           </Button>
         )}
