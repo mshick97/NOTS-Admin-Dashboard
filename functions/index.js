@@ -48,6 +48,11 @@ app.use('**/js/bundle.js', (req, res) => res.sendFile(path.join(__dirname, './bu
 // Serving static files
 app.use('**/css', express.static(path.resolve(__dirname, './build')));
 
+const customerController = require('./controllers/customerController');
+app.get('/test', customerController.testSQL, (req, res) => {
+  return res.status(200).json(res.locals.test);
+});
+
 // For handling all client requests in admin application + Webflow POST requests
 app.use('/api', require('./routes/apiRoutes'));
 
