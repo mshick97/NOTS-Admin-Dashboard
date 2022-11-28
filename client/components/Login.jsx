@@ -47,24 +47,25 @@ const Login = () => {
     }
 
     const loginCreds = { email, password };
-    const loginResults = await loginAttempt.mutateAsync(loginCreds);
 
-    if (loginResults.validLogin === true) {
-      const validLogin = loginResults.validLogin;
-      const accessToken = loginResults.accessToken;
-      const firstName = loginResults.adminName?.firstName;
-      const lastName = loginResults.adminName?.lastName;
+    try {
+      const loginResults = await loginAttempt.mutateAsync(loginCreds);
 
-      return setAuth({ validLogin, accessToken, firstName, lastName });
-    }
+      if (loginResults.validLogin === true) {
+        const validLogin = loginResults.validLogin;
+        const accessToken = loginResults.accessToken;
+        const firstName = loginResults.adminName?.firstName;
+        const lastName = loginResults.adminName?.lastName;
 
-    if (loginResults.validLogin === false) {
-      setSnackbarMessage('Invalid email or password');
-      setSnackbarSeverity('error');
-      return openSnackbar();
-    }
+        return setAuth({ validLogin, accessToken, firstName, lastName });
+      }
+    } catch (err) {
+      if (err.response.data.validLogin === false) {
+        setSnackbarMessage('Invalid email or password');
+        setSnackbarSeverity('error');
+        return openSnackbar();
+      }
 
-    if (loginAttempt.isError) {
       setSnackbarMessage('Error while trying to login, please wait and try again');
       setSnackbarSeverity('error');
       return openSnackbar();

@@ -1,4 +1,4 @@
-const Admin = require('../models/adminModel').Admin;
+const usersDB = require('../config/usersPGInstance');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
@@ -16,38 +16,37 @@ authenticationController.verifyAccessJWT = (req, res, next) => {
   });
 };
 
-authenticationController.handleRefreshToken = (req, res, next) => {
+authenticationController.handleRefreshToken = async (req, res, next) => {
   const cookies = req.cookies;
   if (!cookies['__session']) return res.sendStatus(401); // if no cookie with a key of jwt is passed in
-
   const refreshToken = cookies.__session;
-  Admin.findOne({ refreshToken: refreshToken }, (err, tokenRes) => {
-    if (err) {
-      return next({
-        log: 'Error has occurred in the handleRefreshToken middleware in authenticationController',
-        status: 500,
-        message: { err: err },
-      });
-    }
 
-    if (!tokenRes) {
+  const findTokenQuery = 'SELECT * FROM "users"."admins" WHERE "refresh_token" = $1;';
+  try {
+    const tokenQuery = await usersDB.query(findTokenQuery, [refreshToken]);
+
+    if (tokenQuery.rows.length === 0) {
       res.clearCookie('__session', { httpOnly: true, sameSite: 'None', secure: true });
       return res.status(403).json(false);
     }
 
-    if (tokenRes) {
-      jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (error, decoded) => {
-        if (error || tokenRes.email !== decoded.username) {
-          res.clearCookie('__session', { httpOnly: true, sameSite: 'None', secure: true });
-          return res.status(403).json(false);
-        }
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (error, decoded) => {
+      if (error || tokenQuery.rows[0].email !== decoded.username) {
+        res.clearCookie('__session', { httpOnly: true, sameSite: 'None', secure: true });
+        return res.status(403).json(false);
+      }
 
-        const accessToken = jwt.sign({ username: decoded.username }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '10s' });
+      const accessToken = jwt.sign({ username: decoded.username }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '10s' });
 
-        return res.json({ accessToken: accessToken });
-      });
-    }
-  });
+      return res.json({ accessToken: accessToken });
+    });
+  } catch (err) {
+    return next({
+      log: 'Error occurred in the handleRefreshToken: ' + err,
+      status: 407,
+      message: 'An error occurred when checking login',
+    });
+  }
 };
 
 module.exports = authenticationController;

@@ -109,11 +109,11 @@ const CustomerTable = () => {
         return (
           <DBEntry
             key={`Unique user ${i}`}
-            userId={customer._id}
-            name={customer.fullName}
+            userId={customer.id}
+            name={customer.full_name}
             email={customer.email}
-            street1={customer.street1}
-            street2={customer.street2}
+            street1={customer.street_1}
+            street2={customer.street_2}
             city={customer.city}
             state={customer.state}
             zip={customer.zip}

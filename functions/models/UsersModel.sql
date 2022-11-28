@@ -19,21 +19,3 @@ CREATE TABLE IF NOT EXISTS "users"."admins" (
   "password" varchar NOT NULL,
   "refresh_token" varchar UNIQUE
 );
-
--- INSERT INTO "users"."customers" (
---   "full_name",
---   "email",
---   "street_1",
---   "street_2",
---   "city",
---   "state",
---   "zip") 
---   VALUES (
---   'Final Actual Person',
---   'hello@test.com',
---   '123 Hello St.',
---   '',
---   'Lawrence',
---   'MA',
---   '01922'
--- );

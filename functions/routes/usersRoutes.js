@@ -2,7 +2,7 @@ const express = require('express');
 const Router = express.Router();
 
 // Import controllers
-const { getAllCustomers, findUser, updateUser, createNewCustomer, deleteUser } = require('../controllers/customerController');
+const { getAllCustomers, findUser, createNewCustomer, deleteUser } = require('../controllers/customerController');
 
 Router.get('/', getAllCustomers, (req, res) => {
   console.log('returning: customerController.getAllCustomers');
@@ -16,11 +16,6 @@ Router.delete('/:id', deleteUser, (req, res) => {
 
 Router.post('/find_user', findUser, (req, res) => {
   console.log('returning: customerController.findUser');
-  return res.status(200).json(res.locals);
-});
-
-Router.post('/update_user', updateUser, (req, res) => {
-  console.log('returning: customerController.updateUser');
   return res.status(200).json(res.locals);
 });
 

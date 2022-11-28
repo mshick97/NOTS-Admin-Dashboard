@@ -1,142 +1,95 @@
-const Customer = require('../models/customerModel').Customer;
 const usersDB = require('../config/usersPGInstance');
 
 const customerController = {};
 
-customerController.getAllCustomers = (req, res, next) => {
-  Customer.find({}, (err, searchRes) => {
-    if (err)
-      return next({
-        log: "Database issue, couldn't retrieve customers in getAllCustomers middleware in customerController",
-        status: 502,
-        message: err,
-      });
-
-    // Pass the data found in the search to the next invokation
-    if (searchRes) {
-      res.locals.customers = searchRes;
-      return next();
-    }
-
-    // Unsure when this would ever fire, but don't want to risk breaking next chain
-    if (!searchRes) return next();
-  });
+customerController.getAllCustomers = async (req, res, next) => {
+  const getCustomersQuery = 'SELECT * FROM "users"."customers";';
+  try {
+    const allCustomers = await usersDB.query(getCustomersQuery);
+    res.locals.customers = allCustomers.rows;
+    return next();
+  } catch (err) {
+    return next({
+      log: "Database issue, couldn't retrieve customers in getAllCustomers controller: " + err,
+      status: 400,
+    });
+  }
 };
 
-customerController.createNewCustomer = (req, res, next) => {
-  const { fullName, email, street1, street2, city, state, zip } = req.body;
+customerController.createNewCustomer = async (req, res, next) => {
+  const { full_name, email, street_1, street_2, city, state, zip } = req.body;
 
-  Customer.create(
-    {
-      fullName: fullName,
-      email: email,
-      street1: street1,
-      street2: street2,
-      city: city,
-      state: state,
-      zip: zip,
-    },
-    (err, createRes) => {
-      if (err)
-        return next({
-          log: "Couldn't create new user in the createNewCustomer middleware in the customerController",
-          message: err,
-        });
+  const addCustomerQuery =
+    'INSERT INTO "users"."customers" ("full_name", "email", "street_1", "street_2", "city", "state", "zip") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *;';
 
-      if (createRes) {
-        res.locals.createdUser = createRes;
-        return next();
-      }
-
-      if (!createRes) {
-        res.locals.createdUser = 'Error creating a new user, but request was valid';
-        return next();
-      }
-    }
-  );
+  try {
+    const addedCustomer = await usersDB.query(addCustomerQuery, [full_name, email, street_1, street_2, city, state, zip]);
+    res.locals.createdUser = addedCustomer.rows[0];
+    return next();
+  } catch (err) {
+    return next({
+      log: "Couldn't create new user in the createNewCustomer: " + err,
+      status: 400,
+    });
+  }
 };
 
-customerController.findUser = (req, res, next) => {
+customerController.findUser = async (req, res, next) => {
   const { email } = req.body;
 
-  Customer.find({ email: email }, (err, searchRes) => {
-    if (err)
-      return next({
-        log: "Database issue, couldn't retrieve customers in getAllCustomers middleware in customerController",
-        status: 502,
-        message: err,
-      });
-
-    // Pass the data found in the search to the next invokation
-    if (searchRes) {
-      res.locals.foundUser = searchRes;
-      return next();
-    }
-
-    if (!searchRes) return next();
-  });
+  try {
+    const findUserQuery = 'SELECT * FROM "users"."customers" WHERE "email" LIKE $1';
+    const foundUser = await usersDB.query(findUserQuery, ['%' + email + '%']); // percentage signs needed when using LIKE operator to indicate any sequence + pattern + any sequence
+    res.locals.foundUser = foundUser.rows;
+    return next();
+  } catch (err) {
+    return next({
+      log: 'Issue querying to find user in findUser middleware: ' + err,
+      status: 400,
+      message: 'Issue querying for the user in database',
+    });
+  }
 };
 
-customerController.deleteUser = (req, res, next) => {
+//   Customer.find({ email: email }, (err, searchRes) => {
+//     if (err)
+//       return next({
+//         log: "Database issue, couldn't retrieve customers in getAllCustomers middleware in customerController",
+//         status: 502,
+//         message: err,
+//       });
+
+//     // Pass the data found in the search to the next invokation
+//     if (searchRes) {
+//       res.locals.foundUser = searchRes;
+//       return next();
+//     }
+
+//     if (!searchRes) return next();
+//   });
+// };
+
+customerController.deleteUser = async (req, res, next) => {
   // axios has a very specific way of formating delete requests: find user id at req.body.source
   const userId = req.params.id;
 
-  Customer.deleteOne({ _id: userId }, (err, deleteRes) => {
-    if (err)
-      return next({
-        log: 'Server error while deleting a customer in the deleteUser middleware in customerController',
-        message: err,
-      });
+  try {
+    const deleteUserQuery = 'DELETE FROM "users"."customers" WHERE "id" = $1 RETURNING *;';
+    const deletedUser = await usersDB.query(deleteUserQuery, [userId]);
 
-    if (deleteRes) {
-      res.locals.didDelete = true;
+    if (deletedUser.rows.length === 0) {
+      res.locals.didDelete = false;
       return next();
     }
 
-    // Unsure when this would ever fire, but don't want to risk breaking next chain
-    if (!deleteRes) return next();
-  });
-};
-
-customerController.updateUser = (req, res, next) => {
-  const { userId, fullName, email, street1, street2, city, state, zip } = req.body; // need to attach to request specific things needed for edit
-
-  Customer.findOneAndUpdate(
-    { _id: userId },
-    {
-      fullName: fullName,
-      email: email,
-      street1: street1,
-      street2: street2,
-      city: city,
-      state: state,
-      zip: zip,
-    },
-    (err, updateRes) => {
-      if (err)
-        return next({
-          log: 'Server issue while trying to update user in the findOneAndUpdate middleware in customerController',
-          message: err,
-        });
-
-      if (updateRes) {
-        res.locals.updatedUser = updateRes;
-        return next();
-      }
-
-      if (!updateRes) {
-        res.locals.updatedUser = 'Failed to updated user in database, but not a server / db error. Possible schema error';
-        return next();
-      }
-    }
-  );
-};
-
-customerController.testSQL = async (req, res, next) => {
-  const queryString = 'SELECT * FROM "users"."customers";';
-  const results = await usersDB.query(queryString);
-  res.locals.test = results.rows;
-  return next();
+    res.locals.didDelete = true;
+    return next();
+  } catch (err) {
+    return next({
+      log: 'Error deleting the user from the database in deleteUser middleware: ' + err,
+      status: 400,
+    });
+  }
 };
 
 module.exports = customerController;

@@ -1,76 +1,72 @@
+const usersDB = require('../config/usersPGInstance');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const firebaseAdmin = require('firebase-admin');
-const Admin = require('../models/adminModel').Admin;
 require('dotenv').config();
 
 const adminController = {};
 
-adminController.adminLogin = (req, res, next) => {
+adminController.adminLogin = async (req, res, next) => {
   const { email, password } = req.body;
 
-  Admin.findOne({ email: email }, async (err, searchRes) => {
-    if (err) {
-      return next({
-        log: 'Error has occurred in the adminLogin middleware in adminController',
-        status: 407,
-        message: { err: err }
-      });
+  const findAdminQuery = 'SELECT * FROM "users"."admins" WHERE "email" = $1;';
+
+  try {
+    const adminQuery = await usersDB.query(findAdminQuery, [email]);
+
+    if (adminQuery.rows.length === 0) {
+      res.locals.validLogin = false;
+      return res.status(401).json(res.locals); // frontend expecting an object with the validLogin property
     }
 
-    if (!searchRes) {
-      res.locals.isAdmin = false
-      return res.status(200).json(res.locals.isAdmin);
-    }
+    const adminResults = adminQuery.rows[0];
+    await bcrypt.compare(password + process.env.BCRYPT_SECRET, adminResults.password, async function (error, result) {
+      if (error) {
+        return next({
+          log: error,
+          message: 'Invalid email or password',
+        });
+      }
 
-    if (searchRes) {
-      const hashedPassword = searchRes.password;
+      if (!result) {
+        res.locals.validLogin = false;
+        return res.status(401).json(res.locals); // frontend expecting an object with the validLogin property
+      }
 
-      await bcrypt.compare(password + process.env.BCRYPT_SECRET, hashedPassword, async function (error, result) {
-        if (error) {
-          return next({
-            log: err,
-            message: 'Invalid email or password'
-          });
-        }
+      // Creating access token for short session access to APIs and storing the refresh token to refresh access tokens
+      const accessToken = jwt.sign(
+        { username: adminResults.email },
+        process.env.ACCESS_TOKEN_SECRET,
+        // { expiresIn: '600s' }
+        { expiresIn: '10s' }
+      );
 
-        if (result) {
-          // Creating access token for short session access to APIs and storing the refresh token to refresh access tokens
-          const accessToken = jwt.sign(
-            { username: searchRes.email },
-            process.env.ACCESS_TOKEN_SECRET,
-            // { expiresIn: '600s' }
-            { expiresIn: '5s' }
-          );
+      const refreshToken = jwt.sign(
+        { username: adminResults.email },
+        process.env.REFRESH_TOKEN_SECRET,
+        // { expiresIn: '1d' }
+        { expiresIn: '40s' }
+      );
 
-          const refreshToken = jwt.sign(
-            { username: searchRes.email },
-            process.env.REFRESH_TOKEN_SECRET,
-            // { expiresIn: '1d' }
-            { expiresIn: '40s' }
-          );
+      const addTokenQuery = 'UPDATE "users"."admins" SET "refresh_token" = $1 WHERE "email" = $2 RETURNING *;';
+      await usersDB.query(addTokenQuery, [refreshToken, email]);
 
-          searchRes.refreshToken = refreshToken; // modifying the search result of the refreshToken property when an admin is found and their password is valid
-          await searchRes.save(); // native method from mongoose allows you to save a document after modifying instead of having to re-query
+      res.locals.isAdmin = {
+        validLogin: true,
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+        adminName: { firstName: adminResults.first_name, lastName: adminResults.last_name },
+      };
 
-          res.locals.isAdmin = {
-            validLogin: true,
-            accessToken: accessToken,
-            refreshToken: refreshToken,
-            adminName: { firstName: searchRes.firstName, lastName: searchRes.lastName }
-          };
-
-          res.setHeader('Cache-Control', 'private').cookie('__session', refreshToken, { httpOnly: true, secure: true, maxAge: 24 * 60 * 60 * 1000 }); // setting max age to one day + sending back the refresh token as the cookie + not accessible by JS
-          return next();
-        }
-
-        if (!result) {
-          res.locals.isAdmin = false
-          return res.status(200).json(res.locals.isAdmin);
-        }
-      });
-    }
-  });
-}
+      res.setHeader('Cache-Control', 'private').cookie('__session', refreshToken, { httpOnly: true, secure: true, maxAge: 24 * 60 * 60 * 1000 }); // setting max age to one day + sending back the refresh token as the cookie + not accessible by JS
+      return next();
+    });
+  } catch (err) {
+    return next({
+      log: 'Error occurred in the adminController: ' + err,
+      status: 407,
+      message: 'An error occurred when logging in',
+    });
+  }
+};
 
 module.exports = adminController;

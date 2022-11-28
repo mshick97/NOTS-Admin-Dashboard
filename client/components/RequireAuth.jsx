@@ -7,7 +7,7 @@ const RequireAuth = () => {
   const location = useLocation();
   const { auth } = useAuth();
 
-  return auth?.validLogin ? <Outlet /> : <Navigate to={LOGIN_ROUTE} state={{ from: location }} replace={true} />;
+  return auth.validLogin ? <Outlet /> : <Navigate to={LOGIN_ROUTE} state={{ from: location }} replace={true} />;
 };
 
 export default RequireAuth;
