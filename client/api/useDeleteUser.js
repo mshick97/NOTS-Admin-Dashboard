@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import useErrorRedirect from '../hooks/useErrorRedirect';
@@ -15,19 +14,16 @@ const useDeleteUser = () => {
     return deletedUser.data;
   }
 
-  const { mutateAsync, data, isLoading, isError, error } = useMutation({
+  const { mutateAsync, data, isLoading } = useMutation({
     mutationFn: (userId) => deleteUser(userId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['customerData'] });
     },
     retry: false,
+    onError: (err) => {
+      return redirect(err);
+    },
   });
-
-  useEffect(() => {
-    if (isError) {
-      redirect(error);
-    }
-  }, [isError]);
 
   return { mutateAsync, data, isLoading };
 };

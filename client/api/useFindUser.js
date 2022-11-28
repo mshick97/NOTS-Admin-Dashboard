@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import useErrorRedirect from '../hooks/useErrorRedirect';
@@ -15,16 +14,13 @@ const useFindUser = () => {
     return user.data.foundUser;
   }
 
-  const { mutateAsync, data, isLoading, isError, error } = useMutation({
+  const { mutateAsync, data, isLoading } = useMutation({
     mutationFn: (event) => findUser(event),
     retry: false,
+    onError: (err) => {
+      return redirect(err);
+    },
   });
-
-  useEffect(() => {
-    if (isError) {
-      redirect(error);
-    }
-  }, [isError]);
 
   return { mutateAsync, data, isLoading };
 };

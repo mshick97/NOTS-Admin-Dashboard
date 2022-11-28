@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { useQuery } from '@tanstack/react-query';
 import useErrorRedirect from '../hooks/useErrorRedirect';
@@ -13,16 +12,13 @@ const useGetCustomerData = () => {
     return customers.data.customers;
   }
 
-  const { isLoading, data, isError, error, refetch } = useQuery(['customerData'], getCustomerData, {
+  const { isLoading, data, refetch } = useQuery(['customerData'], getCustomerData, {
     staleTime: 30000,
     retry: false,
+    onError: (err) => {
+      return redirect(err);
+    },
   });
-
-  useEffect(() => {
-    if (isError) {
-      redirect(error);
-    }
-  }, [isError]);
 
   return { isLoading, data, refetch };
 };

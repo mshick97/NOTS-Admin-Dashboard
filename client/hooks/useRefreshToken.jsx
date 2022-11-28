@@ -9,8 +9,12 @@ const useRefreshToken = () => {
       withCredentials: true,
     });
 
-    setAuth((prev) => {
-      return { ...prev, accessToken: response.data.accessToken };
+    const newAccessTokenObj = {
+      accessToken: response.data.accessToken || null,
+    };
+
+    setAuth((prevState) => {
+      return Object.assign({}, prevState, newAccessTokenObj);
     });
 
     return response.data.accessToken;

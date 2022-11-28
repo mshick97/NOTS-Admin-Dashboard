@@ -73,7 +73,7 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (auth.validLogin === true) navigate(from, { replace: true });
+    if (auth.validLogin !== false) navigate(from, { replace: true });
   }, [auth]);
 
   return (
