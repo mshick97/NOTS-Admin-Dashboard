@@ -51,24 +51,6 @@ customerController.findUser = async (req, res, next) => {
   }
 };
 
-//   Customer.find({ email: email }, (err, searchRes) => {
-//     if (err)
-//       return next({
-//         log: "Database issue, couldn't retrieve customers in getAllCustomers middleware in customerController",
-//         status: 502,
-//         message: err,
-//       });
-
-//     // Pass the data found in the search to the next invokation
-//     if (searchRes) {
-//       res.locals.foundUser = searchRes;
-//       return next();
-//     }
-
-//     if (!searchRes) return next();
-//   });
-// };
-
 customerController.deleteUser = async (req, res, next) => {
   // axios has a very specific way of formating delete requests: find user id at req.body.source
   const userId = req.params.id;

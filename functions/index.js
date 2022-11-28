@@ -5,7 +5,6 @@ const adminSDKCreds = require('./adminSDKCreds.json');
 const express = require('express');
 const app = express();
 const cookieParser = require('cookie-parser');
-const connectDB = require('./config/DBConnect');
 require('dotenv').config();
 const PORT = 3000;
 
@@ -36,7 +35,6 @@ const corsOptions = {
 const cors = require('cors')(corsOptions);
 
 // Parsing each request that comes into server
-connectDB();
 app.use(cors);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // url encoded form data

@@ -1,51 +1,43 @@
-const Customer = require('../models/customerModel').Customer;
+const usersDB = require('../config/usersPGInstance');
 
 const webflowPurchaseController = {};
 
-webflowPurchaseController.checkCustomerInfo = (req, res, next) => {
-  Customer.findOne({ email: req.body.email },
-    (err, searchRes) => {
-      // If an error occurs server side at this point, hand off to the global error handler
-      if (err) return next({
-        log: 'Internal server error'
-      });
+webflowPurchaseController.checkCustomerInfo = async (req, res, next) => {
+  const { email } = req.body;
 
-      // If customer does not exist -- create one with the only required field being the email
-      if (!searchRes) return webflowPurchaseController.createCustomer(req, res, next);
+  const checkCustomerExistsQuery = 'SELECT * FROM "users"."customers" WHERE "email" = $1;';
+  try {
+    const foundCustomer = await usersDB.query(checkCustomerExistsQuery, [email]);
 
-      // If the cusomter does exist, return to next, but could eventually update some data here
-      if (searchRes) {
-        res.locals.foundUser = searchRes;
-        return next();
-      }
+    if (foundCustomer.rows.length === 0) {
+      return webflowPurchaseController.createCustomer(req, res, next);
+    }
+
+    res.locals.foundUser = foundCustomer.rows[0];
+    return next();
+  } catch (err) {
+    return next({
+      log: 'Error finding customer in DB: ' + err,
+      status: 400,
     });
-}
+  }
+};
 
-webflowPurchaseController.createCustomer = (req, res, next) => {
-  Customer.create({
-    email: req.body.email,
-    fullName: req.body.fullName,
-    street1: req.body.street1,
-    street2: req.body.street2,
-    city: req.body.city,
-    state: req.body.state,
-    zip: req.body.zip
-  },
-    (err, createRes) => {
-      // Handle errors between database and the server
-      if (err) return next({
-        log: 'A server-side error has occured'
-      });
+webflowPurchaseController.createCustomer = async (req, res, next) => {
+  const { email, fullName, street1, street2, city, state, zip } = req.body;
 
-      // Handle database related issue, such as schema not being met. Since schema only requires a unique string email, won't really fire much
-      if (!createRes) return next();
-
-      // Returns next if success
-      if (createRes) {
-        res.locals.newUser = createRes;
-        return next();
-      }
+  const addCustomerQuery =
+    'INSERT INTO "users"."customers" ("full_name", "email", "street_1", "street_2", "city", "state", "zip") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *;';
+  try {
+    const newCustomer = await usersDB.query(addCustomerQuery, [fullName, email, street1, street2, city, state, zip]);
+    res.locals.newUser = newCustomer.rows[0];
+    return next();
+  } catch (err) {
+    return next({
+      log: 'Error adding a new customer to the DB: ' + err,
+      status: 400,
     });
-}
+  }
+};
 
 module.exports = webflowPurchaseController;
