@@ -4,20 +4,23 @@
 }
 
 .goBackButton {
-  width: 40px;
-  height: 20px;
-  background-color: inherit;
+  display: inline;
+  width: 45px;
+  height: 45px;
   border: 0.25px solid gainsboro;
+  border-radius: 5px;
 }
 
 .goBackButton:hover {
   cursor: pointer;
+  background-color: gainsboro;
 }
 
-.goBackButton::before {
-  content: '';
-  background: url(../images/goBackArrow.png) no-repeat left center;
-  float: left;
+.goBackImage {
+  padding: 0;
+  margin: 0;
+  width: 25px;
+  height: 25px;
 }
 
 .orderId {
@@ -26,11 +29,11 @@
 
 #billingDetails {
   margin-top: 30px;
-  margin-left: 40px;
+  margin-left: 30px;
   margin-right: 40px;
   background: #f8f8f8;
   opacity: 87%;
-  padding: 10px 40px 30px 40px;
+  padding: 10px 40px 30px 30px;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
     rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
   border-radius: 10px;
@@ -39,11 +42,11 @@
 
 #OrderSummary {
   margin-top: 30px;
-  margin-left: 40px;
+  margin-left: 30px;
   margin-right: 40px;
   background: #f8f8f8;
   opacity: 87%;
-  padding: 10px 40px 30px 40px;
+  padding: 10px 40px 30px 30px;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
     rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
   border-radius: 10px;

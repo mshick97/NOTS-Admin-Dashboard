@@ -4,6 +4,7 @@ import { ORDERS_ROUTE } from '../constants';
 import PurchasedItemDetails from './PurchasedItemDetails';
 import BillingDetails from './BillingDetails';
 import OrderSummary from './OrderSummary';
+import goBackArrowImage from '../images/goBackArrow.png';
 
 const OrderDetails = () => {
   const navigate = useNavigate();
@@ -13,15 +14,14 @@ const OrderDetails = () => {
 
   return (
     <>
-      <button className="goBackButton" onClick={() => navigate(ORDERS_ROUTE)}></button>
       <div id="orderDetails">
         <div className="table orderTable">
+          <button className="goBackButton" onClick={() => navigate(ORDERS_ROUTE)}>
+            <img className="goBackImage" src={goBackArrowImage} />
+          </button>
           <h2>
             Order Number: <span className="orderId">#{orderData.orderId}</span>
           </h2>
-          <div id="tableHeadContainer">
-            <h3>Purchase Details</h3>
-          </div>
           <div id="purchasedItemsHeader">
             <h5></h5>
             <h5 className="tableHeading">Item</h5>
