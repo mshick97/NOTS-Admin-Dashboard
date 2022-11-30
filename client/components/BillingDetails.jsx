@@ -4,7 +4,7 @@ const BillingDetails = (props) => {
   const { name, address, email } = props;
 
   return (
-    <div id="BillingDetails">
+    <div id="billingDetails">
       <h3>Billing Details</h3>
       <p>Name: {name}</p>
 

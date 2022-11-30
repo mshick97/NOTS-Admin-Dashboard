@@ -6,7 +6,7 @@ const DataCard = (props) => {
   return (
     <div className="DataCard">
       <div className="dataCardHeader">
-        <p>{heading}:</p>
+        <p className="dataCardHeading">{heading}</p>
       </div>
       <p className="cardData">{cardData}</p>
     </div>

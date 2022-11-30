@@ -12,39 +12,39 @@ const OrderDetails = () => {
   const orderData = location.state;
 
   return (
-    <div id="OrderDetails">
-      <button onClick={() => navigate(ORDERS_ROUTE)}>Go back</button>
+    <>
+      <button className="goBackButton" onClick={() => navigate(ORDERS_ROUTE)}></button>
+      <div id="orderDetails">
+        <div className="table orderTable">
+          <h2>
+            Order Number: <span className="orderId">#{orderData.orderId}</span>
+          </h2>
+          <div id="tableHeadContainer">
+            <h3>Purchase Details</h3>
+          </div>
+          <div id="purchasedItemsHeader">
+            <h5></h5>
+            <h5 className="tableHeading">Item</h5>
+            <h5 className="tableHeading">SKU</h5>
+            <h5 className="tableHeading">Quantity</h5>
+            <h5 className="tableHeading">Price</h5>
+          </div>
+          {orderData.purchasedItems.map((item) => {
+            return <PurchasedItemDetails key={item.productId} item={item} />;
+          })}
 
-      <h2>
-        Order Number: <span className="orderId">#{orderData.orderId}</span>
-      </h2>
-      <OrderSummary orderCreated={orderData.acceptedOn} subtotal={orderData.totals.subtotal.string} />
-      <div>
-        <p>Total: {orderData.totals.total.string}</p>
+          <div id="purchasesTotal">
+            <p>Subtotal $ {orderData.purchasedItems.reduce((total, currItem) => (total += currItem.rowTotal.value), 0)}</p>
+            <p>Total {orderData.netAmount.string}</p>
+          </div>
+        </div>
+
+        <div>
+          <OrderSummary orderCreated={orderData.acceptedOn} subtotal={orderData.totals.subtotal.string} total={orderData.totals.total.string} />
+          <BillingDetails name={orderData.customerInfo.fullName} address={orderData.billingAddress} email={orderData.customerInfo.email} />
+        </div>
       </div>
-      <BillingDetails name={orderData.customerInfo.fullName} address={orderData.billingAddress} email={orderData.customerInfo.email} />
-
-      <div id="table">
-        <div id="tableHeadContainer">
-          <h2>Purchase Details</h2>
-        </div>
-        <div id="purchasedItemsHeader">
-          <h5></h5>
-          <h5 className="tableHeading">Item</h5>
-          <h5 className="tableHeading">SKU</h5>
-          <h5 className="tableHeading">Quantity</h5>
-          <h5 className="tableHeading">Price</h5>
-        </div>
-        {orderData.purchasedItems.map((item) => {
-          return <PurchasedItemDetails key={item.productId} item={item} />;
-        })}
-
-        <div id="purchasesTotal">
-          <p>Subtotal $ {orderData.purchasedItems.reduce((total, currItem) => (total += currItem.rowTotal.value), 0)}</p>
-          <p>Total {orderData.netAmount.string}</p>
-        </div>
-      </div>
-    </div>
+    </>
   );
 };
 

@@ -1,15 +1,31 @@
 .DataCard {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  max-width: 180px;
-  min-width: 180px;
+  justify-content: center;
+  align-items: center;
+  max-width: 200px;
+  min-width: 200px;
+  min-height: 150px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  padding: 10px 20px;
   border-radius: 10px;
   position: relative;
+  border: 0.25px solid gainsboro;
+  padding-top: 40px;
 }
 
 .dataCardHeader {
-  background-color: aqua;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  font-weight: 500;
+  background-color: #e5e4e2;
+}
+
+.dataCardHeading {
+  text-align: center;
+}
+
+.cardData {
+  font-size: 2em;
 }

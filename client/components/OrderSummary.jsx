@@ -1,7 +1,7 @@
 import React from 'react';
 
 const OrderSummary = (props) => {
-  const { orderCreated, subtotal } = props;
+  const { orderCreated, subtotal, total } = props;
 
   const dateOptions = { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' };
   const dateConversion = new Date(orderCreated).toLocaleDateString('en-us', dateOptions);
@@ -15,6 +15,7 @@ const OrderSummary = (props) => {
       <p>Order Created: {dateConversion}</p>
       <p>Order Time: {timeConversion}</p>
       <p>Subtotal: {subtotal}</p>
+      <p>Total: {total}</p>
     </div>
   );
 };

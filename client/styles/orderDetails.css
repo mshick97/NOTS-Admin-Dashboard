@@ -1,3 +1,55 @@
+#orderDetails {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+}
+
+.goBackButton {
+  width: 40px;
+  height: 20px;
+  background-color: inherit;
+  border: 0.25px solid gainsboro;
+}
+
+.goBackButton:hover {
+  cursor: pointer;
+}
+
+.goBackButton::before {
+  content: '';
+  background: url(../images/goBackArrow.png) no-repeat left center;
+  float: left;
+}
+
 .orderId {
   color: #bd1825;
+}
+
+#billingDetails {
+  margin-top: 30px;
+  margin-left: 40px;
+  margin-right: 40px;
+  background: #f8f8f8;
+  opacity: 87%;
+  padding: 10px 40px 30px 40px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  border-radius: 10px;
+  width: fit-content;
+}
+
+#OrderSummary {
+  margin-top: 30px;
+  margin-left: 40px;
+  margin-right: 40px;
+  background: #f8f8f8;
+  opacity: 87%;
+  padding: 10px 40px 30px 40px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  border-radius: 10px;
+  width: fit-content;
+}
+
+.orderTable {
+  height: fit-content !important;
 }
