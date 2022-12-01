@@ -7,7 +7,7 @@ Router.use('/refresh', require('../controllers/authenticationController').handle
 
 // Every API below must include an access token to access
 Router.use(require('../controllers/authenticationController').verifyAccessJWT);
-Router.use('/overview_data', require('./overviewRoutes'));
+Router.use('/stripe', require('./stripeRoutes'));
 Router.use('/order_info', require('./ordersRoutes'));
 Router.use('/users', require('./usersRoutes'));
 

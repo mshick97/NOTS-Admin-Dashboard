@@ -4,6 +4,16 @@
 name: Deploy to Firebase Hosting on PR
 'on': pull_request
 jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    steps:
+        uses: actions/checkout@v2
+      - run: npm ci  
+      - name: Cypress run
+        uses: cypress-io/github-action@v4.2.2 # use the explicit version number
+        with:
+          build: npm run build && mv ~/build ~/functions
+          start: npm run dev
   build_and_preview:
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
     runs-on: ubuntu-latest

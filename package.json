@@ -4,10 +4,10 @@
   "description": "An admin's GUI for NOTS, designed for tracking orders and visualizing the customer data base.",
   "main": "functions/index.js",
   "scripts": {
-    "start": "node functions/index.js",
-    "test": "jest ./__tests__",
-    "production-start": "cross-env NODE_ENV=production node functions/index.js",
-    "development-start": "cross-env NODE_ENV=development node functions/index.js",
+    "start": "cross-env NODE_ENV=production node functions/index.js",
+    "start-dev": "cross-env NODE_ENV=development nodemon functions/index.js",
+    "test-jest": "jest ./__tests__",
+    "cypress:open": "cypress open",
     "build": "cross-env NODE_ENV=production webpack --config ./webpack.config.js --mode production",
     "dev": "concurrently \"cross-env NODE_ENV=development nodemon functions/index.js\" \"cross-env NODE_ENV=development webpack-dev-server --hot --open --history-api-fallback\"",
     "docker-build": "docker build --tag nots .",
@@ -84,6 +84,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.2",
     "react-scripts": "^5.0.1",
+    "stripe": "^11.1.0",
     "webflow-api": "^0.8.1",
     "webpack": "^5.73.0"
   }

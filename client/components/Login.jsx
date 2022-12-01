@@ -35,7 +35,8 @@ const Login = () => {
   const { setAuth, auth } = useAuth();
   const loginForm = useRef(null);
 
-  const handleClick = async () => {
+  const handleClick = async (e) => {
+    e.preventDefault();
     const email = loginForm.current['outlined-email-required'].value;
     const password = loginForm.current['outlined-password-input'].value;
 
@@ -95,8 +96,8 @@ const Login = () => {
           <h2 id="loginHeading">Login</h2>
           <h5 id="loginSubheading">Please provide your NOTS admin email and password, below</h5>
         </div>
-        <TextField required id="outlined-email-required" defaultValue="" label="Email" />
-        <TextField required id="outlined-password-input" type="password" autoComplete="current-password" label="Password" />
+        <TextField required id="outlined-email-required" defaultValue="" label="Email" name="email" />
+        <TextField required id="outlined-password-input" type="password" autoComplete="current-password" label="Password" name="password" />
 
         {loginAttempt.isLoading ? (
           <div style={{ margin: '6px 0 1px 0' }}>
@@ -105,7 +106,7 @@ const Login = () => {
             </Box>
           </div>
         ) : (
-          <Button id="loginButton" variant="contained" size="medium" onClick={handleClick}>
+          <Button id="loginButton" variant="contained" size="medium" onClick={handleClick} type="submit">
             Login
           </Button>
         )}
