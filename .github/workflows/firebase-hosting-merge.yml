@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Install and build
-        run: npm ci && npm run build && npm i cypress
+        run: npm ci && npm run build
       - name: Cypress run
         uses: cypress-io/github-action@v4.2.2
         with:
