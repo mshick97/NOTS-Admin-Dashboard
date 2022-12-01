@@ -9,7 +9,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: npm ci && npm run build && npm run cypress:run
+      - name: Cypress run
+      - run: npm ci
+        uses: cypress-io/github-action@v4.2.2
+        with:
+          build: npm run build
+          start: npm start
+      - run: npm ci && npm run build
         env:
           NODE_ENV: production
       - uses: FirebaseExtended/action-hosting-deploy@v0
