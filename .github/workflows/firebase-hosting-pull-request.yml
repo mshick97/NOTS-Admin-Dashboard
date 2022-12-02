@@ -10,8 +10,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Containerizing Application
-        run: npm run docker-build
       - name: Cypress Tests
         uses: cypress-io/github-action@v4.2.2
         env:
@@ -27,6 +25,7 @@ jobs:
         with:
           browser: chrome
           headed: true
+          run: npm run docker-build
           start: npm run docker-run
           wait-on: 'http://localhost:3000'
       - name: Install and build
