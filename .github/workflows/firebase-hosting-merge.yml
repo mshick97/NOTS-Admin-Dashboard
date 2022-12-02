@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Cypress Tests
-        uses: cypress-io/github-action@v4.2.2
+        uses: cypress-io/github-action@v4
         env:
           PG_URI: ${{ secrets.PG_URI }}
           PGUSER: ${{ secrets.PGUSER }}
