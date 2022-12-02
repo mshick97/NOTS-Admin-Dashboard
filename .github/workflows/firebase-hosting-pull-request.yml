@@ -21,6 +21,7 @@ jobs:
           PGHOST: ${{ secrets.PGHOST }}
           PGPORT: ${{ secrets.PGPORT }}
           PGDATABASE: ${{ secrets.PGDATABASE }}
+          BCRYPT_SECRET: ${{ secrets.BCRYPT_SECRET }}
         with:
           browser: chrome
           headed: true
