@@ -40,6 +40,8 @@ app.use('**/js/bundle.js', (req, res) => res.sendFile(path.join(__dirname, './bu
 // Serving static files
 app.use('**/css', express.static(path.resolve(__dirname, './build')));
 
+app.use(express.static(path.join(__dirname, './build')));
+
 // For handling all client requests in admin application + Webflow POST requests
 app.use('/api', require('./routes/apiRoutes'));
 
@@ -60,6 +62,6 @@ app.use((err, req, res) => {
   return res.status(errObj.status).json(errObj.message);
 });
 
-process.env.NODE_ENV === 'development'
-  ? app.listen(PORT, () => console.log('\x1b[36m%s\x1b[0m', `Server is listening on port: ${PORT}`))
-  : (exports.server = firebaseFunctions.https.onRequest(app));
+process.env.NODE_ENV === 'production'
+  ? (exports.server = firebaseFunctions.https.onRequest(app))
+  : app.listen(PORT, () => console.log('\x1b[36m%s\x1b[0m', `Server is listening on port: ${PORT}`));

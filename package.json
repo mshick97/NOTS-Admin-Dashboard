@@ -4,7 +4,7 @@
   "description": "An admin's GUI for NOTS, designed for tracking orders and visualizing the customer data base.",
   "main": "functions/index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=production node functions/index.js",
+    "start": "node functions/index.js",
     "start-dev": "cross-env NODE_ENV=development nodemon functions/index.js",
     "test-jest": "jest ./__tests__",
     "cypress:open": "cypress open",
