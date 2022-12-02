@@ -14,7 +14,7 @@ describe('login functionality', () => {
   it('should submit the email and password + navigate to orders', () => {
     cy.get('#loginButton').click();
 
-    cy.url().should('include', '/orders');
+    cy.url({ timeout: 30000 }).should('include', '/orders');
     cy.get('#ordersContainer');
   });
 
