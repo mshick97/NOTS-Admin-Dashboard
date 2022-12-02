@@ -8,7 +8,6 @@ const adminController = {};
 adminController.adminLogin = async (req, res, next) => {
   const { email, password } = req.body;
 
-  console.log(process.env.PG_URI);
   const findAdminQuery = 'SELECT * FROM "users"."admins" WHERE "email" = $1;';
 
   try {

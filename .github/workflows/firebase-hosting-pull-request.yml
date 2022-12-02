@@ -14,6 +14,13 @@ jobs:
         run: npm ci && npm run build
       - name: Cypress run
         uses: cypress-io/github-action@v4.2.2
+        env:
+          PG_URI: ${{ secrets.PG_URI }}
+          PGUSER: ${{ secrets.PGUSER }}
+          PGPASSWORD: ${{ secrets.PGPASSWORD }}
+          PGHOST: ${{ secrets.PGHOST }}
+          PGPORT: ${{ secrets.PGPORT }}
+          PGDATABASE: ${{ secrets.PGDATABASE }}
         with:
           browser: chrome
           headed: true
