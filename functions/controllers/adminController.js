@@ -6,8 +6,9 @@ require('dotenv').config();
 const adminController = {};
 
 adminController.adminLogin = async (req, res, next) => {
-  const { email, password } = req.body || req.Body;
+  const { email, password } = req.body;
 
+  console.log(process.env.PG_URI);
   const findAdminQuery = 'SELECT * FROM "users"."admins" WHERE "email" = $1;';
 
   try {
@@ -64,7 +65,7 @@ adminController.adminLogin = async (req, res, next) => {
     return next({
       log: 'Error occurred in the adminController: ' + err,
       status: 400,
-      message: 'An error occurred when logging in' + err,
+      message: 'An error occurred when logging in',
     });
   }
 };
