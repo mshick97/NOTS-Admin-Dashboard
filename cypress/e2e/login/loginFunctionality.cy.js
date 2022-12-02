@@ -14,12 +14,12 @@ describe('login functionality', () => {
   it('should submit the email and password + navigate to orders', () => {
     cy.get('#loginButton').click();
 
-    cy.url({ timeout: 30000 }).should('include', '/orders');
+    cy.url({ timeout: 15000 }).should('include', '/orders');
     cy.get('#ordersContainer');
   });
 
   it('user should receive a session cookie on login', () => {
-    cy.request('POST', 'http://localhost:3000/api/auth', loginCreds);
-    cy.getCookie('__session').should('exist');
+    cy.request('POST', 'http://localhost:3000/api/auth', loginCreds).as('login');
+    cy.getCookie('__session', { timeout: 15000 }).should('exist');
   });
 });

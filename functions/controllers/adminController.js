@@ -6,7 +6,7 @@ require('dotenv').config();
 const adminController = {};
 
 adminController.adminLogin = async (req, res, next) => {
-  const { email, password } = req.body;
+  const { email, password } = req.body || req.Body;
 
   const findAdminQuery = 'SELECT * FROM "users"."admins" WHERE "email" = $1;';
 
