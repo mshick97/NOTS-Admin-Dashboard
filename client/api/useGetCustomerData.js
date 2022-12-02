@@ -8,8 +8,13 @@ const useGetCustomerData = () => {
 
   async function getCustomerData() {
     const GET_CUSTOMERS_URL = '/api/users';
-    const customers = await axiosPrivate(GET_CUSTOMERS_URL);
-    return customers.data.customers;
+
+    try {
+      const customers = await axiosPrivate(GET_CUSTOMERS_URL);
+      return customers.data.customers;
+    } catch (err) {
+      throw new Error(err);
+    }
   }
 
   const { isLoading, data, refetch } = useQuery(['customerData'], getCustomerData, {

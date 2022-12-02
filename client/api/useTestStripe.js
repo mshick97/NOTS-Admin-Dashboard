@@ -8,8 +8,13 @@ const useTestStripe = () => {
 
   const getTestData = async () => {
     const TEST_ENDPOINT = '/api/stripe';
-    const testResponse = await axiosPrivate.get(TEST_ENDPOINT);
-    return testResponse.data;
+
+    try {
+      const testResponse = await axiosPrivate.get(TEST_ENDPOINT);
+      return testResponse.data;
+    } catch (err) {
+      throw new Error(err);
+    }
   };
 
   const { isLoading, data, refetch } = useQuery(['testStripeData'], getTestData, {

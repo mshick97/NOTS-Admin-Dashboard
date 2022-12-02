@@ -8,8 +8,13 @@ const useGetOrderData = () => {
 
   async function getOrderData() {
     const GET_ORDERS_URL = '/api/order_info';
-    const orders = await axiosPrivate.get(GET_ORDERS_URL);
-    return orders.data;
+
+    try {
+      const orders = await axiosPrivate.get(GET_ORDERS_URL);
+      return orders.data;
+    } catch (err) {
+      throw new Error(err);
+    }
   }
 
   const { isLoading, data, refetch } = useQuery(['orderData'], getOrderData, {

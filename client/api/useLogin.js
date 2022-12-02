@@ -4,8 +4,13 @@ import { useMutation } from '@tanstack/react-query';
 async function loginAttempt(loginInfo) {
   // loginInfo should be an object with email and password keys / corresponding values
   const LOGIN_URL = '/api/auth';
-  const loginResults = await axiosPublic.post(LOGIN_URL, loginInfo, { withCredentials: true });
-  return loginResults.status === 200 ? loginResults.data : loginResults;
+
+  try {
+    const loginResults = await axiosPublic.post(LOGIN_URL, loginInfo, { withCredentials: true });
+    return loginResults.status === 200 ? loginResults.data : loginResults;
+  } catch (err) {
+    throw new Error(err);
+  }
 }
 
 const useLogin = () => {
