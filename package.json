@@ -7,7 +7,7 @@
     "start": "node functions/index.js",
     "start-dev": "cross-env NODE_ENV=development nodemon functions/index.js",
     "test-jest": "jest ./__tests__",
-    "cypress:open": "cypress open",
+    "cypress:open": "cypress open --config baseUrl=http://localhost:8080",
     "cypress:run": "cypress run",
     "build": "cross-env NODE_ENV=production webpack --config ./webpack.config.js --mode production",
     "dev": "concurrently \"cross-env NODE_ENV=development nodemon functions/index.js\" \"cross-env NODE_ENV=development webpack-dev-server --hot --open --history-api-fallback\"",
