@@ -5,19 +5,23 @@ const useRefreshToken = () => {
   const { setAuth } = useAuth();
 
   const refresh = async () => {
-    const response = await axiosPublic.get('/api/refresh', {
-      withCredentials: true,
-    });
+    try {
+      const response = await axiosPublic.get('/api/refresh', {
+        withCredentials: true,
+      });
 
-    const newAccessTokenObj = {
-      accessToken: response.data.accessToken || null,
-    };
+      const newAccessTokenObj = {
+        accessToken: response.data.accessToken || null,
+      };
 
-    setAuth((prevState) => {
-      return Object.assign({}, prevState, newAccessTokenObj);
-    });
+      setAuth((prevState) => {
+        return Object.assign({}, prevState, newAccessTokenObj);
+      });
 
-    return response.data.accessToken;
+      return response.data.accessToken;
+    } catch (err) {
+      throw new Error(err);
+    }
   };
 
   return refresh;
