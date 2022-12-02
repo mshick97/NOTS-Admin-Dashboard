@@ -40,8 +40,6 @@ app.use('**/js/bundle.js', (req, res) => res.sendFile(path.join(__dirname, './bu
 // Serving static files
 app.use('**/css', express.static(path.resolve(__dirname, './build')));
 
-app.use(express.static(path.join(__dirname, './build')));
-
 // For handling all client requests in admin application + Webflow POST requests
 app.use('/api', require('./routes/apiRoutes'));
 
