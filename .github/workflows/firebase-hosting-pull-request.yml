@@ -16,6 +16,7 @@ jobs:
         uses: cypress-io/github-action@v4.2.2
         with:
           browser: chrome
+          headed: true
           start: npm start
       - name: Deploy to Firebase
         uses: FirebaseExtended/action-hosting-deploy@v0
