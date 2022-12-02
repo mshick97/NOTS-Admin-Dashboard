@@ -19,7 +19,11 @@ describe('login functionality', () => {
   });
 
   it('user should receive a session cookie on login', () => {
-    cy.request('POST', 'http://localhost:3000/api/auth', loginCreds).as('login');
+    cy.request({
+      method: 'POST',
+      url: 'http://localhost:3000/api/auth',
+      body: loginCreds,
+    });
     cy.getCookie('__session', { timeout: 15000 }).should('exist');
   });
 });
