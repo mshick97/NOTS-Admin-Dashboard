@@ -6,7 +6,7 @@ module.exports = {
   // Enters into first index.js to bundle
   entry: path.join(__dirname, './client/index.js'),
   output: {
-    path: path.resolve(__dirname, 'build'),
+    path: path.resolve(__dirname, 'functions/build'),
     filename: './js/bundle.js',
   },
   mode: process.env.NODE_ENV,
@@ -63,7 +63,7 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     static: {
-      directory: path.resolve(__dirname, 'build'),
+      directory: path.resolve(__dirname, 'functions/build'),
     },
     port: 8080,
     compress: true,

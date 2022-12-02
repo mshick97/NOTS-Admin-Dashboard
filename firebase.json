@@ -1,11 +1,7 @@
 {
   "hosting": {
-    "public": "./build",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
+    "public": "./functions/build",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
         "source": "/**",
@@ -21,12 +17,7 @@
   },
   "functions": {
     "source": "functions",
-    "ignore": [
-      "node_modules",
-      ".git",
-      "firebase-debug.log",
-      "firebase-debug.*.log"
-    ],
+    "ignore": ["node_modules", ".git", "firebase-debug.log", "firebase-debug.*.log"],
     "predeploy": []
   }
 }

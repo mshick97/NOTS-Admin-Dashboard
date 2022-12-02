@@ -43,7 +43,7 @@ authenticationController.handleRefreshToken = async (req, res, next) => {
   } catch (err) {
     return next({
       log: 'Error occurred in the handleRefreshToken: ' + err,
-      status: 407,
+      status: 400,
       message: 'An error occurred when checking login',
     });
   }
