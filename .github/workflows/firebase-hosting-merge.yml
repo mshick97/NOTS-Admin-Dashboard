@@ -12,9 +12,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Install and build
-        run: npm ci && npm run build
-      - name: Cypress run
+      - name: Containerize and Run
+        run: npm run docker-build && npm run docker-run
+      - name: Cypress Tests
         uses: cypress-io/github-action@v4.2.2
         env:
           PG_URI: ${{ secrets.PG_URI }}
@@ -30,6 +30,9 @@ jobs:
           browser: chrome
           headed: true
           start: npm start
+          wait-on: 'http://localhost:3000'
+      - name: Install and build
+        run: npm ci && npm run build
       - name: Deploy to Firebase
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
