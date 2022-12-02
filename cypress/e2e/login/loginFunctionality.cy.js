@@ -2,12 +2,9 @@ describe('login functionality', () => {
   it('should render the login view at the root URL', () => {
     cy.on('uncaught:exception', (err, runnable, promise) => {
       if (promise) {
+        console.log(err);
         return false;
       }
-    });
-
-    cy.on('fail', (error, runnable) => {
-      throw error;
     });
 
     cy.visit('/', { timeout: 10000 });
@@ -15,10 +12,6 @@ describe('login functionality', () => {
   });
 
   it('should render the login component', () => {
-    cy.on('fail', (error, runnable) => {
-      throw error;
-    });
-
     cy.get('#loginContainer');
   });
 
@@ -30,12 +23,9 @@ describe('login functionality', () => {
   it('should allow users to input a username and password', () => {
     cy.on('uncaught:exception', (err, runnable, promise) => {
       if (promise) {
+        console.log(err);
         return false;
       }
-    });
-
-    cy.on('fail', (error, runnable) => {
-      throw error;
     });
 
     cy.visit('/');
@@ -47,12 +37,9 @@ describe('login functionality', () => {
   it('should submit the email and password + navigate to orders', () => {
     cy.on('uncaught:exception', (err, runnable, promise) => {
       if (promise) {
+        console.log(err);
         return false;
       }
-    });
-
-    cy.on('fail', (error, runnable) => {
-      throw error;
     });
 
     cy.get('#loginButton').click();
@@ -64,12 +51,9 @@ describe('login functionality', () => {
   it('user should receive a session cookie on login', () => {
     cy.on('uncaught:exception', (err, runnable, promise) => {
       if (promise) {
+        console.log(err);
         return false;
       }
-    });
-
-    cy.on('fail', (error, runnable) => {
-      throw error;
     });
 
     cy.request({
