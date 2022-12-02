@@ -64,7 +64,7 @@ adminController.adminLogin = async (req, res, next) => {
     return next({
       log: 'Error occurred in the adminController: ' + err,
       status: 400,
-      message: 'An error occurred when logging in',
+      message: 'An error occurred when logging in' + err,
     });
   }
 };

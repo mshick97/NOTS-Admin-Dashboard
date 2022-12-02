@@ -47,7 +47,7 @@ app.use('/api', require('./routes/apiRoutes'));
 app.use('*', (req, res) => res.sendFile(path.join(__dirname, './build/index.html')));
 
 // Global error handler
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
   const defaultErr = {
     log: 'An internal server error has occurred',
     status: 500,
