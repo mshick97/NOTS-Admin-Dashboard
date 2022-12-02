@@ -27,7 +27,7 @@ jobs:
         with:
           browser: chrome
           headed: true
-          run: npm run docker-build
+          build: npm run docker-build
           start: npm run docker-run
           wait-on: 'http://localhost:3000'
       - name: Install and build
