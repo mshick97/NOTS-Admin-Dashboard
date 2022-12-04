@@ -11,7 +11,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Cypress Tests
-        uses: cypress-io/github-action@v5
+        uses: cypress-io/github-action@v4.2.2
         env:
           PG_URI: ${{ secrets.PG_URI }}
           PGUSER: ${{ secrets.PGUSER }}
@@ -22,7 +22,8 @@ jobs:
           BCRYPT_SECRET: ${{ secrets.BCRYPT_SECRET }}
           ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
           REFRESH_TOKEN_SECRET: ${{ secrets.REFRESH_TOKEN_SECRET }}
-          DEBUG: 'cypress:*'
+          WEBFLOW_API_KEY: ${{ secrets.WEBFLOW_API_KEY }}
+          NOTS_HAIR_SITE_ID: ${{ secrets.NOTS_HAIR_SITE_ID }}
         with:
           browser: chrome
           headed: true
