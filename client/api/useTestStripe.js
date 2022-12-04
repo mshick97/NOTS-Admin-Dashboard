@@ -13,7 +13,7 @@ const useTestStripe = () => {
       const testResponse = await axiosPrivate.get(TEST_ENDPOINT);
       return testResponse.data;
     } catch (err) {
-      throw new Error(err);
+      console.log(err);
     }
   };
 

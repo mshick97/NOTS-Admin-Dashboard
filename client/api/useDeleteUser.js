@@ -15,7 +15,7 @@ const useDeleteUser = () => {
       const deletedUser = await axiosPrivate.delete(DELETE_CUSTOMER_URL);
       return deletedUser.data;
     } catch (err) {
-      throw new Error(err);
+      console.log(err);
     }
   }
 

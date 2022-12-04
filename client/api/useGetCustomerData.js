@@ -13,7 +13,7 @@ const useGetCustomerData = () => {
       const customers = await axiosPrivate(GET_CUSTOMERS_URL);
       return customers.data.customers;
     } catch (err) {
-      throw new Error(err);
+      console.log(err);
     }
   }
 

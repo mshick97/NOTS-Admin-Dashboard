@@ -13,7 +13,7 @@ const useGetOrderData = () => {
       const orders = await axiosPrivate.get(GET_ORDERS_URL);
       return orders.data;
     } catch (err) {
-      throw new Error(err);
+      console.log(err);
     }
   }
 

@@ -14,7 +14,7 @@ const useFindUser = () => {
       const user = await axiosPrivate.post(FIND_USER_URL, data);
       return user.data.foundUser;
     } catch (err) {
-      throw new Error(err);
+      console.log(err);
     }
   }
 

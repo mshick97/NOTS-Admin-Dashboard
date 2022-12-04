@@ -9,7 +9,7 @@ async function loginAttempt(loginInfo) {
     const loginResults = await axiosPublic.post(LOGIN_URL, loginInfo, { withCredentials: true });
     return loginResults.status === 200 ? loginResults.data : loginResults;
   } catch (err) {
-    throw new Error(err);
+    console.log(err);
   }
 }
 
