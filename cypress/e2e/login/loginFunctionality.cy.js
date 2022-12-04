@@ -18,20 +18,6 @@ describe('login functionality', () => {
     password: 'maxwell123',
   };
 
-  it('user should receive a session cookie on login', () => {
-    cy.on('uncaught:exception', (err, runnable) => {
-      cy.log(err);
-      return false;
-    });
-
-    cy.request({
-      method: 'POST',
-      url: 'http://localhost:3000/api/auth',
-      body: loginCreds,
-    });
-    cy.getCookie('__session', { timeout: 15000 }).should('exist');
-  });
-
   it('should allow users to input a username and password', () => {
     cy.on('uncaught:exception', (err, runnable) => {
       cy.log(err);
@@ -43,7 +29,7 @@ describe('login functionality', () => {
     cy.get('input[name=password]').type(loginCreds.password);
   });
 
-  it('should submit the email and password + navigate to orders', () => {
+  it('should submit the email and password + navigate to orders + have session cookie', () => {
     cy.on('uncaught:exception', (err, runnable) => {
       cy.log(err);
       return false;
@@ -53,5 +39,7 @@ describe('login functionality', () => {
 
     cy.url({ timeout: 15000 }).should('include', '/orders');
     cy.get('#ordersContainer');
+
+    cy.getCookie('__session', { timeout: 15000 }).should('exist');
   });
 });
