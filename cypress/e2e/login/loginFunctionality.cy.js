@@ -5,7 +5,8 @@ describe('login functionality', () => {
       return false;
     });
 
-    cy.visit('/', { timeout: 10000 });
+    // should, by the nature of the test, return 401 so need to prevent it from failing
+    cy.visit('/', { failOnStatusCode: false, timeout: 10000 });
     cy.url().should('include', '/login');
   });
 
