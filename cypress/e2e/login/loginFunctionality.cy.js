@@ -37,7 +37,7 @@ describe('login functionality', () => {
       return false;
     });
 
-    cy.get('#loginButton').click({ failOnStatusCode: false });
+    cy.get('#loginButton').click();
 
     cy.url({ timeout: 15000 }).should('include', '/orders');
     cy.get('#ordersContainer');
