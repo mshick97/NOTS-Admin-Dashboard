@@ -1,4 +1,8 @@
 describe('login functionality', () => {
+  beforeEach(() => {
+    Cypress.Cookies.preserveOnce('__session');
+  });
+
   it('should render the login view at the root URL', () => {
     cy.on('uncaught:exception', (err, runnable) => {
       cy.log(err);
@@ -8,9 +12,7 @@ describe('login functionality', () => {
     // should, by the nature of the test, return 401 so need to prevent it from failing
     cy.visit('/', { failOnStatusCode: false, timeout: 10000 });
     cy.url().should('include', '/login');
-  });
 
-  it('should render the login component', () => {
     cy.get('#loginContainer');
   });
 
