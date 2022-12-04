@@ -24,7 +24,6 @@ describe('login functionality', () => {
       cy.log(err);
       return false;
     });
-    cy.visit('/login');
 
     cy.get('input[name=email]').type(loginCreds.email);
     cy.get('input[name=password]').type(loginCreds.password);
