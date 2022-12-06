@@ -10,13 +10,8 @@ const useDeleteUser = () => {
 
   async function deleteUser(userId) {
     const DELETE_CUSTOMER_URL = `/api/users/${userId}`;
-
-    try {
-      const deletedUser = await axiosPrivate.delete(DELETE_CUSTOMER_URL);
-      return deletedUser.data;
-    } catch (err) {
-      console.log(err);
-    }
+    const deletedUser = await axiosPrivate.delete(DELETE_CUSTOMER_URL);
+    return deletedUser.data;
   }
 
   const { mutateAsync, data, isLoading } = useMutation({

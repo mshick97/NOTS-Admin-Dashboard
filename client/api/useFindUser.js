@@ -9,13 +9,8 @@ const useFindUser = () => {
   async function findUser(e) {
     const FIND_USER_URL = '/api/users/find_user';
     const data = { email: e.target.value };
-
-    try {
-      const user = await axiosPrivate.post(FIND_USER_URL, data);
-      return user.data.foundUser;
-    } catch (err) {
-      console.log(err);
-    }
+    const user = await axiosPrivate.post(FIND_USER_URL, data);
+    return user.data.foundUser;
   }
 
   const { mutateAsync, data, isLoading } = useMutation({
