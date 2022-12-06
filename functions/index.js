@@ -60,6 +60,6 @@ app.use((err, req, res, next) => {
   return res.status(errObj.status).json(errObj.message);
 });
 
-process.env.NODE_ENV === 'development'
+process.env.NODE_ENV === 'development' || process.env.LAUNCH_TESTING === 'testing'
   ? app.listen(PORT, () => console.log('\x1b[36m%s\x1b[0m', `Server is listening on port: ${PORT}`))
   : (exports.nots_admin_server = firebaseFunctions.https.onRequest(app));
