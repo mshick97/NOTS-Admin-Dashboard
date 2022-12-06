@@ -5,12 +5,12 @@
     "rewrites": [
       {
         "source": "/**",
-        "function": "server",
+        "function": "nots_admin_server",
         "region": "us-central1"
       },
       {
         "source": "**",
-        "function": "server",
+        "function": "nots_admin_server",
         "destination": "/index.html"
       }
     ]

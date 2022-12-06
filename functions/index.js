@@ -1,10 +1,16 @@
 const path = require('path');
 const firebaseFunctions = require('firebase-functions');
+const firebaseAdmin = require('firebase-admin');
+const adminSDKCreds = require('./adminSDKCreds.json');
 const express = require('express');
 const app = express();
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
 const PORT = 3000;
+
+firebaseAdmin.initializeApp({
+  credential: firebaseAdmin.credential.cert(adminSDKCreds),
+});
 
 // Defining allowed origins and handling CORS
 const allowedOrigins = [
@@ -60,6 +66,6 @@ app.use((err, req, res, next) => {
   return res.status(errObj.status).json(errObj.message);
 });
 
-process.env.NODE_ENV === 'production'
-  ? (exports.server = firebaseFunctions.https.onRequest(app))
-  : app.listen(PORT, () => console.log('\x1b[36m%s\x1b[0m', `Server is listening on port: ${PORT}`));
+process.env.NODE_ENV === 'development'
+  ? app.listen(PORT, () => console.log('\x1b[36m%s\x1b[0m', `Server is listening on port: ${PORT}`))
+  : (exports.nots_admin_server = firebaseFunctions.https.onRequest(app));
