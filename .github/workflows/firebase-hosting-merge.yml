@@ -26,6 +26,7 @@ jobs:
           REFRESH_TOKEN_SECRET: ${{ secrets.REFRESH_TOKEN_SECRET }}
           WEBFLOW_API_KEY: ${{ secrets.WEBFLOW_API_KEY }}
           NOTS_HAIR_SITE_ID: ${{ secrets.NOTS_HAIR_SITE_ID }}
+          LAUNCH_TESTING: ${{ secrets.LAUNCH_TESTING }}
         with:
           browser: chrome
           headed: true
