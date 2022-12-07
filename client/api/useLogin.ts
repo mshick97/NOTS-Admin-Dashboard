@@ -1,7 +1,12 @@
-import { axiosPublic } from '../api/axios';
+import { axiosPublic } from './axios';
 import { useMutation } from '@tanstack/react-query';
 
-async function loginAttempt(loginInfo) {
+interface LoginCredsType {
+  email: string;
+  password: string;
+}
+
+async function loginAttempt(loginInfo: LoginCredsType) {
   // loginInfo should be an object with email and password keys / corresponding values
   const LOGIN_URL = '/api/auth';
   const loginResults = await axiosPublic.post(LOGIN_URL, loginInfo, { withCredentials: true });
@@ -10,7 +15,7 @@ async function loginAttempt(loginInfo) {
 
 const useLogin = () => {
   const { mutateAsync, data, isLoading, isError, error } = useMutation({
-    mutationFn: (loginArg) => loginAttempt(loginArg),
+    mutationFn: (loginArg: LoginCredsType) => loginAttempt(loginArg),
     retry: false,
   });
 

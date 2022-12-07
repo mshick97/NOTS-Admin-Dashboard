@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { ORDERS_ROUTE } from '../constants';
 import useAuth from '../hooks/useAuth';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -8,12 +8,13 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import CustomSnackbar from './CustomSnackbar';
 import useLogin from '../api/useLogin';
+import { AxiosError } from 'axios';
 
 const Login = () => {
   document.title = 'NOTS Admin | Login';
 
   const navigate = useNavigate();
-  const location = useNavigate();
+  const location = useLocation();
   const from = location.state?.from?.pathname || ORDERS_ROUTE;
 
   // Hooks and functions below for invoking snackbar functionality on login error/ incorrect credentials
@@ -23,6 +24,14 @@ const Login = () => {
 
   const loginAttempt = useLogin();
 
+  // Below hook and function are for login request to server
+  const authentication = useAuth();
+  if (!authentication) throw new Error('useAuth returning null');
+  const { auth, setAuth } = authentication;
+
+  const emailFieldRef = useRef<HTMLInputElement>(null);
+  const passwordFieldRef = useRef<HTMLInputElement>(null);
+
   const openSnackbar = () => {
     setOpen(true);
   };
@@ -31,14 +40,19 @@ const Login = () => {
     setOpen(false);
   };
 
-  // Below hook and function are for login request to server
-  const { setAuth, auth } = useAuth();
-  const loginForm = useRef(null);
+  interface FormIndex {
+    [key: string]: any;
+  }
 
-  const handleClick = async (e) => {
+  const handleClick = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    const email = loginForm.current['outlined-email-required'].value;
-    const password = loginForm.current['outlined-password-input'].value;
+
+    const emailField = emailFieldRef.current;
+    const passwordField = passwordFieldRef.current;
+    if (!emailField || !passwordField) throw new Error('cant reference email or password input field');
+
+    const email: string = emailField.value;
+    const password: string = passwordField.value;
 
     if (!email || !password) {
       // if either field are null
@@ -60,7 +74,7 @@ const Login = () => {
 
         return setAuth({ validLogin, accessToken, firstName, lastName });
       }
-    } catch (err) {
+    } catch (err: AxiosError | any) {
       if (err.response.data.validLogin === false) {
         setSnackbarMessage('Invalid email or password');
         setSnackbarSeverity('error');
@@ -86,8 +100,7 @@ const Login = () => {
         }}
         noValidate
         autoComplete="off"
-        id="loginForm"
-        ref={loginForm}>
+        id="loginForm">
         <img
           src={'https://uploads-ssl.webflow.com/6093315d74407812c0b3270c/61574b48f3de49d46e8ab2ff_NOTS%20%26%20Crest%20(BlackFont)-04.svg'}
           id="crestLogo"
@@ -96,8 +109,16 @@ const Login = () => {
           <h2 id="loginHeading">Login</h2>
           <h5 id="loginSubheading">Please provide your NOTS admin email and password, below</h5>
         </div>
-        <TextField required id="outlined-email-required" defaultValue="" label="Email" name="email" />
-        <TextField required id="outlined-password-input" type="password" autoComplete="current-password" label="Password" name="password" />
+        <TextField required id="emailField" defaultValue="" label="Email" name="email" inputRef={emailFieldRef} />
+        <TextField
+          required
+          id="passwordField"
+          type="password"
+          autoComplete="current-password"
+          label="Password"
+          name="password"
+          inputRef={passwordFieldRef}
+        />
 
         {loginAttempt.isLoading ? (
           <div style={{ margin: '6px 0 1px 0' }}>

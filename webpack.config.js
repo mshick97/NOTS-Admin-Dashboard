@@ -4,7 +4,7 @@ const { SourceMapDevToolPlugin } = require('webpack');
 
 module.exports = {
   // Enters into first index.js to bundle
-  entry: path.join(__dirname, './client/index.js'),
+  entry: path.join(__dirname, './client/index.tsx'),
   output: {
     path: path.resolve(__dirname, 'functions/build'),
     filename: './js/bundle.js',
