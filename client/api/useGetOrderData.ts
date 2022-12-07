@@ -16,7 +16,7 @@ const useGetOrderData = () => {
   const { isLoading, data, refetch } = useQuery(['orderData'], getOrderData, {
     staleTime: 30000,
     retry: false,
-    onError: (err: AxiosError) => {
+    onError: (err: AxiosError | any) => {
       return redirect(err);
     },
   });

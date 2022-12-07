@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import useErrorRedirect from '../hooks/useErrorRedirect';
+import { AxiosError } from 'axios';
 
 const useDeleteUser = () => {
   const axiosPrivate = useAxiosPrivate();
@@ -8,19 +9,19 @@ const useDeleteUser = () => {
 
   const queryClient = useQueryClient();
 
-  async function deleteUser(userId) {
+  async function deleteUser(userId: string) {
     const DELETE_CUSTOMER_URL = `/api/users/${userId}`;
     const deletedUser = await axiosPrivate.delete(DELETE_CUSTOMER_URL);
     return deletedUser.data;
   }
 
   const { mutateAsync, data, isLoading } = useMutation({
-    mutationFn: (userId) => deleteUser(userId),
+    mutationFn: (userId: string) => deleteUser(userId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['customerData'] });
     },
     retry: false,
-    onError: (err) => {
+    onError: (err: AxiosError | any) => {
       return redirect(err);
     },
   });

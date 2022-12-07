@@ -1,6 +1,7 @@
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { useQuery } from '@tanstack/react-query';
 import useErrorRedirect from '../hooks/useErrorRedirect';
+import { AxiosError } from 'axios';
 
 const useGetCustomerData = () => {
   const axiosPrivate = useAxiosPrivate();
@@ -15,7 +16,7 @@ const useGetCustomerData = () => {
   const { isLoading, data, refetch } = useQuery(['customerData'], getCustomerData, {
     staleTime: 30000,
     retry: false,
-    onError: (err) => {
+    onError: (err: AxiosError | any) => {
       return redirect(err);
     },
   });
