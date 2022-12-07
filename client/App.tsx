@@ -9,7 +9,10 @@ import NotFound from './components/NotFound';
 import { LOGIN_ROUTE, OVERVIEW_ROUTE } from './constants';
 
 const App = () => {
-  const { auth } = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
+  if (!authContext) throw new Error('Auth context null');
+
+  const { auth } = authContext;
   const navigate = useNavigate();
 
   return (

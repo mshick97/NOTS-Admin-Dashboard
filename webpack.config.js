@@ -76,6 +76,6 @@ module.exports = {
     proxy: {
       '/**': 'http://localhost:3000',
     },
-    watchFiles: ['client'],
+    watchFiles: ['client/**'],
   },
 };

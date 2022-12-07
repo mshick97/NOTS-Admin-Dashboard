@@ -11,7 +11,10 @@ if (process.env.NODE_ENV !== 'development') {
   disableReactDevTools();
 }
 
-const root = createRoot(document.getElementById('root'));
+const rootElement = document.getElementById('root');
+if (!rootElement) throw new Error('root element not found');
+const root = createRoot(rootElement);
+
 const queryClient = new QueryClient();
 
 root.render(
