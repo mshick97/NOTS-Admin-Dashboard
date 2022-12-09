@@ -7,7 +7,7 @@ const useFindUser = () => {
   const axiosPrivate = useAxiosPrivate();
   const redirect = useErrorRedirect();
 
-  async function findUser(e: React.ChangeEvent<HTMLInputElement>) {
+  async function findUser(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     const FIND_USER_URL = '/api/users/find_user';
     const data = { email: e.target.value };
     const user = await axiosPrivate.post(FIND_USER_URL, data);
@@ -15,7 +15,7 @@ const useFindUser = () => {
   }
 
   const { mutateAsync, data, isLoading } = useMutation({
-    mutationFn: (event: React.ChangeEvent<HTMLInputElement>) => findUser(event),
+    mutationFn: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => findUser(event),
     retry: false,
     onError: (err: AxiosError | any) => {
       return redirect(err);

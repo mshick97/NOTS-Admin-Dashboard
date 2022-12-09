@@ -4,10 +4,11 @@ import Box from '@mui/material/Box';
 import DBEntry from '../components/DBEntry';
 import TextField from '@mui/material/TextField';
 import CustomSnackbar from '../components/CustomSnackbar';
-import { debounce } from 'debounce';
+import { debounce } from 'ts-debounce';
 import useGetCustomerData from '../api/useGetCustomerData';
 import useFindUser from '../api/useFindUser';
 import useDeleteUser from '../api/useDeleteUser';
+import { Customer } from '../types/customerType';
 
 const CustomerTable = () => {
   document.title = 'NOTS Admin | Customers';
@@ -25,13 +26,13 @@ const CustomerTable = () => {
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('');
 
-  const openSnackbar = (message, severity) => {
+  const openSnackbar = (message: string, severity: string) => {
     setSnackbarMessage(message);
     setSnackbarSeverity(severity);
     setOpen(true);
   };
 
-  const handleSnackbarClose = (event, reason) => {
+  const handleSnackbarClose = () => {
     setOpen(false);
   };
 
@@ -80,7 +81,7 @@ const CustomerTable = () => {
             id="outlined-basic"
             label="Search by email"
             variant="outlined"
-            onChange={debounce(async (e) => {
+            onChange={debounce(async (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
               e.preventDefault(); // so user cannot hit enter and refresh page
               if (e.target.value === '') {
                 return setCustomerList(getCustomerData.data);
@@ -92,7 +93,7 @@ const CustomerTable = () => {
         <img
           src={'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Refresh_icon.svg/1200px-Refresh_icon.svg.png'}
           id="refreshButton"
-          onClick={getCustomerData.refetch}
+          onClick={() => getCustomerData.refetch()}
         />
       </div>
 
@@ -105,7 +106,7 @@ const CustomerTable = () => {
         <h5 className="tableHeading">Zip</h5>
       </div>
 
-      {customerList.map((customer, i) => {
+      {customerList.map((customer: Customer, i) => {
         return (
           <DBEntry
             key={`Unique user ${i}`}
