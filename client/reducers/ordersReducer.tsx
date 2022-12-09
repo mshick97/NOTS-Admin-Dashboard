@@ -1,4 +1,17 @@
-import { SET_IS_LOADING_TYPE, SET_ORDER_DATA_TYPE, SET_SALES_TYPE, SET_AVG_ORDER_VAL, SET_AVG_ORDER_SIZE, SET_ORDER_ID } from '../constants';
+import { SET_ORDER_DATA_TYPE, SET_SALES_TYPE, SET_AVG_ORDER_VAL, SET_AVG_ORDER_SIZE, SET_ORDER_ID } from '../constants';
+
+interface OrderState {
+  orderData: [];
+  sales: number;
+  avgOrderVal: number;
+  avgOrderSize: number;
+  orderId: string;
+}
+
+interface Action {
+  type: string;
+  payload: any;
+}
 
 export const initialOrderState = {
   orderData: [],
@@ -8,7 +21,7 @@ export const initialOrderState = {
   orderId: '',
 };
 
-const ordersReducer = (state, action) => {
+const ordersReducer = (state: OrderState, action: Action) => {
   switch (action.type) {
     case SET_ORDER_DATA_TYPE:
       return { ...state, orderData: action.payload };

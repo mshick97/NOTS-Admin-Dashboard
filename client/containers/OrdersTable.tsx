@@ -1,5 +1,5 @@
 import React, { useReducer, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 import ordersReducer, { initialOrderState } from '../reducers/ordersReducer';
 import { SET_ORDER_DATA_TYPE, SET_SALES_TYPE, SET_AVG_ORDER_VAL, SET_AVG_ORDER_SIZE, SET_ORDER_ID, ORDERS_ROUTE } from '../constants';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -7,22 +7,23 @@ import Box from '@mui/material/Box';
 import useGetOrderData from '../api/useGetOrderData';
 import DataCard from '../components/DataCard';
 import OrderEntry from '../components/OrderEntry';
+import { CustomerOrder, PurchasedItems } from '../types/orderType';
 
 const OrderTable = () => {
   const navigate = useNavigate();
   const { isLoading, data, refetch } = useGetOrderData();
   const [state, dispatch] = useReducer(ordersReducer, initialOrderState);
 
-  const navigateToOrder = (orderData) => {
+  const navigateToOrder = (orderData: CustomerOrder): void => {
     dispatch({ type: SET_ORDER_ID, payload: orderData.orderId });
     return navigate(ORDERS_ROUTE + `/${orderData.orderId}`, { state: orderData });
   };
 
-  const averagingFunction = (orderData) => {
+  const averagingFunction = (orderData: CustomerOrder) => {
     dispatch({ type: SET_ORDER_DATA_TYPE, payload: orderData });
 
     let grossTotal = 0;
-    orderData.forEach((order) => {
+    orderData.forEach((order: CustomerOrder) => {
       grossTotal += order.netAmount.value;
     });
 
@@ -34,7 +35,7 @@ const OrderTable = () => {
 
     for (const customerPurchase in orderData) {
       totalPaid += orderData[customerPurchase].customerPaid.value;
-      orderData[customerPurchase].purchasedItems.forEach((item) => {
+      orderData[customerPurchase].purchasedItems.forEach((item: PurchasedItems) => {
         return (totalOrderedItems += item.count);
       });
     }
@@ -81,7 +82,7 @@ const OrderTable = () => {
           <img
             src={'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Refresh_icon.svg/1200px-Refresh_icon.svg.png'}
             id="refreshButton"
-            onClick={refetch}
+            onClick={() => refetch()}
           />
         </div>
 
@@ -93,7 +94,7 @@ const OrderTable = () => {
           <h5 className="tableHeading">Items</h5>
           <h5 className="tableHeading">Total</h5>
         </div>
-        {state.orderData.map((order) => {
+        {state.orderData.map((order: CustomerOrder) => {
           return <OrderEntry orderData={order} key={order.orderId} navigateToOrder={navigateToOrder} />;
         })}
       </div>

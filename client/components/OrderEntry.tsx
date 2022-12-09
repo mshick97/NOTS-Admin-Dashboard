@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { CustomerOrder } from '../types/orderType';
+import { NavigateFunction } from 'react-router-dom';
 
-const OrderEntry = (props) => {
+interface OrderEntryProps {
+  orderData: CustomerOrder;
+  navigateToOrder: (order: CustomerOrder) => void;
+}
+
+const OrderEntry = (props: OrderEntryProps) => {
   const { orderData, navigateToOrder } = props;
 
-  const convertDateToString = (dateString) => {
-    const options = { year: 'numeric', month: 'short', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString(undefined, options);
+  const convertDateToString = (dateString: string): string => {
+    const dateFormatOptions: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, dateFormatOptions);
   };
 
   const unfulfilledStyle = {
