@@ -5,6 +5,7 @@ import PurchasedItemDetails from './PurchasedItemDetails';
 import BillingDetails from './BillingDetails';
 import OrderSummary from './OrderSummary';
 import goBackArrowImage from '../images/goBackArrow.png';
+import { PurchasedItem } from '../types/orderType';
 
 const OrderDetails = () => {
   const navigate = useNavigate();
@@ -29,12 +30,12 @@ const OrderDetails = () => {
             <h5 className="tableHeading">Quantity</h5>
             <h5 className="tableHeading">Price</h5>
           </div>
-          {orderData.purchasedItems.map((item) => {
+          {orderData.purchasedItems.map((item: PurchasedItem) => {
             return <PurchasedItemDetails key={item.productId} item={item} />;
           })}
 
           <div id="purchasesTotal">
-            <p>Subtotal $ {orderData.purchasedItems.reduce((total, currItem) => (total += currItem.rowTotal.value), 0)}</p>
+            <p>Subtotal $ {orderData.purchasedItems.reduce((total: number, currItem: PurchasedItem) => (total += currItem.rowTotal.value), 0)}</p>
             <p>Total {orderData.netAmount.string}</p>
           </div>
         </div>

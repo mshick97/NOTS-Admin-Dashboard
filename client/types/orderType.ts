@@ -8,7 +8,7 @@ export interface CustomerOrder {
   orderComment: string;
   orderId: string;
   paypalDetails: PaypalDetails;
-  purchasedItems: PurchasedItems[];
+  purchasedItems: PurchasedItem[];
   status: string;
   stripeDetails: StripeDetails;
   totals: Totals;
@@ -46,7 +46,7 @@ interface PaypalDetails {
   disputeId: string | null;
 }
 
-export interface PurchasedItems {
+export interface PurchasedItem {
   count: number;
   rowTotal: TotalsObj;
   productId: string;

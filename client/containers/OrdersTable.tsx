@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import useGetOrderData from '../api/useGetOrderData';
 import DataCard from '../components/DataCard';
 import OrderEntry from '../components/OrderEntry';
-import { CustomerOrder, PurchasedItems } from '../types/orderType';
+import { CustomerOrder, PurchasedItem } from '../types/orderType';
 
 const OrderTable = () => {
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ const OrderTable = () => {
 
     for (const customerPurchase in orderData) {
       totalPaid += orderData[customerPurchase].customerPaid.value;
-      orderData[customerPurchase].purchasedItems.forEach((item: PurchasedItems) => {
+      orderData[customerPurchase].purchasedItems.forEach((item: PurchasedItem) => {
         return (totalOrderedItems += item.count);
       });
     }
