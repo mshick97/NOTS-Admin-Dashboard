@@ -15,7 +15,7 @@ export interface CustomerOrder {
   [key: string]: any; // for index searching
 }
 
-interface BillingAddress {
+export interface BillingAddress {
   type: string;
   addressee: string;
   line1: string;

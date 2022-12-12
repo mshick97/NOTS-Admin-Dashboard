@@ -9,7 +9,7 @@ const useDeleteUser = () => {
 
   const queryClient = useQueryClient();
 
-  async function deleteUser(userId: string) {
+  async function deleteUser(userId: string): Promise<{ didDelete: boolean }> {
     const DELETE_CUSTOMER_URL = `/api/users/${userId}`;
     const deletedUser = await axiosPrivate.delete(DELETE_CUSTOMER_URL);
     return deletedUser.data;

@@ -1,9 +1,20 @@
 import React from 'react';
 
-const DBEntry = (props) => {
-  const { openSnackbar } = props;
-  const { userId, deleteUser } = props; // for async function
-  const { name, email, street1, street2, city, state, zip } = props;
+interface DBEntryProps {
+  openSnackbar: (snackbarMessage: string, snackbarSeverity: string) => void;
+  userId: string;
+  deleteUser: (userId: string) => Promise<{ didDelete: boolean }>;
+  name: string;
+  email: string;
+  street1: string;
+  street2: string;
+  city: string;
+  state: string;
+  zip: string;
+}
+
+const DBEntry = (props: DBEntryProps) => {
+  const { openSnackbar, userId, deleteUser, name, email, street1, street2, city, state, zip } = props; // userId and deleteUser for async function
 
   const handleDelete = async () => {
     const deleteResult = await deleteUser(userId);

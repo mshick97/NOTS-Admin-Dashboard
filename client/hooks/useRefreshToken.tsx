@@ -2,7 +2,9 @@ import { axiosPublic } from '../api/axios';
 import useAuth from './useAuth';
 
 const useRefreshToken = () => {
-  const { setAuth } = useAuth();
+  const authentication = useAuth();
+  if (!authentication) throw new Error('useAuth returning null');
+  const { setAuth } = authentication;
 
   const refresh = async () => {
     const response = await axiosPublic.get('/api/refresh', {

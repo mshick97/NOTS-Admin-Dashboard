@@ -1,6 +1,7 @@
 import React from 'react';
+import { PurchasedItem } from '../types/orderType';
 
-const PurchasedItemDetails = (props) => {
+const PurchasedItemDetails = (props: { item: PurchasedItem }) => {
   const { variantImage, productName, variantSKU, count, rowTotal } = props.item;
 
   return (

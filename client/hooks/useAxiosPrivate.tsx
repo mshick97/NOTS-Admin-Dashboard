@@ -5,11 +5,22 @@ import useAuth from './useAuth';
 
 const useAxiosPrivate = () => {
   const refresh = useRefreshToken();
-  const { auth } = useAuth();
+
+  const authentication = useAuth();
+  if (!authentication) throw new Error('useAuth returning null');
+  const { auth } = authentication;
 
   useEffect(() => {
     const requestIntercept = axiosPrivate.interceptors.request.use(
       (config) => {
+        if (!config.headers) {
+          throw new Error("Headers property doesn't exist on config argument");
+        }
+
+        if (!auth.accessToken) {
+          throw new Error('Access token is null, cannot assign it for request in interceptor');
+        }
+
         if (!config.headers['authorization']) {
           config.headers['authorization'] = auth.accessToken;
         }

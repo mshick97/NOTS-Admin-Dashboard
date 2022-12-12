@@ -1,12 +1,18 @@
 import React from 'react';
 
-const OrderSummary = (props) => {
+interface OrderSummaryProps {
+  orderCreated: string;
+  subtotal: string;
+  total: string;
+}
+
+const OrderSummary = (props: OrderSummaryProps) => {
   const { orderCreated, subtotal, total } = props;
 
-  const dateOptions = { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' };
+  const dateOptions: Intl.DateTimeFormatOptions = { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' };
   const dateConversion = new Date(orderCreated).toLocaleDateString('en-us', dateOptions);
 
-  const timeOptions = { hour: 'numeric', minute: 'numeric' };
+  const timeOptions: Intl.DateTimeFormatOptions = { hour: 'numeric', minute: 'numeric' };
   const timeConversion = new Date(orderCreated).toLocaleTimeString([], timeOptions);
 
   return (

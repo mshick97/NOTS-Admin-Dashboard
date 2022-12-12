@@ -1,6 +1,6 @@
 import React from 'react';
 
-const DataCard = (props) => {
+const DataCard = (props: { heading: string; cardData: string; id: string }) => {
   const { heading, cardData } = props;
 
   return (

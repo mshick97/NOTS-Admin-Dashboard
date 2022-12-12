@@ -1,6 +1,5 @@
 import React from 'react';
 import { CustomerOrder } from '../types/orderType';
-import { NavigateFunction } from 'react-router-dom';
 
 interface OrderEntryProps {
   orderData: CustomerOrder;

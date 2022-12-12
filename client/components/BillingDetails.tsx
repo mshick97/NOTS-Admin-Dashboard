@@ -1,6 +1,13 @@
 import React from 'react';
+import { BillingAddress } from '../types/orderType';
 
-const BillingDetails = (props) => {
+interface BillingDetailsProps {
+  name: string;
+  address: BillingAddress;
+  email: string;
+}
+
+const BillingDetails = (props: BillingDetailsProps) => {
   const { name, address, email } = props;
 
   return (

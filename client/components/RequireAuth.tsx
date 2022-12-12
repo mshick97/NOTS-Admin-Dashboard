@@ -4,7 +4,9 @@ import useAuth from '../hooks/useAuth';
 import { LOGIN_ROUTE } from '../constants';
 
 const RequireAuth = () => {
-  const { auth } = useAuth();
+  const authentication = useAuth();
+  if (!authentication) throw new Error('useAuth returning null');
+  const { auth } = authentication;
 
   return auth.validLogin ? <Outlet /> : <Navigate to={LOGIN_ROUTE} replace={true} />;
 };
