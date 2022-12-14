@@ -1,18 +1,12 @@
 import path from 'path';
 import firebaseFunctions from 'firebase-functions';
-import express from 'express';
+import express, { ErrorRequestHandler } from 'express';
 import cookieParser from 'cookie-parser';
 import apiRouter from './routes/apiRoutes';
-
-// const path = require('path');
-// const firebaseFunctions = require('firebase-functions');
-// const express = require('express');
-const app = express();
-// const cookieParser = require('cookie-parser');
 require('dotenv').config();
-const PORT = 3000;
 
-import { ErrorRequestHandler } from 'express';
+const app = express();
+const PORT = 3000;
 
 // Defining allowed origins and handling CORS
 const allowedOrigins = [

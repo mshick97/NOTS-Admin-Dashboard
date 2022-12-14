@@ -1,7 +1,3 @@
-// const usersDB = require('../config/usersPGInstance');
-// const bcrypt = require('bcryptjs');
-// const jwt = require('jsonwebtoken');
-
 import { Request, Response, NextFunction } from 'express';
 import usersDB from '../config/usersPGInstance';
 import bcrypt from 'bcryptjs';
@@ -16,6 +12,12 @@ const adminController = {
 
     try {
       const adminQuery = await usersDB.query(findAdminQuery, [email]);
+
+      if (!adminQuery?.rows) {
+        return next({
+          log: 'Rows property does not exist on adminQuery object in adminController',
+        });
+      }
 
       if (adminQuery.rows.length === 0) {
         res.locals.validLogin = false;
@@ -95,3 +97,5 @@ const adminController = {
 };
 
 export default adminController;
+export const adminLogin = adminController.adminLogin;
+export const addRefreshToken = adminController.addRefreshToken;
