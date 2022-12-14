@@ -4,14 +4,14 @@ const { SourceMapDevToolPlugin } = require('webpack');
 
 module.exports = {
   // Enters into first index.js to bundle
-  entry: path.join(__dirname, './client/index.js'),
+  entry: path.join(__dirname, './client/index.tsx'),
   output: {
     path: path.resolve(__dirname, 'functions/build'),
     filename: './js/bundle.js',
   },
   mode: process.env.NODE_ENV,
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
   },
   module: {
     rules: [
@@ -19,6 +19,11 @@ module.exports = {
         test: /\.js$/,
         enforce: 'pre',
         use: ['source-map-loader'],
+      },
+      {
+        test: /\.(ts|tsx)$/,
+        exclude: /node_modules/,
+        use: ['ts-loader'],
       },
       {
         test: /\.(js|jsx)$/,
@@ -71,6 +76,6 @@ module.exports = {
     proxy: {
       '/**': 'http://localhost:3000',
     },
-    watchFiles: ['client'],
+    watchFiles: ['client/**'],
   },
 };
