@@ -1,10 +1,18 @@
-const path = require('path');
-const firebaseFunctions = require('firebase-functions');
-const express = require('express');
+import path from 'path';
+import firebaseFunctions from 'firebase-functions';
+import express from 'express';
+import cookieParser from 'cookie-parser';
+import apiRouter from './routes/apiRoutes';
+
+// const path = require('path');
+// const firebaseFunctions = require('firebase-functions');
+// const express = require('express');
 const app = express();
-const cookieParser = require('cookie-parser');
+// const cookieParser = require('cookie-parser');
 require('dotenv').config();
 const PORT = 3000;
+
+import { ErrorRequestHandler } from 'express';
 
 // Defining allowed origins and handling CORS
 const allowedOrigins = [
@@ -35,19 +43,19 @@ app.use(express.urlencoded({ extended: true })); // url encoded form data
 app.use(cookieParser());
 
 // For handling React Router routes in production. NOTE: build folder must be inside functions directory before deploying
-app.use('**/js/bundle.js', (req, res) => res.sendFile(path.join(__dirname, './build/js/bundle.js')));
+app.use('**/js/bundle.js', (req, res): void => res.sendFile(path.join(__dirname, './build/js/bundle.js')));
 
 // Serving static files
 app.use('**/css', express.static(path.resolve(__dirname, './build')));
 
 // For handling all client requests in admin application + Webflow POST requests
-app.use('/api', require('./routes/apiRoutes'));
+app.use('/api', apiRouter);
 
 // Catch all for invalid endpoint requests
-app.use('*', (req, res) => res.sendFile(path.join(__dirname, './build/index.html')));
+app.use('*', (req, res): void => res.sendFile(path.join(__dirname, './build/index.html')));
 
 // Global error handler
-app.use((err, req, res, next) => {
+const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   const defaultErr = {
     log: 'An internal server error has occurred',
     status: 500,
@@ -58,7 +66,9 @@ app.use((err, req, res, next) => {
   console.log(errObj.log);
 
   return res.status(errObj.status).json(errObj.message);
-});
+};
+
+app.use(errorHandler);
 
 process.env.NODE_ENV === 'development' || process.env.LAUNCH_TESTING === 'testing'
   ? app.listen(PORT, () => console.log('\x1b[36m%s\x1b[0m', `Server is listening on port: ${PORT}`))
