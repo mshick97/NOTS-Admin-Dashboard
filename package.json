@@ -4,7 +4,7 @@
   "description": "An admin's GUI for NOTS, designed for tracking orders and visualizing the customer data base.",
   "main": "functions/src/index.ts",
   "scripts": {
-    "start": "ts-node functions/src/index.ts",
+    "start": "node functions/src/index.ts",
     "start-dev": "cross-env NODE_ENV=development nodemon functions/src/index.ts",
     "test-jest": "jest ./__tests__",
     "cypress:open": "cypress open --config baseUrl=http://localhost:8080",
