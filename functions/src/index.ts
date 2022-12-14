@@ -2,7 +2,7 @@ import path from 'path';
 import firebaseFunctions from 'firebase-functions';
 import express, { ErrorRequestHandler } from 'express';
 import cookieParser from 'cookie-parser';
-import apiRouter from './routes/apiRoutes';
+import apiRouter from '../routes/apiRoutes';
 require('dotenv').config();
 
 const app = express();
