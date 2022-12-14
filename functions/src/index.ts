@@ -37,16 +37,16 @@ app.use(express.urlencoded({ extended: true })); // url encoded form data
 app.use(cookieParser());
 
 // For handling React Router routes in production. NOTE: build folder must be inside functions directory before deploying
-app.use('**/js/bundle.js', (req, res): void => res.sendFile(path.join(__dirname, './build/js/bundle.js')));
+app.use('**/js/bundle.js', (req, res): void => res.sendFile(path.join(__dirname, '../build/js/bundle.js')));
 
 // Serving static files
-app.use('**/css', express.static(path.resolve(__dirname, './build')));
+app.use('**/css', express.static(path.resolve(__dirname, '../build')));
 
 // For handling all client requests in admin application + Webflow POST requests
 app.use('/api', apiRouter);
 
 // Catch all for invalid endpoint requests
-app.use('*', (req, res): void => res.sendFile(path.join(__dirname, './build/index.html')));
+app.use('*', (req, res): void => res.sendFile(path.join(__dirname, '../build/index.html')));
 
 // Global error handler
 const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
