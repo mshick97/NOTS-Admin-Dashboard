@@ -1,5 +1,5 @@
 import path from 'path';
-import firebaseFunctions from 'firebase-functions';
+import * as firebaseFunctions from 'firebase-functions';
 import express, { ErrorRequestHandler } from 'express';
 import cookieParser from 'cookie-parser';
 import apiRouter from '../routes/apiRoutes';

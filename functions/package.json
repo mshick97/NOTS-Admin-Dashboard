@@ -9,10 +9,10 @@
     "logs": "firebase functions:log",
     "ts-build": "tsc"
   },
+  "main": "./lib/src/index.js",
   "engines": {
     "node": "16"
   },
-  "main": "index.js",
   "dependencies": {
     "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
