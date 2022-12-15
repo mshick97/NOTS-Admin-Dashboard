@@ -37,7 +37,7 @@ const OrderEntry = (props: OrderEntryProps) => {
       onClick={() => {
         navigateToOrder(orderData);
       }}>
-      <div id="entryWrapper">
+      <div className="entryWrapper">
         <div className="entryBox">
           <p className="dataEntry">{orderData.orderId}</p>
         </div>

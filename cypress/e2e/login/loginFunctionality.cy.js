@@ -44,4 +44,12 @@ describe('login functionality', () => {
 
     cy.getCookie('__session', { timeout: 15000 }).should('exist');
   });
+
+  it('should bring you back to login if session cookie / access token is missing and a request is made', () => {
+    cy.wait(10000);
+    cy.clearCookie('__session');
+
+    cy.get('#refreshButton').click();
+    cy.url({ timeout: 15000 }).should('includes', '/login');
+  });
 });

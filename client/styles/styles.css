@@ -175,7 +175,7 @@ body {
   -ms-transform: rotate(50deg);
 }
 
-#entryWrapper {
+.entryWrapper {
   display: grid;
   grid-template-columns: 0.75fr 1fr 1fr 0.75fr 0.5fr 0.5fr;
 }
