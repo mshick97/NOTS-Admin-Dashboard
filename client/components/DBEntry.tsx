@@ -33,7 +33,7 @@ const DBEntry = (props: DBEntryProps) => {
       <div className="deleteWrapper">
         <img src="https://www.svgrepo.com/show/21045/delete-button.svg" className="deleteIcon" onClick={handleDelete} />
       </div>
-      <div id="entryWrapper">
+      <div className="entryWrapper">
         <div className="entryBox">
           <p className="dataEntry">{name}</p>
         </div>
