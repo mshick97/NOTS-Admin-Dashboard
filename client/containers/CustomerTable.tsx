@@ -79,6 +79,7 @@ const CustomerTable = () => {
         <Box component="form" sx={{ '& > :not(style)': { m: 1, width: '25ch' } }} noValidate autoComplete="off" id="searchForm">
           <TextField
             id="outlined-basic"
+            name="searchUser"
             label="Search by email"
             variant="outlined"
             onChange={debounce(async (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

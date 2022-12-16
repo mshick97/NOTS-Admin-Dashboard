@@ -60,4 +60,20 @@ describe('order functionality', () => {
     cy.get('.entryContainer').first().click();
     cy.get('#orderDetails', { timeout: 15000 });
   });
+
+  it('should be able to redirect to orders page without sending a GET request', () => {
+    cy.get('.goBackButton').click();
+    cy.url({ timeout: 15000 }).should('include', '/orders');
+    cy.get('#ordersContainer');
+
+    cy.intercept('GET', '/api/order_info').as('getOrders');
+    cy.get('@getOrders').then((interception) => {
+      expect(interception, 'GET /api/order_info').to.not.exist;
+    });
+  });
+
+  it('should return user to login view if visiting a url manually for now', () => {
+    cy.visit('/orders');
+    cy.url({ timeout: 15000 }).should('include', '/login');
+  });
 });

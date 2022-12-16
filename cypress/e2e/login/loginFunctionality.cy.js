@@ -46,7 +46,7 @@ describe('login functionality', () => {
   });
 
   it('should bring you back to login if session cookie / access token is missing and a request is made', () => {
-    cy.wait(10000);
+    cy.wait(10000); // have to wait 10 seconds because need to wait for the access token to expire before clearing cookie and retrying request
     cy.clearCookie('__session');
 
     cy.get('#refreshButton').click();
